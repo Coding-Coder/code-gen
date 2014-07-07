@@ -29,7 +29,9 @@ public class GeneratorService {
 		
 		SQLService service = SQLServiceFactory.build(dataSourceConfig);
 		
-		List<SQLContext> contextList = service.getColumnSelector(dataSourceConfig).buildSQLContextList(tableNames);
+		List<SQLContext> contextList = service
+				.getColumnSelector(dataSourceConfig)
+				.buildSQLContextList(tableNames);
 		
 		List<CodeFile> codeFileList = new ArrayList<CodeFile>();
 		

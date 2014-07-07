@@ -24,8 +24,18 @@ public abstract class ColumnSelector {
 	 */
 	protected abstract String getTableDetailSQL(String tableName);
 	
+	/**
+	 * 构建列信息
+	 * @param rowMap
+	 * @return
+	 */
 	protected abstract ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap);
 
+	/**
+	 * 返回SQL上下文列表
+	 * @param tableNames
+	 * @return
+	 */
 	public List<SQLContext> buildSQLContextList(List<String> tableNames) {
 		List<SQLContext> contexts = new ArrayList<SQLContext>();
 		

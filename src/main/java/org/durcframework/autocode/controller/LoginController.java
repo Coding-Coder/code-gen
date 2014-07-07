@@ -31,7 +31,6 @@ public class LoginController {
 			BackUser user = backUserService.get(backUser.getUsername());
 			if(user != null && user.getPassword().equals(backUser.getPassword())){
 				UserContext.getInstance().setUser(user);
-				
 				return ResultUtil.success();
 			}
 		}

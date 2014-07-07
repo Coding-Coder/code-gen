@@ -1,6 +1,11 @@
 package org.durcframework.autocode.generator;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.durcframework.autocode.util.SqlHelper;
 
 public abstract class TableSelector {
 
@@ -22,7 +27,20 @@ public abstract class TableSelector {
 	 * 
 	 * @return
 	 */
-	public abstract List<TableBean> getTableList();
+	public List<TableBean> getTableList() {
+		List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL());
+		List<TableBean> tableNames = new ArrayList<TableBean>();
+		
+		for (Map<String, Object> rowMap : resultList) {
+			Set<String> keySet = rowMap.keySet();
+			for (String key : keySet) {
+				String tableName = (String)rowMap.get(key);
+				tableNames.add(new TableBean(tableName));
+			}
+		}
+		
+		return tableNames;
+	}
 
 	public DataBaseConfig getDataBaseConfig() {
 		return dataBaseConfig;
