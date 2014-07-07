@@ -29,14 +29,15 @@ public class GeneratorController {
 
 	@RequestMapping("/generatFile.do")
 	public ModelAndView generatFile(GeneratorParam generatorParam) {
-		DataSourceConfig dataSourceConfig = dataSourceConfigService
-				.get(generatorParam.getDcId());
-		
-		List<CodeFile> resultList = generatorService.generate(generatorParam.getTableNames(),
-				generatorParam.getTcIds(), dataSourceConfig);
-		
+		DataSourceConfig dataSourceConfig = 
+				dataSourceConfigService.get(generatorParam.getDcId());
+
+		List<CodeFile> resultList = generatorService.generate(
+				generatorParam.getTableNames(), generatorParam.getTcIds(),
+				dataSourceConfig);
+
 		String json = JsonUtil.toJsonString(resultList);
-		
+
 		return ResultUtil.buildModelAndView(json);
 	}
 }

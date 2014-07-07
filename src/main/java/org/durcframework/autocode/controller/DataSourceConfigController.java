@@ -12,42 +12,42 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-
 @Controller
-public class DataSourceConfigController extends CrudController<DataSourceConfig, DataSourceConfigService> {
-	
+public class DataSourceConfigController extends
+		CrudController<DataSourceConfig, DataSourceConfigService> {
+
 	@RequestMapping("/addDataSource.do")
 	public ModelAndView addDataSource(DataSourceConfig dataSourceConfig) {
 		BackUser user = UserContext.getInstance().getUser();
 		dataSourceConfig.setBackUser(user.getUsername());
 		return this.save(dataSourceConfig);
 	}
-	
+
 	@RequestMapping("/listDataSource.do")
 	public ModelAndView listDataSource(DatasourceConfigSch searchEntity) {
 		return this.queryByEntity(searchEntity);
 	}
-	
+
 	@RequestMapping("/updateDataSource.do")
 	public ModelAndView updateDataSource(DataSourceConfig dataSourceConfig) {
 		return this.update(dataSourceConfig);
 	}
-	
+
 	@RequestMapping("/delDataSource.do")
 	public ModelAndView delDataSource(DataSourceConfig dataSourceConfig) {
 		return this.delete(dataSourceConfig);
 	}
-	
+
 	@RequestMapping("/connectionTest.do")
-	public ModelAndView connectionTest(DataSourceConfig dataSourceConfig){
+	public ModelAndView connectionTest(DataSourceConfig dataSourceConfig) {
 		String connectInfo = DBConnect.testConnection(dataSourceConfig);
-		
-		if(StringUtils.hasText(connectInfo)){
+
+		if (StringUtils.hasText(connectInfo)) {
 			return error(connectInfo);
 		}
-		
+
 		return success();
-		
+
 	}
 
 }
