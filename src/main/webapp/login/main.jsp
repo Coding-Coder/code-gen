@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-<!-- 	<div data-options="region:'south',border:false" style="height:60px;"> -->
+<!-- 	<div data-options="region:'south',border:false" style="height:25px;"> -->
 <%-- 		<jsp:include page="common/footer.jsp"></jsp:include> --%>
 <!-- 	</div> -->
 	
