@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.durcframework.autocode.dao.BackUserDao">
+
+	<resultMap id="queryResultMap" type="org.durcframework.autocode.entity.BackUser">
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="find" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultMap="queryResultMap">
+		SELECT *
+		FROM `auto_code`.`back_user` t
+		<include refid="expressionBlock.where" />
+		<if test="sortname == null">
+			ORDER BY add_time desc
+		</if>
+		<if test="sortname != null">
+			ORDER BY #{sortname,jdbcType=VARCHAR} ${sortorder}
+		</if>
+		<if test="!isQueryAll">
+			LIMIT
+			#{firstResult,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="findTotalCount" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM `auto_code`.`back_user` t
+		<include refid="expressionBlock.where" />
+	</select>
+	
+	<insert id="save" parameterType="org.durcframework.autocode.entity.BackUser">
+		INSERT INTO `auto_code`.`back_user`
+            (`username`,
+             `password`,
+             `add_time`)
+		VALUES (
+		#{username,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{addTime,jdbcType=TIMESTAMP}
+        )
+	</insert>
+	
+	<update id="update" parameterType="org.durcframework.autocode.entity.BackUser">
+		UPDATE `auto_code`.`back_user`
+		SET 
+		  `password` = #{password,jdbcType=VARCHAR}
+		WHERE `username` = #{username,jdbcType=VARCHAR}
+	</update>
+	
+	
+	<select id="get" resultMap="queryResultMap" parameterType="java.io.Serializable">
+		SELECT *
+		FROM `auto_code`.`back_user`
+		WHERE `username` = #{username,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="del" parameterType="org.durcframework.autocode.entity.BackUser">
+		DELETE FROM `auto_code`.`back_user`
+		WHERE `username` = #{username,jdbcType=VARCHAR}
+	</delete>
+	
+</mapper>

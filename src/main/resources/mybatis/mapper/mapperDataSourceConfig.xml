@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.durcframework.autocode.dao.DataSourceConfigDao">
+
+	<resultMap id="queryResultMap" type="org.durcframework.autocode.entity.DataSourceConfig">
+		<result column="dc_id" property="dcId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="driver_class" property="driverClass" jdbcType="VARCHAR" />
+		<result column="jdbc_url" property="jdbcUrl" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="back_user" property="backUser" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="find" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultMap="queryResultMap">
+		SELECT *
+		FROM `auto_code`.`datasource_config` t
+		<include refid="expressionBlock.where" />
+		<choose>
+			<when test="sortname == null">
+				ORDER BY dc_id desc
+			</when>
+			<otherwise>
+				ORDER BY #{sortname,jdbcType=VARCHAR} ${sortorder}
+			</otherwise>
+		</choose>
+		<if test="!isQueryAll">
+			LIMIT
+			#{firstResult,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="findTotalCount" parameterType="org.durcframework.expression.ExpressionQuery"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM `auto_code`.`datasource_config` t
+		<include refid="expressionBlock.where" />
+	</select>
+	
+	<insert id="save" parameterType="org.durcframework.autocode.entity.DataSourceConfig" keyProperty="dcId" keyColumn="dc_id" useGeneratedKeys="true">
+		INSERT INTO `auto_code`.`datasource_config`
+            (
+             `name`,
+             `driver_class`,
+             `jdbc_url`,
+             `username`,
+             `password`,
+             `back_user`)
+		VALUES (
+        #{name,jdbcType=VARCHAR},
+        #{driverClass,jdbcType=VARCHAR},
+        #{jdbcUrl,jdbcType=VARCHAR},
+        #{username,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{backUser,jdbcType=VARCHAR}
+        )
+	</insert>
+	
+	<update id="update" parameterType="org.durcframework.autocode.entity.DataSourceConfig">
+		UPDATE `auto_code`.`datasource_config`
+		SET 
+		  `name` = #{name,jdbcType=VARCHAR},
+		  `driver_class` = #{driverClass,jdbcType=VARCHAR},
+		  `jdbc_url` = #{jdbcUrl,jdbcType=VARCHAR},
+		  `username` = #{username,jdbcType=VARCHAR},
+		  `password` = #{password,jdbcType=VARCHAR},
+		  `back_user` = #{backUser,jdbcType=VARCHAR}
+		WHERE `dc_id` = #{dcId,jdbcType=INTEGER}
+	</update>
+	
+	<select id="get" resultMap="queryResultMap" parameterType="java.io.Serializable">
+		SELECT *
+		FROM `auto_code`.`datasource_config`
+		WHERE dc_id = #{dcId,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="del" parameterType="org.durcframework.autocode.entity.DataSourceConfig">
+		DELETE FROM `auto_code`.`datasource_config`
+		WHERE dc_id = #{dcId,jdbcType=INTEGER}
+	</delete>
+	
+</mapper>
