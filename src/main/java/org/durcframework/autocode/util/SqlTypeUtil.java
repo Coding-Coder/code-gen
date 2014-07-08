@@ -35,7 +35,7 @@ public class SqlTypeUtil {
 		javaTypeMap.put("smallmoney", "BigDecimal");
 		javaTypeMap.put("sql_variant", "String");
 		javaTypeMap.put("text", "String");
-		javaTypeMap.put("tinyint", "boolean");
+		javaTypeMap.put("tinyint", "byte");
 		javaTypeMap.put("uniqueidentifier", "String");
 		javaTypeMap.put("varbinary", "byte[]");
 		javaTypeMap.put("varchar", "String");
@@ -64,7 +64,7 @@ public class SqlTypeUtil {
 		javaBoxTypeMap.put("smallmoney", "BigDecimal");
 		javaBoxTypeMap.put("sql_variant", "String");
 		javaBoxTypeMap.put("text", "String");
-		javaBoxTypeMap.put("tinyint", "Boolean");
+		javaBoxTypeMap.put("tinyint", "Byte");
 		javaBoxTypeMap.put("uniqueidentifier", "String");
 		javaBoxTypeMap.put("varbinary", "Byte[]");
 		javaBoxTypeMap.put("varchar", "String");
@@ -93,7 +93,7 @@ public class SqlTypeUtil {
 		mybatisTypeMap.put("smallmoney", "DECIMAL");
 		mybatisTypeMap.put("sql_variant", "VARCHAR");
 		mybatisTypeMap.put("text", "VARCHAR");
-		mybatisTypeMap.put("tinyint", "BOOLEAN");
+		mybatisTypeMap.put("tinyint", "BYTE");
 		mybatisTypeMap.put("uniqueidentifier", "VARCHAR");
 		mybatisTypeMap.put("varbinary", "BLOB");
 		mybatisTypeMap.put("varchar", "VARCHAR");
