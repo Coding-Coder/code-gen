@@ -48,7 +48,7 @@
 	class="easyui-window" 
 	title="代码生成结果" 
 	style="width:800px;height:450px;padding:5px;"   
-    data-options="modal:true,maximizable:true,closed:true,minimizable:false">   
+    data-options="modal:true,closed:true,minimizable:false,collapsible:false">   
 	    
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'west',split:true" style="width:150px">
@@ -84,10 +84,14 @@
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
 <script type="text/javascript" src="${ctx}js/Action.js"></script>
 <script type="text/javascript" src="${ctx}js/MsgUtil.js"></script>
+<script type="text/javascript" src="${ctx}js/MaskUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/HtmlUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/EventUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/jquery.zclip/jquery.zclip.min.js"></script>
 <script type="text/javascript">
+$(document).ajaxStop(function () {
+	
+});
 var that = this;
 // 请求参数
 var GeneratorParam = {
@@ -103,7 +107,10 @@ function formatOper(val,row,index){
 // 选择数据源
 function selectDataSource(row){
 	
+	MaskUtil.mask();
+	
 	testConnection(row,function(row){
+		MaskUtil.unmask();
 		
 		GeneratorParam.dcId = row.dcId;
 		
@@ -219,7 +226,9 @@ function reset(){
 
 // 生成代码
 function generate(){
+	MaskUtil.mask('代码生成中,请稍后...');
 	Action.jsonAsyncActByData(ctx + 'generatFile.do',GeneratorParam,function(rows){
+		MaskUtil.unmask();
 		if(rows){
 			showGeneratCode(rows);
 		}else{

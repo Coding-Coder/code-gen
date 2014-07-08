@@ -9,7 +9,15 @@
 <style type="text/css">
 	.fitem{margin: 4px;}
 	.fitem input{width:200px;}
-	.codeArea{font-size:13px;border: dotted #ccc 1px;padding: 3px;font-family: 宋体,Consolas,sans-serif ;}
+	.codeArea{
+		font-size:13px;
+		border: dotted #ccc 1px;
+		padding: 3px;
+		font-family: 宋体,Consolas,sans-serif;
+	}
+	.codeText{
+		width: 100%;font-size:13px;font-family: 宋体,Consolas,sans-serif;
+	}
 </style>
 </head>
 <body>
@@ -30,10 +38,10 @@
 		</thead>
 	</table>
 <br>
-	<div id="dlg" class="easyui-dialog" 
-	style="width:1000px;height:600px;padding:10px 20px"
-			data-options="modal:false,maximizable:true,closed:true,minimizable:false"
-			buttons="#dlg-buttons">
+	<div id="dlg" class="easyui-window" 
+		style="width:1000px;height:600px;padding:10px 20px"
+		data-options="modal:true,closed:true,minimizable:false,collapsible:false">
+		
 		<div class="easyui-layout" data-options="fit:true">
 			<div data-options="region:'center'" style="padding:10px;">
 				<form id="fm" method="post" novalidate>
@@ -44,23 +52,23 @@
 					<hr style="border-bottom: dotted 1px gray;border-top: 0px;">
 					<div class="fitem">
 						<label>内容:</label><br>
-						<textarea name="content" rows="22" cols="110" required="true"></textarea>
+						<textarea class="codeText" name="content" rows="22" required="true"></textarea>
 					</div>
 				</form>
 			</div>
+			<div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="crud.save(); return false;">保存</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="crud.closeDlg(); return false;">取消</a>
+			</div>
 		</div>
 		
-	</div>
-	<div id="dlg-buttons">
-		<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="crud.save(); return false;">保存</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="crud.closeDlg(); return false;">取消</a>
 	</div>
 	
 <div id="viewWin"
 	class="easyui-window" 
 	title="模板内容" 
 	style="width:800px;height:450px;padding:5px;"   
-    data-options="zIndex:9100,modal:false,maximizable:true,closed:true,minimizable:false">   
+    data-options="closed:true,minimizable:false,collapsible:false">   
 	    
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'center'" style="padding:10px;">
@@ -95,7 +103,7 @@ var crud = Crud.create({
 
 function add(){
 	crud.add('添加模板');
-	$('#dlg').panel('maximize');
+	//$('#dlg').panel('maximize');
 }
 
 function formatOper(val,row,index){

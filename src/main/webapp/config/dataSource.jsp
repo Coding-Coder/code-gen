@@ -64,6 +64,7 @@
 	
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
 <script type="text/javascript" src="${ctx}js/Action.js"></script>
+<script type="text/javascript" src="${ctx}js/MaskUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/MsgUtil.js"></script>
 <script type="text/javascript">
 var url;
@@ -90,14 +91,16 @@ function accountFormater(val,row,index){
 }
 
 function testConnection(row){
+	MaskUtil.mask('测试连接中...');
+	
 	Action.jsonAsyncActByData(ctx + 'connectionTest.do',row,function(e){
+		MaskUtil.unmask();
 		if(e.success){
 			MsgUtil.alert('连接成功');
 		}else{
 			MsgUtil.error(e.errorMsg);
 		}
-		
-	})
+	});
 }
 
 </script>

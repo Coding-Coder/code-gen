@@ -24,7 +24,7 @@ package &#36;{context.packageName}.entity;
 
 import org.durcframework.entity.BaseEntity;
 
-publc class &#36;{context.javaBeanName} extends BaseEntity {
+public class &#36;{context.javaBeanName} extends BaseEntity {
 ## 此处用foreach循环构建java类中的属性
 #foreach(&#36;column in &#36;columns) 
     private &#36;{column.javaType} &#36;{column.javaFieldName};
