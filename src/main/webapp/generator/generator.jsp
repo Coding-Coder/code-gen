@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>文件生成</title>
 <style type="text/css">
-	.step{margin-bottom: 10px;}
+	.step{margin-bottom: 20px;padding:5px;border-bottom: 2px solid #95b8e7;}
 	.codeArea{font-size:13px;border: dotted #ccc 1px;padding: 3px;font-family: 宋体,Consolas,sans-serif ;}
 </style>
 </head>
@@ -29,7 +29,12 @@
 	</table>
 </div>
 
-<div id="step2" style="display: none;">
+<div id="step2" style="display: none;width: 600px;">
+	<fieldset style="border: 1px solid #ccc;font-size: 12px;">
+	    <legend>输入包名</legend>
+	    package: <input id="packageName" type="text" />(默认表名作为包名)
+	</fieldset>
+	<br>
 	<table id="dgTable"></table>
 	<br>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-next" onclick="goStep3(); return false;">下一步</a>
@@ -82,11 +87,6 @@
 
 
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
-<script type="text/javascript" src="${ctx}js/Action.js"></script>
-<script type="text/javascript" src="${ctx}js/MsgUtil.js"></script>
-<script type="text/javascript" src="${ctx}js/MaskUtil.js"></script>
-<script type="text/javascript" src="${ctx}js/HtmlUtil.js"></script>
-<script type="text/javascript" src="${ctx}js/EventUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/jquery.zclip/jquery.zclip.min.js"></script>
 <script type="text/javascript">
 var that = this;
@@ -95,6 +95,7 @@ var GeneratorParam = {
 	dcId:0
 	,tableNames:[]
 	,tcIds:[]
+	,packageName:''
 }
 
 function formatOper(val,row,index){
@@ -149,17 +150,39 @@ function showStep3(callback){
 
 // 转向第三步
 function goStep3(){
-	var rows = $('#dgTable').datagrid('getSelections');
 	
-	if(rows && rows.length > 0){
-		GeneratorParam.tableNames = [];
-		for(var i=0,len=rows.length;i<len;i++){
-			GeneratorParam.tableNames.push(rows[i].tableName);
-		}
-		showStep3(listTemplate);
-	}else{
-		MsgUtil.topMsg('请选择表');
+	var packageName = $.trim($('#packageName').val());
+	if(!validatePackage(packageName)){
+		MsgUtil.topMsg('包名不正确');
+		return false;
 	}
+	
+	var rows = $('#dgTable').datagrid('getSelections');
+	if(!validateTableSelect(rows)){
+		MsgUtil.topMsg('请选择表');
+		return false;
+	}
+	
+	GeneratorParam.packageName = packageName;
+	GeneratorParam.tableNames = [];
+	
+	for(var i=0,len=rows.length;i<len;i++){
+		GeneratorParam.tableNames.push(rows[i].tableName);
+	}
+	showStep3(listTemplate);
+}
+
+function validateTableSelect(rows){
+	return rows && rows.length > 0;
+}
+
+var regexPackage = /^([a-zA-Z_\$]{1}[\w\$]*)(\.[a-zA-Z_\$]{1}[\w\$]*)*$/;
+function validatePackage(packageName){
+	if(packageName == ''){
+		return true;
+	}
+	
+	return regexPackage.test(packageName);
 }
 
 // 查询模板

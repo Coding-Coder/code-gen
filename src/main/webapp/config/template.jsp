@@ -81,9 +81,6 @@
 </div> 
 
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
-<script type="text/javascript" src="${ctx}js/Action.js"></script>
-<script type="text/javascript" src="${ctx}js/MsgUtil.js"></script>
-<script type="text/javascript" src="${ctx}js/HtmlUtil.js"></script>
 <script type="text/javascript">
 function showEg(){
 	$('#eg').show(500);

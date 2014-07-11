@@ -32,9 +32,8 @@ public class GeneratorController {
 		DataSourceConfig dataSourceConfig = 
 				dataSourceConfigService.get(generatorParam.getDcId());
 
-		List<CodeFile> resultList = generatorService.generate(
-				generatorParam.getTableNames(), generatorParam.getTcIds(),
-				dataSourceConfig);
+		List<CodeFile> resultList = 
+				generatorService.generate(generatorParam,dataSourceConfig);
 
 		String json = JsonUtil.toJsonString(resultList);
 

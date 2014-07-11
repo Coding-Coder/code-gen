@@ -6,6 +6,7 @@ public class GeneratorParam {
 	private int dcId;
 	private List<String> tableNames;
 	private List<Integer> tcIds;
+	private String packageName;
 	
 
 	public int getDcId() {
@@ -30,6 +31,14 @@ public class GeneratorParam {
 
 	public void setTcIds(List<Integer> tcIds) {
 		this.tcIds = tcIds;
+	}
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
 	}
 
 }

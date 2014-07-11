@@ -46,8 +46,9 @@ public class TemplateConfigController extends
 	// 查询当前用户的所有模板
 	@RequestMapping("/listUserTepmlate.do")
 	public ModelAndView listUserTepmlate(TemplateConfigSch searchEntity) {
-		ExpressionQuery query = searchEntity.buildExpressionQuery();
+		searchEntity.setSortname("`name`");
 		BackUser user = UserContext.getInstance().getUser();
+		ExpressionQuery query = searchEntity.buildExpressionQuery();
 		query.add(new ValueExpression("back_user", user.getUsername()));
 		return this.query(query);
 	}

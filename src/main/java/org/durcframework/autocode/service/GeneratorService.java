@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.velocity.VelocityContext;
 import org.durcframework.autocode.entity.CodeFile;
 import org.durcframework.autocode.entity.DataSourceConfig;
+import org.durcframework.autocode.entity.GeneratorParam;
 import org.durcframework.autocode.entity.TemplateConfig;
 import org.durcframework.autocode.generator.SQLContext;
 import org.durcframework.autocode.generator.SQLService;
@@ -13,6 +14,7 @@ import org.durcframework.autocode.generator.SQLServiceFactory;
 import org.durcframework.autocode.util.VelocityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class GeneratorService {
@@ -25,21 +27,22 @@ public class GeneratorService {
 	 * @param dataSourceConfig
 	 * @return 一张表对应多个模板
 	 */
-	public List<CodeFile> generate(List<String> tableNames,List<Integer> tcIds,DataSourceConfig dataSourceConfig){
+	public List<CodeFile> generate(GeneratorParam generatorParam,DataSourceConfig dataSourceConfig){
 		
 		SQLService service = SQLServiceFactory.build(dataSourceConfig);
 		
 		List<SQLContext> contextList = service
 				.getColumnSelector(dataSourceConfig)
-				.buildSQLContextList(tableNames);
+				.buildSQLContextList(generatorParam.getTableNames());
 		
 		List<CodeFile> codeFileList = new ArrayList<CodeFile>();
 		
 		for (SQLContext sqlContext : contextList) {
+			setPackageName(sqlContext,generatorParam.getPackageName());
 			
 			String tableName = sqlContext.getTableDefinition().getTableName();
 			
-			for (int tcId : tcIds) {
+			for (int tcId : generatorParam.getTcIds()) {
 				
 				TemplateConfig template = templateConfigService.get(tcId);
 				String content = doGenerator(sqlContext,template.getContent());
@@ -51,6 +54,12 @@ public class GeneratorService {
 		}
 		
 		return codeFileList;
+	}
+	
+	private void setPackageName(SQLContext sqlContext,String packageName){
+		if(StringUtils.hasText(packageName)){
+			sqlContext.setPackageName(packageName);
+		}
 	}
 	
 	private String doGenerator(SQLContext sqlContext,String template){

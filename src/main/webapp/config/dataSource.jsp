@@ -48,9 +48,6 @@
 	</div>
 	
 <jsp:include page="../easyui_lib.jsp"></jsp:include>
-<script type="text/javascript" src="${ctx}js/Action.js"></script>
-<script type="text/javascript" src="${ctx}js/MaskUtil.js"></script>
-<script type="text/javascript" src="${ctx}js/MsgUtil.js"></script>
 <script type="text/javascript">
 var that = this;
 var crud = Crud.create({
