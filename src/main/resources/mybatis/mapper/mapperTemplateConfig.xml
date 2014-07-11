@@ -19,7 +19,7 @@
 			ORDER BY tc_id desc
 		</if>
 		<if test="sortname != null">
-			ORDER BY #{sortname,jdbcType=VARCHAR} ${sortorder}
+			ORDER BY ${order}
 		</if>
 		<if test="!isQueryAll">
 			LIMIT

@@ -1,12 +1,12 @@
 package org.durcframework.autocode.controller;
 
+import org.durcframework.autocode.common.SearchEasyUI;
 import org.durcframework.autocode.common.UserContext;
 import org.durcframework.autocode.entity.BackUser;
 import org.durcframework.autocode.entity.TemplateConfig;
 import org.durcframework.autocode.entity.TemplateConfigSch;
 import org.durcframework.autocode.service.TemplateConfigService;
 import org.durcframework.controller.CrudController;
-import org.durcframework.entity.SearchEntity;
 import org.durcframework.expression.ExpressionQuery;
 import org.durcframework.expression.subexpression.ValueExpression;
 import org.springframework.stereotype.Controller;
@@ -25,8 +25,12 @@ public class TemplateConfigController extends
 	}
 
 	@RequestMapping("/listTemplate.do")
-	public ModelAndView listTemplate(SearchEntity searchEntity) {
-		return this.queryByEntity(searchEntity);
+	public ModelAndView listTemplate(SearchEasyUI searchEntity) {
+		BackUser user = UserContext.getInstance().getUser();
+		searchEntity.setSortname("`name`");
+		ExpressionQuery query = searchEntity.buildExpressionQuery();
+		query.add(new ValueExpression("back_user", user.getUsername()));
+		return this.query(query);
 	}
 
 	@RequestMapping("/updateTemplate.do")
@@ -42,7 +46,7 @@ public class TemplateConfigController extends
 	// 查询当前用户的所有模板
 	@RequestMapping("/listUserTepmlate.do")
 	public ModelAndView listUserTepmlate(TemplateConfigSch searchEntity) {
-		ExpressionQuery query = this.buildExpressionQuery(searchEntity);
+		ExpressionQuery query = searchEntity.buildExpressionQuery();
 		BackUser user = UserContext.getInstance().getUser();
 		query.add(new ValueExpression("back_user", user.getUsername()));
 		return this.query(query);

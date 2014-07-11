@@ -89,9 +89,6 @@
 <script type="text/javascript" src="${ctx}js/EventUtil.js"></script>
 <script type="text/javascript" src="${ctx}js/jquery.zclip/jquery.zclip.min.js"></script>
 <script type="text/javascript">
-$(document).ajaxStop(function () {
-	
-});
 var that = this;
 // 请求参数
 var GeneratorParam = {

@@ -19,4 +19,8 @@ public enum UserContext {
 	public  void setUser(BackUser BackUser) {
 		WebContext.getInstance().getSession().setAttribute(S_KEY_USER, BackUser);
 	}
+	
+	public boolean isAdmin(){
+		return "admin".equals(getUser().getUsername());
+	}
 }

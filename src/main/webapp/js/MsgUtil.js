@@ -2,8 +2,7 @@
 var MsgUtil = {
 	topMsg:function(msg,title){
 		title = title || "提示";
-		var $ = parent.$ || $;
-		$.messager.show({
+		this.getJQ().messager.show({
 			title: title,
 			msg: msg,
 			showSpeed:300,
@@ -17,10 +16,9 @@ var MsgUtil = {
 	,alert:function(msg,title,type){
 		title = title || "提示";
 		type = type || 'info'
-		var $ = parent.$ || $;
 		
 		if(msg && msg.length > 1000){
-			$.messager.show({
+			this.getJQ().messager.show({
 				title: title,
 				msg: '<div style="height:300px;overflow-y: auto; overflow-x:hidden;">'+msg+'</div>',
 				width:600,
@@ -33,7 +31,7 @@ var MsgUtil = {
 				}
 			});
 		}else{
-			$.messager.alert(title,msg,type);    
+			$.messager.alert(title,msg,type);
 		}
 		
 	}
@@ -43,12 +41,14 @@ var MsgUtil = {
 	}
 	,confirm:function(msg,callback,title){
 		title = title || "确认";
-		var $ = parent.$ || $;
-		$.messager.confirm(title,msg,function(r){    
+		this.getJQ().messager.confirm(title,msg,function(r){    
 		    if (r){    
 		        callback();
 		    } 
 		});
+	}
+	,getJQ:function(){
+		return parent.$ || $;
 	}
 }  
 

@@ -7,6 +7,8 @@ import org.durcframework.autocode.entity.DatasourceConfigSch;
 import org.durcframework.autocode.service.DataSourceConfigService;
 import org.durcframework.autocode.util.DBConnect;
 import org.durcframework.controller.CrudController;
+import org.durcframework.expression.ExpressionQuery;
+import org.durcframework.expression.subexpression.ValueExpression;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,12 @@ public class DataSourceConfigController extends
 
 	@RequestMapping("/listDataSource.do")
 	public ModelAndView listDataSource(DatasourceConfigSch searchEntity) {
-		return this.queryByEntity(searchEntity);
+		BackUser user = UserContext.getInstance().getUser();
+		ExpressionQuery query = searchEntity.buildExpressionQuery();
+		
+		query.add(new ValueExpression("back_user", user.getUsername()));
+		
+		return this.query(query);
 	}
 
 	@RequestMapping("/updateDataSource.do")
