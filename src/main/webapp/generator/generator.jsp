@@ -32,7 +32,7 @@
 <div id="step2" style="display: none;width: 600px;">
 	<fieldset style="border: 1px solid #ccc;font-size: 12px;">
 	    <legend>输入包名</legend>
-	    package: <input id="packageName" type="text" />(默认表名作为包名)
+	    package: <input id="packageName" type="text" style="width:260px; "/> (不填则表名作为包名)
 	</fieldset>
 	<br>
 	<table id="dgTable"></table>
@@ -42,7 +42,7 @@
 
 <div id="step3" style="display: none;">
 	<div id="templateTb">
-		模板名:&nbsp;<input class="easyui-searchbox"data-options="prompt:'输入模板名,支持模糊',searcher:searchTemplate"></input>
+		模板名:&nbsp;<input class="easyui-searchbox" data-options="prompt:'输入模板名,支持模糊',searcher:searchTemplate"></input>
 	</div>
 	<table id="dgTemplate"></table>
 	<br>
