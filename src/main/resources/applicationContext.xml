@@ -12,12 +12,12 @@
 	<context:property-placeholder location="classpath:/server.properties" />
 
 	<!-- spring context配置文件 -->
-	<!-- 不要扫描durcframework.test包下的Controller类 -->
 	<context:component-scan base-package="org.durcframework.autocode.service">
+	<!-- 不要扫描Controller类 -->
 		<context:exclude-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
 	</context:component-scan>
 
-	<import resource="classpath*:/spring/data/*.xml" />
+	<import resource="classpath*:/spring/*.xml" />
 	
 </beans>
