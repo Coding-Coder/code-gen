@@ -1,4 +1,4 @@
-<%@page import="org.durcframework.autocode.common.UserContext"%>
+<%@page import="org.durcframework.autocode.common.AutoCodeContext"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <div id="menu"></div>
@@ -24,7 +24,7 @@
 	            url : "config/template.jsp"
 	        }
 		}
-	    <%if(UserContext.getInstance().isAdmin()){%>
+	    <%if(AutoCodeContext.getInstance().isAdmin()){%>
 	    ,{
 		    text : "用户管理",
 		    attributes : {

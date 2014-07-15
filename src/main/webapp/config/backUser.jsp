@@ -1,4 +1,4 @@
-<%@page import="org.durcframework.autocode.common.UserContext"%>
+<%@page import="org.durcframework.autocode.common.AutoCodeContext"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../taglib.jsp" %>
@@ -13,7 +13,7 @@
 </head>
 <body>
 <%
-if(!UserContext.getInstance().isAdmin()){
+	if(!AutoCodeContext.getInstance().isAdmin()){
 	request.getRequestDispatcher("/login.jsp").forward(request, response);
 	return;
 }

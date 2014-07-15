@@ -1,6 +1,6 @@
 package org.durcframework.autocode.controller;
 
-import org.durcframework.autocode.common.UserContext;
+import org.durcframework.autocode.common.AutoCodeContext;
 import org.durcframework.autocode.entity.BackUser;
 import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.entity.DatasourceConfigSch;
@@ -20,14 +20,14 @@ public class DataSourceConfigController extends
 
 	@RequestMapping("/addDataSource.do")
 	public ModelAndView addDataSource(DataSourceConfig dataSourceConfig) {
-		BackUser user = UserContext.getInstance().getUser();
+		BackUser user = AutoCodeContext.getInstance().getUser();
 		dataSourceConfig.setBackUser(user.getUsername());
 		return this.save(dataSourceConfig);
 	}
 
 	@RequestMapping("/listDataSource.do")
 	public ModelAndView listDataSource(DatasourceConfigSch searchEntity) {
-		BackUser user = UserContext.getInstance().getUser();
+		BackUser user = AutoCodeContext.getInstance().getUser();
 		ExpressionQuery query = searchEntity.buildExpressionQuery();
 		
 		query.add(new ValueExpression("back_user", user.getUsername()));

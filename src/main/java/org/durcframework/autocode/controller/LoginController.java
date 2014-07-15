@@ -1,8 +1,9 @@
 package org.durcframework.autocode.controller;
 
-import org.durcframework.autocode.common.UserContext;
+import org.durcframework.autocode.common.AutoCodeContext;
 import org.durcframework.autocode.entity.BackUser;
 import org.durcframework.autocode.service.BackUserService;
+import org.durcframework.common.UserContext;
 import org.durcframework.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,7 @@ public class LoginController {
 	 */
 	@RequestMapping("logout.do")
 	public ModelAndView logout() {
-		UserContext.getInstance().setUser(null);
+		AutoCodeContext.getInstance().setUser(null);
 		return ResultUtil.success();
 	}
 }

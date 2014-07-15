@@ -47,15 +47,28 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<!-- 如果项目有用户登录,用此filter -->
 	<filter>
-		<filter-name>backUserFilter</filter-name>
-		<filter-class>org.durcframework.autocode.common.BackUserFilter</filter-class>
+		<filter-name>userFilter</filter-name>
+		<filter-class>org.durcframework.common.UserFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>backUserFilter</filter-name>
+		<filter-name>userFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
+	
+	<!-- 此filter用于不需要用户登陆的项目
+	<filter>
+		<filter-name>userFilter</filter-name>
+		<filter-class>org.durcframework.common.DefaultFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>userFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	 -->
 
 	<session-config>
 		<session-timeout>40</session-timeout>

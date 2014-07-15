@@ -1,7 +1,7 @@
 package org.durcframework.autocode.controller;
 
 import org.durcframework.autocode.common.SearchEasyUI;
-import org.durcframework.autocode.common.UserContext;
+import org.durcframework.autocode.common.AutoCodeContext;
 import org.durcframework.autocode.entity.BackUser;
 import org.durcframework.autocode.entity.TemplateConfig;
 import org.durcframework.autocode.entity.TemplateConfigSch;
@@ -19,14 +19,14 @@ public class TemplateConfigController extends
 	
 	@RequestMapping("/addTemplate.do")
 	public ModelAndView addTemplate(TemplateConfig templateConfig) {
-		BackUser user = UserContext.getInstance().getUser();
+		BackUser user = AutoCodeContext.getInstance().getUser();
 		templateConfig.setBackUser(user.getUsername());
 		return this.save(templateConfig);
 	}
 
 	@RequestMapping("/listTemplate.do")
 	public ModelAndView listTemplate(SearchEasyUI searchEntity) {
-		BackUser user = UserContext.getInstance().getUser();
+		BackUser user = AutoCodeContext.getInstance().getUser();
 		searchEntity.setSortname("`name`");
 		ExpressionQuery query = searchEntity.buildExpressionQuery();
 		query.add(new ValueExpression("back_user", user.getUsername()));
@@ -47,7 +47,7 @@ public class TemplateConfigController extends
 	@RequestMapping("/listUserTepmlate.do")
 	public ModelAndView listUserTepmlate(TemplateConfigSch searchEntity) {
 		searchEntity.setSortname("`name`");
-		BackUser user = UserContext.getInstance().getUser();
+		BackUser user = AutoCodeContext.getInstance().getUser();
 		ExpressionQuery query = searchEntity.buildExpressionQuery();
 		query.add(new ValueExpression("back_user", user.getUsername()));
 		return this.query(query);
