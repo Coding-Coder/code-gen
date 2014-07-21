@@ -17,7 +17,6 @@ import org.apache.ibatis.scripting.xmltags.TextSqlNode;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.generator.DataBaseConfig;
 
 /**

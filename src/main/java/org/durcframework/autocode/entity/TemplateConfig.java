@@ -1,8 +1,7 @@
 package org.durcframework.autocode.entity;
 
-import org.durcframework.entity.BaseEntity;
 
-public class TemplateConfig extends BaseEntity {
+public class TemplateConfig {
 	private int tcId;
 	private String name;
 	private String savePath;
