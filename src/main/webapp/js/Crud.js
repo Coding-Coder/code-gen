@@ -17,6 +17,7 @@ var Crud = (function(){
 		this.updateUrl = param.updateUrl;
 		this.delUrl = param.delUrl;
 		this.pk = param.pk;
+		this.encryptConfig = param.encryptConfig;
 		
 		this.$dlg = $('#'+param.dlgId);
 		this.$form = $('#'+param.formId);
@@ -54,8 +55,15 @@ var Crud = (function(){
 			return this.getPkInput().length > 0;
 		}
 		,getPkInput:function(){
-			return this.$form.find('[name='+this.pk+']');
-		}		,del:function(row,msg){
+			if(!this.pkInput){
+				this.pkInput = this.getByName(this.pk);
+			}
+			return this.pkInput;
+		}
+		,getByName:function(name){
+			return this.$form.find('[name='+name+']');
+		}
+		,del:function(row,msg){
 			msg = msg || '确定要删除该数据吗?';
 			var self = this;
 			if (row){
@@ -77,6 +85,7 @@ var Crud = (function(){
 			this.$form.form('submit',{
 				url: this.submitUrl,
 				onSubmit: function(){
+					self._doEncrypt();
 					return $(this).form('validate');
 				},
 				success: function(resultTxt){
@@ -92,16 +101,45 @@ var Crud = (function(){
 				}
 			});
 		}
-		
-		,createOperColumn:function(){
-			return {field:'_operate',title:'操作',align:'center',formatter:this.createOperFormatter()};
+		,_doEncrypt:function(){
+			if(this.encryptConfig){
+				var encrypt = this.encryptConfig.encrypt;
+				var fields = this.encryptConfig.fields||[];
+				
+				for(var i=0,len=fields.length; i<len; i++) {
+					var $input = this.getByName(fields[i]);
+					var md5 = faultylabs.MD5($.trim($input.val()))
+					$input.val(md5);
+				}
+			}
 		}
-		
-		,createOperFormatter:function(){
+		,createOperColumn:function(buttons){
+			return {field:'_operate',title:'操作',align:'center',formatter:this.createOperFormatter(buttons)};
+		}
+		,createEditColumn:function(appendButton){
+			appendButton = $.isArray(appendButton) ? appendButton : [];
 			var that = this;
+			var buttons = [
+				{text:'修改',onclick:function(row){
+					that.update(row);
+				}}
+				,{text:'删除',onclick:function(row){
+					that.del(row);
+				}}
+			].concat(appendButton);
+			
+			return this.createOperColumn(buttons);
+		}
+		,createOperFormatter:function(buttons){
+			buttons = $.isArray(buttons) ? buttons : [];
+			
 			return function(val,row,index){
-				return '<a href="javascript:void(0)" onclick="'+FunUtil.createFun(that,'update',row)+'">修改</a>'+
-				' | <a href="javascript:void(0)" onclick="'+FunUtil.createFun(that,'del',row)+'">删除</a>';
+				var html = [];
+				for(var i=0,len=buttons.length; i<len; i++) {
+					var button = buttons[i];
+					html.push('<a href="javascript:void(0)" onclick="'+FunUtil.createFun(button,'onclick',row,val,index)+'">'+button.text+'</a>')
+				}
+				return html.join(' | ');
 			}
 		}
 		/**
