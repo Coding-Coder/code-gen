@@ -52,6 +52,15 @@
 	<filter>
 		<filter-name>userFilter</filter-name>
 		<filter-class>org.durcframework.common.UserFilter</filter-class>
+		<init-param>
+			<!-- 不需要过滤的url,用逗号隔开 -->
+			<param-name>excludeUrl</param-name>
+			<param-value>
+				,index.jsp
+				,login.jsp
+				,login.do
+			</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>userFilter</filter-name>
