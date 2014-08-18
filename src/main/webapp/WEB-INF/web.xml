@@ -56,7 +56,7 @@
 			<!-- 不需要过滤的url,用逗号隔开 -->
 			<param-name>excludeUrl</param-name>
 			<param-value>
-				,index.jsp
+				index.jsp
 				,login.jsp
 				,login.do
 			</param-value>
@@ -68,18 +68,6 @@
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 	
-	<!-- 此filter用于不需要用户登陆的项目
-	<filter>
-		<filter-name>userFilter</filter-name>
-		<filter-class>org.durcframework.common.DefaultFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>userFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-		<url-pattern>*.jsp</url-pattern>
-	</filter-mapping>
-	 -->
-
 	<session-config>
 		<session-timeout>40</session-timeout>
 	</session-config>

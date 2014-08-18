@@ -7,6 +7,6 @@
 <title>首页</title>
 </head>
 <body>
-<jsp:forward page="login.jsp"></jsp:forward>
+<jsp:forward page="needLogin.html"></jsp:forward>
 </body>
 </html>
