@@ -37,12 +37,13 @@
 	<br>
 	<table id="dgTable"></table>
 	<br>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-next" onclick="goStep3(); return false;">下一步</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-forward" onclick="goStep3(); return false;">下一步</a>
 </div>
 
 <div id="step3" style="display: none;">
 	<div id="templateTb">
-		模板名:&nbsp;<input class="easyui-searchbox" data-options="prompt:'输入模板名,支持模糊',searcher:searchTemplate"></input>
+		模板名:&nbsp;<input id="tempSch" class="easyui-textbox" type="text"></input>
+		<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchTemplate(); return false;">搜索</a>
 	</div>
 	<table id="dgTemplate"></table>
 	<br>
@@ -211,7 +212,8 @@ function listTemplate(){
 	});
 }
 
-function searchTemplate(value){
+function searchTemplate(){
+	var value = $('#tempSch').val();
 	$('#dgTemplate').datagrid('load',{
 		nameSch: value
 	});

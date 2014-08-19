@@ -1,3 +1,4 @@
+<%@page import="org.durcframework.autocode.common.EasyUICssManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../taglib.jsp" %>
@@ -10,7 +11,7 @@
 </head>
 <body>
 <body id="mainLayout" class="easyui-layout">
-	<div data-options="region:'north',border:false" style="height:30px;padding:5px;background:#B3DFDA;">
+	<div data-options="region:'north',border:false" style="height:30px;padding:5px;">
 		<jsp:include page="common/header.jsp"></jsp:include>
 	</div>
 	<div data-options="region:'west',split:true,title:'菜单'" style="width:150px;padding:10px;">

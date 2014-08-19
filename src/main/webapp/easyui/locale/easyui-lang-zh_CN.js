@@ -4,7 +4,7 @@ if ($.fn.pagination){
 	$.fn.pagination.defaults.displayMsg = '显示{from}到{to},共{total}条记录';
 }
 if ($.fn.datagrid){
-	$.fn.datagrid.defaults.loadMsg = '正在处理，请稍等。。。';
+	$.fn.datagrid.defaults.loadMsg = '正在处理，请稍后...';
 }
 if ($.fn.treegrid && $.fn.datagrid){
 	$.fn.treegrid.defaults.loadMsg = $.fn.datagrid.defaults.loadMsg;

@@ -1,7 +1,6 @@
 <%@page import="org.durcframework.autocode.common.AutoCodeContext"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../../taglib.jsp" %>
 <span style="float: right; padding-right: 10px;">
 欢迎,<%=AutoCodeContext.getInstance().getUser().getUsername()%> | <a href="javascript:void(0)" onclick="logout(); return false;">安全退出</a>
 </span>
@@ -9,7 +8,7 @@
 function logout(){
 	$.ajax({
 		type: "POST",
-	    url: '${ctx}logout.do',
+	    url: ctx + 'logout.do',
 	  	dataType:'json',
 	    success: function(result){
 			if (result.success){
