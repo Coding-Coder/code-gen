@@ -93,7 +93,7 @@ public class SqlTypeUtil {
 		mybatisTypeMap.put("smallmoney", "DECIMAL");
 		mybatisTypeMap.put("sql_variant", "VARCHAR");
 		mybatisTypeMap.put("text", "VARCHAR");
-		mybatisTypeMap.put("tinyint", "BYTE");
+		mybatisTypeMap.put("tinyint", "TINYINT");
 		mybatisTypeMap.put("uniqueidentifier", "VARCHAR");
 		mybatisTypeMap.put("varbinary", "BLOB");
 		mybatisTypeMap.put("varchar", "VARCHAR");
