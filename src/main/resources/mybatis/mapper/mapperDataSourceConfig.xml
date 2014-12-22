@@ -15,7 +15,7 @@
 	<select id="find" parameterType="org.durcframework.expression.ExpressionQuery"
 		resultMap="queryResultMap">
 		SELECT *
-		FROM `auto_code`.`datasource_config` t
+		FROM `datasource_config` t
 		<include refid="expressionBlock.where" />
 		<choose>
 			<when test="sortname == null">
@@ -33,12 +33,12 @@
 
 	<select id="findTotalCount" parameterType="org.durcframework.expression.ExpressionQuery"
 		resultType="java.lang.Integer">
-		SELECT count(*) FROM `auto_code`.`datasource_config` t
+		SELECT count(*) FROM `datasource_config` t
 		<include refid="expressionBlock.where" />
 	</select>
 	
 	<insert id="save" parameterType="org.durcframework.autocode.entity.DataSourceConfig" keyProperty="dcId" keyColumn="dc_id" useGeneratedKeys="true">
-		INSERT INTO `auto_code`.`datasource_config`
+		INSERT INTO `datasource_config`
             (
              `name`,
              `driver_class`,
@@ -57,7 +57,7 @@
 	</insert>
 	
 	<update id="update" parameterType="org.durcframework.autocode.entity.DataSourceConfig">
-		UPDATE `auto_code`.`datasource_config`
+		UPDATE `datasource_config`
 		SET 
 		  `name` = #{name,jdbcType=VARCHAR},
 		  `driver_class` = #{driverClass,jdbcType=VARCHAR},
@@ -70,12 +70,12 @@
 	
 	<select id="get" resultMap="queryResultMap" parameterType="java.io.Serializable">
 		SELECT *
-		FROM `auto_code`.`datasource_config`
+		FROM `datasource_config`
 		WHERE dc_id = #{dcId,jdbcType=INTEGER}
 	</select>
 	
 	<delete id="del" parameterType="org.durcframework.autocode.entity.DataSourceConfig">
-		DELETE FROM `auto_code`.`datasource_config`
+		DELETE FROM `datasource_config`
 		WHERE dc_id = #{dcId,jdbcType=INTEGER}
 	</delete>
 	
