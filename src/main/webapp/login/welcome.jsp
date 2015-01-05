@@ -16,7 +16,9 @@
 	<li>生成代码。只需三步即可生成代码文件</li>
 </ol>
 
-示例:
+<strong>示例:</strong><br>
+=======表结构=======<br>
+<img src="../table.png">
 <div class="easyui-tabs" style="width:800px;height:400px;">
 <div title="模板内容" style="padding:5px">
 <pre>
