@@ -3,14 +3,11 @@ package org.durcframework.autocode.velocity;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.durcframework.util.ClassUtil;
 import org.junit.Test;
 
 public class VelocityTest extends TestCase {
