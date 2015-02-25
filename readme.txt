@@ -7,7 +7,7 @@
 模板配置 - 定义自己的模板,采用velocity模板语法.这样可以根据模板来生成不同的代码,如POJO,Dao,mybatis配置文件等；
 操作简单 - 生成代码只需三步:1. 选择数据源;2. 选择表;3. 选择模板。
 
-操作步骤:
+部署程序步骤:
 0. 下载durcframework(https://git.oschina.net/durcframework/durcframework),并在本地mvn install
 1. Maven构建eclipse工程,运行Maven命令:mvn eclipse:eclipse,完成后倒入eclipse中
 2. 导入数据库(MYSQL),SQL文件在项目根目录下,名为autoCode.sql,运行里面的内容即可
