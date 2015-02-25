@@ -1,4 +1,4 @@
-首先介绍下，这个代码生成器是一个java web项目。基于velocity模板引擎，采用SpringMVC + mybatis + jquery easyUI + mysql
+autoCode是一个java web项目。基于velocity模板引擎，采用SpringMVC + mybatis + jquery easyUI + mysql
 
 其特点主要有：
 
@@ -14,3 +14,5 @@
 3. 修改数据库连接参数,配置文件在src/main/resources/server.properties
 4. 启动项目
 登录用户名密码均为admin
+
+了解更多,请访问:http://blog.csdn.net/thc1987/article/category/2380057
