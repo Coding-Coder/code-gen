@@ -41,7 +41,7 @@ SELECT
 FROM sys.columns col 
 LEFT OUTER JOIN sys.types bt on bt.user_type_id = col.system_type_id 
 WHERE col.object_id = object_id('back_user_opt_rec')
-ORDER BY [schema] ASC,column_name ASC 
+ORDER BY col.column_id
 	 */
 	@Override
 	protected String getTableDetailSQL(String tableName) {

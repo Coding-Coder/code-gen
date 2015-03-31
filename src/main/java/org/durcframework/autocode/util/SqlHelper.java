@@ -17,6 +17,7 @@ import org.apache.ibatis.scripting.xmltags.TextSqlNode;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.apache.log4j.Logger;
 import org.durcframework.autocode.generator.DataBaseConfig;
 
 /**
@@ -25,6 +26,7 @@ import org.durcframework.autocode.generator.DataBaseConfig;
  *
  */
 public class SqlHelper {
+	private static Logger logger = Logger.getLogger(SqlHelper.class);
 	
 	private static final String DRIVER = "driver";
 	private static final String URL = "url";
@@ -57,7 +59,7 @@ List<Map<String, Object>> map = SqlHelper.runSql(dataSourceConfig, sql,params);
 		DataSource dataSource = buildDataSource(dataBaseConfig);
 		
 		String runSql = buildSqlWithParams(dataSource, sql, params);
-		
+		logger.info("执行SQL:" + runSql);
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
