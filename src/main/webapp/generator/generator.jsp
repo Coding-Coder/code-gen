@@ -122,7 +122,6 @@ function selectDataSource(row){
 			        ,{field:'tableName',title:'表名'}  
 			    ]]
 			    ,width:500
-			    ,height:500
 			    ,striped:true
 			    ,checkOnSelect:true
 			    ,onLoadSuccess:function(e){

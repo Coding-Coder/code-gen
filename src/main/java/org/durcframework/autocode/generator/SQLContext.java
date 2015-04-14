@@ -21,6 +21,7 @@ public class SQLContext {
 	public String getJavaBeanName(){
 		String tableName = tableDefinition.getTableName();
 		tableName = FieldUtil.underlineFilter(tableName);
+		tableName = FieldUtil.dotFilter(tableName);
 		return FieldUtil.upperFirstLetter(tableName);
 	}
 	

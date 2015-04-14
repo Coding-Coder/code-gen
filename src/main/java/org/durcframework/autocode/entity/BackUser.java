@@ -5,8 +5,8 @@ import java.util.Date;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.durcframework.entity.IUser;
-import org.durcframework.entity.ValidateAware;
+import org.durcframework.core.IUser;
+import org.durcframework.core.ValidateAware;
 
 public class BackUser implements IUser,ValidateAware{
 	@Pattern(regexp="\\w+",message="用户名只能由数字,字母,下划线组成")

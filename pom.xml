@@ -7,9 +7,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.durcframework</groupId>
-			<artifactId>durcframework</artifactId>
-			<version>1.0.0</version>
+			<groupId>net.oschina.durcframework</groupId>
+			<artifactId>durcframework-core</artifactId>
+			<version>1.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>

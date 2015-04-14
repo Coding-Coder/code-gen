@@ -2,7 +2,7 @@ package org.durcframework.autocode.service;
 
 import org.durcframework.autocode.dao.BackUserDao;
 import org.durcframework.autocode.entity.BackUser;
-import org.durcframework.service.CrudService;
+import org.durcframework.core.service.CrudService;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -51,7 +51,7 @@
 	<!-- 如果项目有用户登录,用此filter -->
 	<filter>
 		<filter-name>userFilter</filter-name>
-		<filter-class>org.durcframework.common.UserFilter</filter-class>
+		<filter-class>org.durcframework.core.UserFilter</filter-class>
 		<init-param>
 			<!-- 不需要过滤的url,用逗号隔开 -->
 			<param-name>excludeUrl</param-name>

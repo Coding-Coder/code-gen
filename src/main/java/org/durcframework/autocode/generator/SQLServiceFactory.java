@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.durcframework.autocode.generator.mysql.MySqlService;
 import org.durcframework.autocode.generator.sqlserver.SqlServerService;
-import org.durcframework.exception.DurcException;
+import org.durcframework.core.DurcException;
 
 public class SQLServiceFactory {
 

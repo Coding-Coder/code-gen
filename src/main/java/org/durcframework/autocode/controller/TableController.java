@@ -10,28 +10,28 @@ import org.durcframework.autocode.generator.SQLServiceFactory;
 import org.durcframework.autocode.generator.TableBean;
 import org.durcframework.autocode.service.DataSourceConfigService;
 import org.durcframework.autocode.util.DBConnect;
-import org.durcframework.util.JsonUtil;
-import org.durcframework.util.ResultUtil;
+import org.durcframework.core.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class TableController {
+public class TableController extends BaseController {
 	
 	@Autowired
 	private DataSourceConfigService dataSourceConfigService;
 	
 	@RequestMapping("listTable.do")
-	public ModelAndView listTable(int dcId){
+	public @ResponseBody
+	Object listTable(int dcId){
 		
 		DataSourceConfig dataSourceConfig = dataSourceConfigService.get(dcId);
 		String resultMsg = DBConnect.testConnection(dataSourceConfig);
 		
 		if(StringUtils.hasText(resultMsg)){
-			return ResultUtil.error(resultMsg);
+			return error(resultMsg);
 		}
 		
 		SQLService service = SQLServiceFactory.build(dataSourceConfig);
@@ -42,7 +42,7 @@ public class TableController {
 		
 		map.put("rows", list);
 		
-		return ResultUtil.buildModelAndView(JsonUtil.toJsonString(map));
+		return map;
 	}
 	
 }

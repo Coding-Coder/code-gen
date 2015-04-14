@@ -12,6 +12,9 @@
 
     <!-- 支持spring mvc新的注解类型 详细spring3.0手册 15.12.1 mvc:annotation-driven -->
 	<mvc:annotation-driven />
+	
+	<!-- 导入durcframework配置 -->
+	<import resource="classpath*:/durcframework_spring/*.xml"/>
 
 	<!-- 扫描controller 
 		use-default-filters="false"只扫描@Controller
@@ -32,8 +35,4 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	
-	<bean class="org.durcframework.common.SpringContext" />
-	<bean class="org.durcframework.common.WebExceptionResolver" />
-	
 </beans>

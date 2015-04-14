@@ -1,6 +1,6 @@
 package org.durcframework.autocode.common;
 
-import org.durcframework.entity.SearchEntity;
+import org.durcframework.core.SearchEntity;
 
 /**
  * 专门为easyUI提供的查询类

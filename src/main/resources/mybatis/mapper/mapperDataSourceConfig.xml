@@ -12,7 +12,7 @@
 		<result column="back_user" property="backUser" jdbcType="VARCHAR" />
 	</resultMap>
 
-	<select id="find" parameterType="org.durcframework.expression.ExpressionQuery"
+	<select id="find" parameterType="org.durcframework.core.expression.ExpressionQuery"
 		resultMap="queryResultMap">
 		SELECT *
 		FROM `datasource_config` t
@@ -31,7 +31,7 @@
 		</if>
 	</select>
 
-	<select id="findTotalCount" parameterType="org.durcframework.expression.ExpressionQuery"
+	<select id="findTotalCount" parameterType="org.durcframework.core.expression.ExpressionQuery"
 		resultType="java.lang.Integer">
 		SELECT count(*) FROM `datasource_config` t
 		<include refid="expressionBlock.where" />

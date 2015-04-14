@@ -24,6 +24,15 @@ public class FieldUtil {
 		}
 		return "";
 	}
+	
+	public static String dotFilter(String field){
+		if (StringUtils.hasText(field)) {
+			if(field.indexOf(".") > -1) {
+				return field.split("\\.")[1];
+			}
+		}
+		return field;
+	}
 
 	/**
 	 * 将第一个字母转换成大写

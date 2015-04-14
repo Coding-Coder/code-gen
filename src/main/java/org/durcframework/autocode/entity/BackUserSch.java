@@ -2,8 +2,8 @@ package org.durcframework.autocode.entity;
 
 import java.util.Date;
 
-import org.durcframework.entity.SearchEntity;
-import org.durcframework.expression.annotation.ValueField;
+import org.durcframework.core.SearchEntity;
+import org.durcframework.core.expression.annotation.ValueField;
 
 public class BackUserSch extends SearchEntity{
 

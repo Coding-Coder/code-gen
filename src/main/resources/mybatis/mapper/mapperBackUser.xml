@@ -8,7 +8,7 @@
 		<result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	
-	<select id="find" parameterType="org.durcframework.expression.ExpressionQuery"
+	<select id="find" parameterType="org.durcframework.core.expression.ExpressionQuery"
 		resultMap="queryResultMap">
 		SELECT *
 		FROM `back_user` t
@@ -25,7 +25,7 @@
 		</if>
 	</select>
 
-	<select id="findTotalCount" parameterType="org.durcframework.expression.ExpressionQuery"
+	<select id="findTotalCount" parameterType="org.durcframework.core.expression.ExpressionQuery"
 		resultType="java.lang.Integer">
 		SELECT count(*) FROM `back_user` t
 		<include refid="expressionBlock.where" />

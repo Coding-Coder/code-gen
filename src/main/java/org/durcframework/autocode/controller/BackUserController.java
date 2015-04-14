@@ -3,34 +3,39 @@ package org.durcframework.autocode.controller;
 import org.durcframework.autocode.entity.BackUser;
 import org.durcframework.autocode.entity.BackUserSch;
 import org.durcframework.autocode.service.BackUserService;
-import org.durcframework.controller.CrudController;
+import org.durcframework.core.GridResult;
+import org.durcframework.core.MessageResult;
+import org.durcframework.core.controller.CrudController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BackUserController extends
-        CrudController<BackUser, BackUserService> {
+		CrudController<BackUser, BackUserService> {
 
-    @RequestMapping("/addBackUser.do")
-    public ModelAndView addBackUser(BackUser entity) {
-        return this.save(entity);
-    }
+	@RequestMapping("/addBackUser.do")
+	public @ResponseBody
+	MessageResult addBackUser(BackUser entity) {
+		return this.save(entity);
+	}
 
-    @RequestMapping("/listBackUser.do")
-    public ModelAndView listBackUser(BackUserSch searchEntity) {
-        return this.queryByEntity(searchEntity);
-    }
+	@RequestMapping("/listBackUser.do")
+	public @ResponseBody
+	GridResult listBackUser(BackUserSch searchEntity) {
+		return this.query(searchEntity);
+	}
 
-    @RequestMapping("/updateBackUser.do")
-    public ModelAndView updateBackUser(BackUser enity) {
-        return this.update(enity);
-    }
+	@RequestMapping("/updateBackUser.do")
+	public @ResponseBody
+	MessageResult updateBackUser(BackUser enity) {
+		return this.update(enity);
+	}
 
-    @RequestMapping("/delBackUser.do")
-    public ModelAndView delDataSource(BackUser enity) {
-        return this.delete(enity);
-    }
-    
+	@RequestMapping("/delBackUser.do")
+	public @ResponseBody
+	MessageResult delDataSource(BackUser enity) {
+		return this.delete(enity);
+	}
+
 }

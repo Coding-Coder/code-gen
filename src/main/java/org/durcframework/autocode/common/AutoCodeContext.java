@@ -1,7 +1,7 @@
 package org.durcframework.autocode.common;
 
 import org.durcframework.autocode.entity.BackUser;
-import org.durcframework.common.UserContext;
+import org.durcframework.core.UserContext;
 
 public enum AutoCodeContext {
 	INSTANCE;

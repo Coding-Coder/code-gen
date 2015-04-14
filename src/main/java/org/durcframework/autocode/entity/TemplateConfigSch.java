@@ -1,7 +1,7 @@
 package org.durcframework.autocode.entity;
 
 import org.durcframework.autocode.common.SearchEasyUI;
-import org.durcframework.expression.annotation.ValueField;
+import org.durcframework.core.expression.annotation.ValueField;
 
 public class TemplateConfigSch extends SearchEasyUI{
 

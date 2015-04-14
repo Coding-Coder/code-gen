@@ -6,29 +6,33 @@ import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.entity.DatasourceConfigSch;
 import org.durcframework.autocode.service.DataSourceConfigService;
 import org.durcframework.autocode.util.DBConnect;
-import org.durcframework.controller.CrudController;
-import org.durcframework.expression.ExpressionQuery;
-import org.durcframework.expression.subexpression.ValueExpression;
+import org.durcframework.core.GridResult;
+import org.durcframework.core.MessageResult;
+import org.durcframework.core.controller.CrudController;
+import org.durcframework.core.expression.ExpressionQuery;
+import org.durcframework.core.expression.subexpression.ValueExpression;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DataSourceConfigController extends
 		CrudController<DataSourceConfig, DataSourceConfigService> {
 
 	@RequestMapping("/addDataSource.do")
-	public ModelAndView addDataSource(DataSourceConfig dataSourceConfig) {
+	public @ResponseBody
+	MessageResult addDataSource(DataSourceConfig dataSourceConfig) {
 		BackUser user = AutoCodeContext.getInstance().getUser();
 		dataSourceConfig.setBackUser(user.getUsername());
 		return this.save(dataSourceConfig);
 	}
 
 	@RequestMapping("/listDataSource.do")
-	public ModelAndView listDataSource(DatasourceConfigSch searchEntity) {
+	public @ResponseBody
+	GridResult listDataSource(DatasourceConfigSch searchEntity) {
 		BackUser user = AutoCodeContext.getInstance().getUser();
-		ExpressionQuery query = searchEntity.buildExpressionQuery();
+		ExpressionQuery query = this.buildExpressionQuery(searchEntity);
 		
 		query.add(new ValueExpression("back_user", user.getUsername()));
 		
@@ -36,17 +40,20 @@ public class DataSourceConfigController extends
 	}
 
 	@RequestMapping("/updateDataSource.do")
-	public ModelAndView updateDataSource(DataSourceConfig dataSourceConfig) {
+	public @ResponseBody
+	MessageResult updateDataSource(DataSourceConfig dataSourceConfig) {
 		return this.update(dataSourceConfig);
 	}
 
 	@RequestMapping("/delDataSource.do")
-	public ModelAndView delDataSource(DataSourceConfig dataSourceConfig) {
+	public @ResponseBody
+	MessageResult delDataSource(DataSourceConfig dataSourceConfig) {
 		return this.delete(dataSourceConfig);
 	}
 
 	@RequestMapping("/connectionTest.do")
-	public ModelAndView connectionTest(DataSourceConfig dataSourceConfig) {
+	public @ResponseBody
+	MessageResult connectionTest(DataSourceConfig dataSourceConfig) {
 		String connectInfo = DBConnect.testConnection(dataSourceConfig);
 
 		if (StringUtils.hasText(connectInfo)) {
