@@ -27,4 +27,4 @@
 > 5. 浏览器输入http://localhost:8088/autoCode/login.jsp
 
 登录用户名密码均为admin
-端口默认用了8088,如需修改,前往pom.xml,找到maven-jetty-plugin插件的<port>参数.
+端口默认用了8088,如需修改,前往pom.xml,找到maven-jetty-plugin插件的port参数.
