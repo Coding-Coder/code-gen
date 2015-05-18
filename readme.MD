@@ -2,6 +2,7 @@
 ===================
 > **更新列表:**
 
+> - 2015-5-15,新建了一个QQ群:328180219欢迎加群探讨
 > - 升级为依赖[durcframework-core](https://git.oschina.net/durcframework/durcframework-core)框架
 > - 解决SQLSERVER数据库的schema问题.
 
