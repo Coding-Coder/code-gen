@@ -39,12 +39,14 @@
              `name`,
              `save_path`,
              `content`,
-             `back_user`)
+             `back_user`,
+             `suffix`)
 		VALUES (
         #{name,jdbcType=VARCHAR},
         #{savePath,jdbcType=VARCHAR},
         #{content,jdbcType=VARCHAR},
-        #{backUser,jdbcType=VARCHAR}
+        #{backUser,jdbcType=VARCHAR},
+        #{suffix,jdbcType=VARCHAR}
         )
 	</insert>
 	
@@ -54,7 +56,8 @@
 		  `name` = #{name,jdbcType=VARCHAR},
 		  `save_path` =  #{savePath,jdbcType=VARCHAR},
 		  `content` = #{content,jdbcType=VARCHAR},
-		  `back_user` = #{backUser,jdbcType=VARCHAR}
+		  `back_user` = #{backUser,jdbcType=VARCHAR},
+		  `suffix` = #{suffix,jdbcType=VARCHAR}
 		WHERE `tc_id` = #{tcId,jdbcType=INTEGER}
 	</update>
 	

@@ -2,50 +2,59 @@ package org.durcframework.autocode.entity;
 
 
 public class TemplateConfig {
-	private int tcId;
-	private String name;
-	private String savePath;
-	private String content;
-	private String backUser;
+    private int tcId;
+    private String name;
+    private String savePath;
+    private String content;
+    private String backUser;
+    private String suffix;
 
-	public int getTcId() {
-		return tcId;
-	}
+    public String getSuffix() {
+        return suffix;
+    }
 
-	public void setTcId(int tcId) {
-		this.tcId = tcId;
-	}
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public int getTcId() {
+        return tcId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setTcId(int tcId) {
+        this.tcId = tcId;
+    }
 
-	public String getSavePath() {
-		return savePath;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setSavePath(String savePath) {
-		this.savePath = savePath;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getSavePath() {
+        return savePath;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setSavePath(String savePath) {
+        this.savePath = savePath;
+    }
 
-	public String getBackUser() {
-		return backUser;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setBackUser(String backUser) {
-		this.backUser = backUser;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getBackUser() {
+        return backUser;
+    }
+
+    public void setBackUser(String backUser) {
+        this.backUser = backUser;
+    }
 
 }
