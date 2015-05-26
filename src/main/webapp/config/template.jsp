@@ -40,7 +40,7 @@
 <br>
 	<div id="dlg" class="easyui-window" 
 		style="width:1000px;height:600px;padding:10px 20px"
-		data-options="modal:true,closed:true,minimizable:false,collapsible:false">
+		data-options="closed:true,minimizable:false,collapsible:false">
 		
 		<div class="easyui-layout" data-options="fit:true">
 			<div data-options="region:'center'" style="padding:10px;">
