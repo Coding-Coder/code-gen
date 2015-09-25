@@ -9,7 +9,7 @@ var MaskUtil = (function(){
 	
 	var $mask,$maskMsg;
 	
-	var defMsg = '正在处理，请稍待。。。';
+	var defMsg = '正在处理，请稍候...';
 	
 	function init(){
 		if(!$mask){

@@ -59,21 +59,21 @@ public class GeneratorService {
                  * 1.包名不为空，则利用用户自定义包名
                  * 2.包名为空，则生成AutoCodeSource目录
                 */
-                String CodeDirPath = "";
-                if (generatorParam.getPackageName().length() > 0) {
-                    CodeDirPath = (generatorParam.getPackageName() + "/" + generatorParam.getPackageName().replaceAll("\\.", Matcher.quoteReplacement("/")) + "/" + template.getSavePath() + "/");
-                } else {
-                    CodeDirPath = ("AutoCodeSource" + "/" + template.getSavePath() + "/");
-                }
-
-                File directory = new File(".");
-                try {
-                    createDir(directory.getCanonicalPath() + "/" + CodeDirPath);
-                    File f = new File(directory.getCanonicalPath() + "/" + CodeDirPath + sqlContext.getJavaBeanName() + "." + template.getSuffix());
-                    writeFile(f, content);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                String CodeDirPath = "";
+//                if (generatorParam.getPackageName().length() > 0) {
+//                    CodeDirPath = (generatorParam.getPackageName() + "/" + generatorParam.getPackageName().replaceAll("\\.", Matcher.quoteReplacement("/")) + "/" + template.getSavePath() + "/");
+//                } else {
+//                    CodeDirPath = ("AutoCodeSource" + "/" + template.getSavePath() + "/");
+//                }
+//
+//                File directory = new File(".");
+//                try {
+//                    createDir(directory.getCanonicalPath() + "/" + CodeDirPath);
+//                    File f = new File(directory.getCanonicalPath() + "/" + CodeDirPath + sqlContext.getJavaBeanName() + "." + template.getSuffix());
+//                    writeFile(f, content);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 codeFileList.add(codeFile);
             }
         }

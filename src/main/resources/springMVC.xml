@@ -1,17 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-3.2.xsd
+						http://www.springframework.org/schema/mvc
+						http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 	
 
     <!-- 支持spring mvc新的注解类型 详细spring3.0手册 15.12.1 mvc:annotation-driven -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+	    <!-- 强化参数接收 -->
+		<mvc:argument-resolvers>
+			<bean class="org.durcframework.core.form.FormModelMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+		 
+        <mvc:message-converters>  
+            <ref bean="fastJsonHttpMessageConverter" />
+        </mvc:message-converters>
+	</mvc:annotation-driven>
 	
 	<!-- 导入durcframework配置 -->
 	<import resource="classpath*:/durcframework_spring/*.xml"/>
@@ -34,5 +45,22 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<bean id="fastJsonHttpMessageConverter"  
+        class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">  
+  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/html;charset=UTF-8</value><!-- 避免IE出现下载JSON文件的情况 -->  
+                <value>application/json;charset=UTF-8</value>
+            </list>  
+        </property>  
+        <property name="features">
+        	<list>
+        		<!-- 格式化时间 -->
+                <value>WriteDateUseDateFormat</value>  
+        	</list>  
+        </property>  
+    </bean>  
 
 </beans>

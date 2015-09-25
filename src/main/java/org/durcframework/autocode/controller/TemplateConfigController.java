@@ -1,7 +1,6 @@
 package org.durcframework.autocode.controller;
 
 import org.durcframework.autocode.common.AutoCodeContext;
-import org.durcframework.autocode.common.SearchEasyUI;
 import org.durcframework.autocode.entity.BackUser;
 import org.durcframework.autocode.entity.TemplateConfig;
 import org.durcframework.autocode.entity.TemplateConfigSch;
@@ -27,7 +26,7 @@ public class TemplateConfigController extends
 
 	@RequestMapping("/listTemplate.do")
 	public @ResponseBody
-	Object listTemplate(SearchEasyUI searchEntity) {
+	Object listTemplate(TemplateConfigSch searchEntity) {
 		BackUser user = AutoCodeContext.getInstance().getUser();
 		searchEntity.setSortname("`name`");
 		ExpressionQuery query = this.buildExpressionQuery(searchEntity);

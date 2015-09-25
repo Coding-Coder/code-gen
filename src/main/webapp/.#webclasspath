@@ -1,6 +1,6 @@
 C:\Users\hc.tang\git\autoCode\target\classes
 D:\dev\maven3\repository\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA.jar
-D:\dev\maven3\repository\net\oschina\durcframework\durcframework-core\1.0.4\durcframework-core-1.0.4.jar
+D:\dev\maven3\repository\net\oschina\durcframework\durcframework-core\1.0.16\durcframework-core-1.0.16.jar
 D:\dev\maven3\repository\org\springframework\spring-core\3.2.2.RELEASE\spring-core-3.2.2.RELEASE.jar
 D:\dev\maven3\repository\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar
 D:\dev\maven3\repository\org\springframework\spring-aspects\3.2.2.RELEASE\spring-aspects-3.2.2.RELEASE.jar
@@ -19,9 +19,6 @@ D:\dev\maven3\repository\org\springframework\spring-web\3.2.2.RELEASE\spring-web
 D:\dev\maven3\repository\org\springframework\spring-oxm\3.2.2.RELEASE\spring-oxm-3.2.2.RELEASE.jar
 D:\dev\maven3\repository\commons-lang\commons-lang\2.4\commons-lang-2.4.jar
 D:\dev\maven3\repository\org\springframework\spring-webmvc\3.2.2.RELEASE\spring-webmvc-3.2.2.RELEASE.jar
-D:\dev\maven3\repository\com\fasterxml\jackson\core\jackson-core\2.4.2\jackson-core-2.4.2.jar
-D:\dev\maven3\repository\com\fasterxml\jackson\core\jackson-databind\2.4.2\jackson-databind-2.4.2.jar
-D:\dev\maven3\repository\com\fasterxml\jackson\core\jackson-annotations\2.4.2\jackson-annotations-2.4.2.jar
 D:\dev\maven3\repository\org\aspectj\aspectjrt\1.6.12\aspectjrt-1.6.12.jar
 D:\dev\maven3\repository\asm\asm\2.2.3\asm-2.2.3.jar
 D:\dev\maven3\repository\cglib\cglib-nodep\2.1_3\cglib-nodep-2.1_3.jar
@@ -30,7 +27,6 @@ D:\dev\maven3\repository\commons-codec\commons-codec\1.5\commons-codec-1.5.jar
 D:\dev\maven3\repository\jstl\jstl\1.2\jstl-1.2.jar
 D:\dev\maven3\repository\taglibs\standard\1.1.2\standard-1.1.2.jar
 D:\dev\maven3\repository\log4j\log4j\1.2.16\log4j-1.2.16.jar
-D:\dev\maven3\repository\mysql\mysql-connector-java\5.0.4\mysql-connector-java-5.0.4.jar
 D:\dev\maven3\repository\org\mybatis\mybatis\3.2.0\mybatis-3.2.0.jar
 D:\dev\maven3\repository\org\mybatis\mybatis-spring\1.2.0\mybatis-spring-1.2.0.jar
 D:\dev\maven3\repository\net\sf\jxls\jxls-core\1.0-RC-2\jxls-core-1.0-RC-2.jar
@@ -41,11 +37,12 @@ D:\dev\maven3\repository\org\apache\commons\commons-jexl\2.0.1\commons-jexl-2.0.
 D:\dev\maven3\repository\org\apache\poi\poi\3.6\poi-3.6.jar
 D:\dev\maven3\repository\org\apache\poi\poi-ooxml\3.6\poi-ooxml-3.6.jar
 D:\dev\maven3\repository\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar
-D:\dev\maven3\repository\org\slf4j\slf4j-jdk14\1.6.1\slf4j-jdk14-1.6.1.jar
-D:\dev\maven3\repository\org\slf4j\slf4j-api\1.6.1\slf4j-api-1.6.1.jar
 D:\dev\maven3\repository\org\hibernate\hibernate-validator\4.3.1.Final\hibernate-validator-4.3.1.Final.jar
 D:\dev\maven3\repository\org\jboss\logging\jboss-logging\3.1.0.CR2\jboss-logging-3.1.0.CR2.jar
 D:\dev\maven3\repository\com\alibaba\druid\1.0.4\druid-1.0.4.jar
+D:\dev\maven3\repository\com\alibaba\fastjson\1.1.41\fastjson-1.1.41.jar
+D:\dev\maven3\repository\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar
 D:\dev\maven3\repository\org\apache\velocity\velocity\1.7\velocity-1.7.jar
+D:\dev\maven3\repository\org\sitemesh\sitemesh\3.0.0\sitemesh-3.0.0.jar
 D:\dev\maven3\repository\junit\junit\4.8\junit-4.8.jar
 D:\dev\maven3\repository\net\sourceforge\jtds\jtds\1.2.2\jtds-1.2.2.jar
