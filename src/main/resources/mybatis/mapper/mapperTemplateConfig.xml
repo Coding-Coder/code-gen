@@ -6,6 +6,7 @@
 		<result column="tc_id" property="tcId" jdbcType="INTEGER" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
 		<result column="save_path" property="savePath" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
 		<result column="back_user" property="backUser" jdbcType="VARCHAR" />
 	</resultMap>
@@ -16,7 +17,7 @@
 		FROM `template_config` t
 		<include refid="expressionBlock.where" />
 		<if test="sortname == null">
-			ORDER BY tc_id desc
+			ORDER BY `name`
 		</if>
 		<if test="sortname != null">
 			ORDER BY ${order}
@@ -38,12 +39,14 @@
             (
              `name`,
              `save_path`,
+             `file_name`,
              `content`,
              `back_user`,
              `suffix`)
 		VALUES (
         #{name,jdbcType=VARCHAR},
         #{savePath,jdbcType=VARCHAR},
+        #{fileName,jdbcType=VARCHAR},
         #{content,jdbcType=VARCHAR},
         #{backUser,jdbcType=VARCHAR},
         #{suffix,jdbcType=VARCHAR}
@@ -55,6 +58,7 @@
 		SET 
 		  `name` = #{name,jdbcType=VARCHAR},
 		  `save_path` =  #{savePath,jdbcType=VARCHAR},
+		  `file_name` =  #{fileName,jdbcType=VARCHAR},
 		  `content` = #{content,jdbcType=VARCHAR},
 		  `back_user` = #{backUser,jdbcType=VARCHAR},
 		  `suffix` = #{suffix,jdbcType=VARCHAR}

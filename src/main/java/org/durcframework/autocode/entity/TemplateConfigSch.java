@@ -1,10 +1,10 @@
 package org.durcframework.autocode.entity;
 
-import org.durcframework.autocode.common.SearchEasyUI;
+import org.durcframework.core.SearchEntity;
 import org.durcframework.core.expression.annotation.LikeDoubleField;
 import org.durcframework.core.expression.annotation.ValueField;
 
-public class TemplateConfigSch extends SearchEasyUI{
+public class TemplateConfigSch extends SearchEntity{
 
     private Integer tcIdSch;
     private String nameSch;

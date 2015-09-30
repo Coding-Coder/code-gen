@@ -9,7 +9,6 @@
 <style type="text/css">
 	.step{margin-bottom: 20px;padding:5px;border-bottom: 1px solid #ccc;}
 	.codeArea{height:400px;overflow:auto;width:100%;font-size:13px;border: dotted #ccc 1px;padding: 3px;font-family: 宋体,Consolas,sans-serif ;}
-	.code-right{margin-left: 20px;}
 </style>
 </head>
 <body>
@@ -17,16 +16,31 @@
 	
 	<div id="step1">
 		<div id="gridDS"></div>
+		<div id="step1Panel">
+			<div id="txt-dcId"></div>
+		</div>
 	</div>
 	
-	<div id="step2" style="display: none;width: 600px;">
-		<fieldset style="border: 1px solid #ccc;font-size: 12px;">
-		    <legend>输入包名</legend>
-		    package: <input id="packageName" type="text" style="width:260px; "/> (不填则表名作为包名)
-		</fieldset>
-		<br>
-		<div id="gridTable"></div>
-		<br>
+	<div id="step2" style="display: none;">
+		<table width="100%">
+			<tr>
+				<td valign="top" width="200"><div id="gridTable"></div></td>
+				<td valign="top">
+					<div id="step2Panel">
+						<fieldset style="border: 1px solid #ccc;font-size: 12px;">
+						    <legend>配置项</legend>
+						    <table>
+						    	<tr><td>package: </td><td id="txt-packageName"></td></tr>
+<!-- 							    <tr><td>bo文件夹名:</td><td id="txt-boFolderName"></td></tr> -->
+<!-- 							    <tr><td>dao文件夹名:</td><td id="txt-daoFolderName"></td></tr> -->
+<!-- 							    <tr><td>pojo文件夹名:</td><td id="txt-pojoFolderName"></td></tr> -->
+<!-- 							    <tr><td>web文件夹名:</td><td id="txt-webFolderName"></td></tr> -->
+						    </table>
+						</fieldset>
+					</div>
+				</td>
+			</tr>
+		</table>
 		<button onclick="showStep1();">上一步</button>
 		<button onclick="goStep3();">下一步</button>
 	</div>
@@ -55,12 +69,13 @@
 	</div>
 	
 
-	<div id="viewWin" style="height: 400px;overflow: auto;">   
-   		<div id="viewCode"></div>
-	</div> 
+	<div id="viewWin" style="height: 430px;overflow: auto;">   
+   		<textarea readonly="readonly" id="viewCode" style="height: 400px;width: 950px;"></textarea>
+	</div>
 	
 	<div id="finishWin" style="padding:5px;display: none;">   
-					<a id="copyCode" href="javascript:void(0)" style="display: none;">复制代码</a>
+		<a id="dlBtn" target="_blank" href="${ctx}downloadZip.do">下载ZIP</a>
+		<a id="copyCode" href="javascript:void(0)" style="display: none;">复制代码</a>
 		<table width="100%">
 			<tr>
 				<td valign="top" width="200"><div id="tree"></div></td>

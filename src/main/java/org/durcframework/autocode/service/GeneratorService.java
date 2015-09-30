@@ -1,14 +1,11 @@
 package org.durcframework.autocode.service;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import org.apache.velocity.VelocityContext;
+import org.durcframework.autocode.common.AutoCodeContext;
 import org.durcframework.autocode.entity.CodeFile;
 import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.entity.GeneratorParam;
@@ -16,6 +13,7 @@ import org.durcframework.autocode.entity.TemplateConfig;
 import org.durcframework.autocode.generator.SQLContext;
 import org.durcframework.autocode.generator.SQLService;
 import org.durcframework.autocode.generator.SQLServiceFactory;
+import org.durcframework.autocode.util.FileUtil;
 import org.durcframework.autocode.util.VelocityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +23,8 @@ import org.springframework.util.StringUtils;
 public class GeneratorService {
     @Autowired
     private TemplateConfigService templateConfigService;
+    
+    private static final String DOWNLOAD_FOLDER_NAME = "download";
 
     /**
      * 生成代码内容,map的
@@ -40,70 +40,76 @@ public class GeneratorService {
         List<SQLContext> contextList = service.getColumnSelector(dataSourceConfig).buildSQLContextList(generatorParam.getTableNames());
 
         List<CodeFile> codeFileList = new ArrayList<CodeFile>();
-
+        
         for (SQLContext sqlContext : contextList) {
             setPackageName(sqlContext, generatorParam.getPackageName());
 
-            String tableName = sqlContext.getTableDefinition().getTableName();
+            String packageName = sqlContext.getJavaBeanNameLF();
 
             for (int tcId : generatorParam.getTcIds()) {
 
                 TemplateConfig template = templateConfigService.get(tcId);
-
+                
+                String fileName = doGenerator(sqlContext,template.getFileName());
                 String content = doGenerator(sqlContext, template.getContent());
 
-                CodeFile codeFile = new CodeFile(tableName, template.getName(), content);
-                /*
-                 * 代码生成文件
-                 * 文件存放路径为：包名+文件名称+文件名称+文件后缀类型
-                 * 1.包名不为空，则利用用户自定义包名
-                 * 2.包名为空，则生成AutoCodeSource目录
-                */
-//                String CodeDirPath = "";
-//                if (generatorParam.getPackageName().length() > 0) {
-//                    CodeDirPath = (generatorParam.getPackageName() + "/" + generatorParam.getPackageName().replaceAll("\\.", Matcher.quoteReplacement("/")) + "/" + template.getSavePath() + "/");
-//                } else {
-//                    CodeDirPath = ("AutoCodeSource" + "/" + template.getSavePath() + "/");
-//                }
-//
-//                File directory = new File(".");
-//                try {
-//                    createDir(directory.getCanonicalPath() + "/" + CodeDirPath);
-//                    File f = new File(directory.getCanonicalPath() + "/" + CodeDirPath + sqlContext.getJavaBeanName() + "." + template.getSuffix());
-//                    writeFile(f, content);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                CodeFile codeFile = new CodeFile(packageName, fileName, content);
+                
                 codeFileList.add(codeFile);
             }
         }
 
         return codeFileList;
     }
-
-    private void writeFile(File f, String content) throws IOException {
-        if (f.exists() == false) {
-            f.createNewFile();
+    
+    /**
+     * 生成zip
+     * @param generatorParam
+     * @param dataSourceConfig
+     * @param webRootPath
+     * @return
+     */
+    public String generateZip(GeneratorParam generatorParam, DataSourceConfig dataSourceConfig,String webRootPath) {
+        SQLService service = SQLServiceFactory.build(dataSourceConfig);
+        List<SQLContext> contextList = service.getColumnSelector(dataSourceConfig).buildSQLContextList(generatorParam.getTableNames());
+        String projectFolder = this.buildProjectFolder(webRootPath);
+        
+        for (SQLContext sqlContext : contextList) {
+            setPackageName(sqlContext, generatorParam.getPackageName());
+            for (int tcId : generatorParam.getTcIds()) {
+                TemplateConfig template = templateConfigService.get(tcId);
+                String content = doGenerator(sqlContext, template.getContent());
+                String fileName = doGenerator(sqlContext,template.getFileName());
+                String savePath = doGenerator(sqlContext,template.getSavePath());
+                
+                if(StringUtils.isEmpty(fileName)) {
+                	fileName = template.getName();
+                }
+                
+                FileUtil.createFolder(projectFolder +File.separator + savePath);
+                
+                FileUtil.write(content, 
+                		projectFolder + File.separator + 
+                		savePath + File.separator + 
+                		fileName);
+            }
         }
-        Writer w = new FileWriter(f);
-        w.write(content);
-        w.flush();
-        w.close();
+        
+        try {
+			FileUtil.zip(projectFolder, projectFolder + ".zip");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			FileUtil.deleteDir(new File(projectFolder));
+		}
+
+        return projectFolder + ".zip";
     }
-
-    public static boolean createDir(String destDirName) {
-        File dir = new File(destDirName);
-        if (dir.exists()) {
-            return false;
-        }
-        if (!destDirName.endsWith(File.separator)) {
-            destDirName = destDirName + File.separator;
-        }
-        if (dir.mkdirs()) {
-            return true;
-        } else {
-            return false;
-        }
+    
+    private String buildProjectFolder(String webRootPath) {
+    	return webRootPath + File.separator + 
+    			DOWNLOAD_FOLDER_NAME + File.separator + 
+    			AutoCodeContext.getInstance().getUser().getUsername() + System.currentTimeMillis();
     }
 
     private void setPackageName(SQLContext sqlContext, String packageName) {
@@ -113,6 +119,9 @@ public class GeneratorService {
     }
 
     private String doGenerator(SQLContext sqlContext, String template) {
+    	if(template == null) {
+    		return "";
+    	}
         VelocityContext context = new VelocityContext();
 
         context.put("context", sqlContext);

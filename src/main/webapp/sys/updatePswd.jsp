@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>修改密码</title>
-<script type="text/javascript" src="${ctx}resources/js/libs/MD5.js"></script>
 </head>
 <body>
 <div class="result-wrap">
@@ -67,13 +66,8 @@ function compareSamePswd(val) {
 }
 
 $('#updatePswdBtn').click(function(){
-	//alert()
 	if(panel.validate()) {
 		var data = panel.getData();
-		
-		data.oldPswd = faultylabs.MD5(data.oldPswd);
-		data.newPswd = faultylabs.MD5(data.newPswd);
-		data.newPswd2 = faultylabs.MD5(data.newPswd2);
 		
 		Action.post(ctx + 'updateUserPassword.do',data,function(e){
 			if(e.success) {

@@ -12,7 +12,7 @@
 如果您首次使用本系统，请按以下步骤操作：
 <ol>
 	<li>1. 配置数据源。模板的生成需要依赖数据库表</li>
-	<li>2. 配置模板。基于Velocity模板引擎，<a href="javascript:void(0)" onclick="showVelocity(); return false;">点此查看</a>Velocity参数列表</li>
+	<li>2. 配置模板。基于Velocity模板引擎，<a href="javascript:void(0)" onclick="VelocityHelper.show(); return false;">点此查看</a>Velocity参数列表</li>
 	<li>3. 生成代码。只需三步即可生成代码文件</li>
 </ol>
 

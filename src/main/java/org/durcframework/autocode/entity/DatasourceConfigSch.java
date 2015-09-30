@@ -1,9 +1,9 @@
 package org.durcframework.autocode.entity;
 
-import org.durcframework.autocode.common.SearchEasyUI;
+import org.durcframework.core.SearchEntity;
 import org.durcframework.core.expression.annotation.ValueField;
 
-public class DatasourceConfigSch extends SearchEasyUI{
+public class DatasourceConfigSch extends SearchEntity{
 
     private Integer dcIdSch;
     private String nameSch;

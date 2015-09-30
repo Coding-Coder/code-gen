@@ -9,16 +9,16 @@
 	<link rel="stylesheet" type="text/css" href="${resources}css/common.css"/>
 	<link rel="stylesheet" type="text/css" href="${resources}css/main.css"/>
 	<!-- fdui css -->
-	<link href="${resources}fdui/theme/aristo/theme.css" rel="stylesheet" type="text/css" />
-	<link href="${resources}fdui/primeui-1.1-min.css" rel="stylesheet" type="text/css" />
+	<link href="${fdui}styles/theme/aristo/theme.css" rel="stylesheet" type="text/css" />
+	<link href="${fdui}styles/primeui-1.1-min.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">var ctx = '${ctx}';</script>
 	<!-- fdui js -->
 	<c:choose>
 		<c:when test="${debugModel}">
-			<script type="text/javascript" src="${resources}fdui/fdui.all.js"></script>
+			<script type="text/javascript" src="${fdui}js/fdui.all.js"></script>
 		</c:when>
 		<c:otherwise>
-		    <script type="text/javascript" src="${resources}fdui/fdui.all.min.js"></script>
+		    <script type="text/javascript" src="${fdui}js/fdui.all.min.js"></script>
 		</c:otherwise>
 	</c:choose>
 	<script type="text/javascript" src="${resources}js/libs/jquery.min.js"></script>
@@ -28,6 +28,7 @@
 	<script type="text/javascript" src="${resources}js/util/MaskUtil.js"></script>
 	<script type="text/javascript" src="${resources}js/util/HtmlUtil.js"></script>
 	<script type="text/javascript" src="${resources}js/util/FunUtil.js"></script>
+	<script type="text/javascript" src="${ctx}sys/VelocityHelper.js"></script>
 	
 	<style type="text/css">
 		.sub-body{margin: 10px;}
@@ -45,6 +46,7 @@
         </div>
         <div class="top-info-wrap">
             <ul class="top-info-list clearfix">
+                <li><a href="#" onclick="VelocityHelper.show(); return false;">Velocity参数</a></li>
                 <li><a href="${ctx}sys/updatePswd.jsp">修改密码</a></li>
                 <li><a href="javascript:void(0)" onclick="logout();">退出</a></li>
             </ul>

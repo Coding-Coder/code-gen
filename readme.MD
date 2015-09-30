@@ -2,6 +2,7 @@
 ===================
 > **更新列表:**
 
+> - 2015-9-30,新增下载功能,代码生成后可以下载zip包,代码可直接导入项目中使用.[界面预览](https://git.oschina.net/durcframework/autoCode/wikis/autoCode%E6%96%B0%E7%89%88%E9%A2%84%E8%A7%88)
 > - 2015-9-25,前端改造,使用FDUI
 > - 2015-5-15,新建了一个QQ群:328180219欢迎加群探讨
 > - 升级为依赖[durcframework-core](https://git.oschina.net/durcframework/durcframework-core)框架
@@ -11,7 +12,7 @@
 -------------------
 > **autoCode介绍**
 
-> - autoCode是一个代码生成工具。基于velocity模板引擎，采用SpringMVC + mybatis + jquery easyUI + mysql
+> - autoCode是一个代码生成工具。基于velocity模板引擎，采用SpringMVC + mybatis + FDUI + mysql
 
 > **其特点主要有**
 
@@ -26,7 +27,7 @@
 > 2. 导入数据库(MYSQL),SQL文件在项目根目录下,名为autoCode.sql,运行里面的内容即可
 > 3. 修改数据库连接参数,配置文件在src/main/resources/config.properties
 > 4. 启动项目,运行Maven命令:mvn jetty:run
-> 5. 浏览器输入http://localhost:8088/autoCode/login.jsp
+> 5. 浏览器输入http://localhost:8088/autoCode
 
 登录用户名密码均为admin
 端口默认用了8088,如需修改,前往pom.xml,找到maven-jetty-plugin插件的port参数.

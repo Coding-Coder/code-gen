@@ -36,19 +36,26 @@
    			<caption id="formMsg"></caption>
         	<tbody>
                 <tr>
-                    <th width="100"><i class="require-red">*</i>模板名：</th>
-                    <td id="txt-name"></td>
+                    <th width="80"><i class="require-red">*</i>模板名：</th>
+                    <td id="txt-name" width="100"></td>
+                    <td colspan="3"><a href="#" class="link" onclick="VelocityHelper.show(); return false;">查看Velocity参数</a></td>
+                </tr>
+                <tr>
+                	<th><i class="require-red">*</i>文件名：</th>
+                    <td id="txt-fileName" colspan="2"></td>
+                    <th width="80"><i class="require-red">*</i>保存路径：</th>
+                    <td id="txt-savePath"></td>
                 </tr>
                 <tr>
                     <th><i class="require-red">*</i>内容：</th>
-                    <td id="txt-content"></td>
+                    <td id="txt-content" colspan="4"></td>
                 </tr>
          	</tbody>
          </table>
    </div>
    
-	<div id="viewWin" style="height: 400px;overflow: auto;">   
-   		<div id="viewCode"></div>
+	<div id="viewWin" style="height: 430px;overflow: auto;">   
+   		<textarea readonly="readonly" id="viewCode" style="height: 400px;width: 950px;"></textarea>
 	</div> 
 
 <script type="text/javascript">
@@ -65,7 +72,9 @@ var listUrl = ctx + 'listTemplate.do'; // 查询
 var addUrl = ctx + 'addTemplate.do'; // 添加
 var updateUrl = ctx + 'updateTemplate.do'; // 修改
 var delUrl = ctx + 'delTemplate.do'; // 删除
-	
+
+var suffixArr = ['java','js','jsp','html','xml','txt'];
+
 schPanel = new FDFormPanel({
 	controls:[
 		new FDTextBox({domId:'txt-nameSch',name:'nameSch'})
@@ -84,10 +93,11 @@ $('#addNew').click(function(){
 grid = new FDGrid({
 	domId:'grid'
 	,url:listUrl
-	,width:'800px'
 	,columns:[
 		{text:'模版名',name:'name'}
-		,{text:'内容',name:'content',style:{'textAlign':'center'},render:formatContent}
+		,{text:'文件名',name:'fileName'}
+		,{text:'保存路径',name:'savePath',style:{'textAlign':'center'}}
+		,{text:'内容',name:'content',style:{width:'50px','textAlign':'center'},render:formatContent}
 	]
 	,actionButtons:[
 		{text:'修改',onclick:update}
@@ -101,13 +111,14 @@ function formatContent(row){
 
 //展示内容
 this.showContent = function(row){
-	$('#viewCode').html(HtmlUtil.parseToHtml(row.content));
+	$('#viewCode').val(row.content);
+	viewWin.setTitle(row.name);
 	viewWin.show();
 }
 
 crudWin = new FDWindow({
 	contentId:'crudWin'
-	,height:'450px'
+	,height:'460px'
 	,width:'960px'
 	,modal:false
 	,buttons:[
@@ -144,12 +155,22 @@ formPanel = new FDFormPanel({
 	}
 	,controls:[
 	    new FDHidden({name:'tcId',defaultValue:0})
-		,new FDTextBox({domId:'txt-name',name:'name',msgId:'formMsg',width:200
+		,new FDTextBox({domId:'txt-name',name:'name',msgId:'formMsg'
 			,validates:[
 		     {rule:{notNull:true},successClass:'green',errorClass:'require-red',errorMsg:'模版名不能为空'}
 		     ,{rule:{maxLength:20},successClass:'green',errorClass:'require-red',errorMsg:'模版名长度不能大于20'}
 		     ]
 		})
+	    ,new FDTextBox({domId:'txt-fileName',name:'fileName',msgId:'formMsg',width:300
+	    	,validates:[
+	    		{rule:{notNull:true},successClass:'green',errorClass:'require-red',errorMsg:'文件名不能为空'}
+	    	]
+	    })
+	    ,new FDTextBox({domId:'txt-savePath',name:'savePath',msgId:'formMsg',width:300
+	    	,validates:[
+	    		{rule:{notNull:true},successClass:'green',errorClass:'require-red',errorMsg:'保存路径不能为空'}
+	    	]
+	    })
 		,new FDTextArea({domId:'txt-content',name:'content',msgId:'formMsg',width:800,height:360
 			,validates:[
 		     {rule:{notNull:true},successClass:'green',errorClass:'require-red',errorMsg:'模板内容不能为空'}
@@ -157,6 +178,14 @@ formPanel = new FDFormPanel({
 		})
 	]
 });
+
+function getSuffixItems() {
+	var items = [];
+	for(var i=0,len=suffixArr.length;i<len;i++){
+		items.push({text:suffixArr[i],value:suffixArr[i]})
+	}
+	return items;
+}
 
 function add() {
 	formPanel.add();

@@ -31,6 +31,7 @@
         <webClassPathEntry>M2_REPO/net/oschina/durcframework/durcframework-core/1.0.16/durcframework-core-1.0.16.jar</webClassPathEntry>
         <webClassPathEntry>M2_REPO/net/sf/jxls/jxls-core/1.0-RC-2/jxls-core-1.0-RC-2.jar</webClassPathEntry>
         <webClassPathEntry>M2_REPO/net/sourceforge/jtds/jtds/1.2.2/jtds-1.2.2.jar</webClassPathEntry>
+        <webClassPathEntry>M2_REPO/org/apache/ant/ant/1.8.2/ant-1.8.2.jar</webClassPathEntry>
         <webClassPathEntry>M2_REPO/org/apache/commons/commons-jexl/2.0.1/commons-jexl-2.0.1.jar</webClassPathEntry>
         <webClassPathEntry>M2_REPO/org/apache/poi/poi-ooxml/3.6/poi-ooxml-3.6.jar</webClassPathEntry>
         <webClassPathEntry>M2_REPO/org/apache/poi/poi/3.6/poi-3.6.jar</webClassPathEntry>

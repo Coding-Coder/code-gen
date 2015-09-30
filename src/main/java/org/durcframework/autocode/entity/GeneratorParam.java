@@ -8,7 +8,6 @@ public class GeneratorParam {
 	private List<Integer> tcIds;
 	private String packageName;
 	
-
 	public int getDcId() {
 		return dcId;
 	}

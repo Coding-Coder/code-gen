@@ -85,16 +85,6 @@ var Action = {
 		}
 	}
 	,_showError:function(msg,title){
-		title = title || "提示";
-		var $ = parent.$ || $;
-		$.messager.show({
-			title: title,
-			msg: msg,
-			style:{
-				right:'',
-				top:document.body.scrollTop+document.documentElement.scrollTop,
-				bottom:''
-			}
-		});
+		FDWindow.alert(msg);
 	}
 }

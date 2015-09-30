@@ -1,5 +1,6 @@
 package org.durcframework.autocode.controller;
 
+import org.durcframework.autocode.common.AutoCodeContext;
 import org.durcframework.autocode.entity.BackUser;
 import org.durcframework.autocode.entity.BackUserSch;
 import org.durcframework.autocode.service.BackUserService;
@@ -37,5 +38,30 @@ public class BackUserController extends
 	MessageResult delDataSource(BackUser enity) {
 		return this.delete(enity);
 	}
+	
+	 @RequestMapping("/updateUserPassword.do")
+	    public @ResponseBody
+		Object updateUserPassword(
+	    		String oldPswd
+	    		,String newPswd
+	    		,String newPswd2
+	    		){
+	    	
+	    	if(!newPswd.equals(newPswd2)){
+	    		return error("两次输入的新密码不一样");
+	    	}
+	    	
+	    	BackUser user = AutoCodeContext.getInstance().getUser();
+	    	
+	    	if(!oldPswd.equals(user.getPassword())){
+	    		return error("原密码输入有误");
+	    	}
+	    	
+	    	user.setPassword(newPswd);
+	    	
+	    	this.update(user);
+	    	
+	    	return success();
+	    }
 
 }

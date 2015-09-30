@@ -19,10 +19,19 @@ public class SQLContext {
 	}
 	
 	public String getJavaBeanName(){
+		String tableName = getJavaBeanNameLF();
+		return FieldUtil.upperFirstLetter(tableName);
+	}
+	
+	/**
+	 * 返回Java类名且首字母小写
+	 * @return
+	 */
+	public String getJavaBeanNameLF(){
 		String tableName = tableDefinition.getTableName();
 		tableName = FieldUtil.underlineFilter(tableName);
 		tableName = FieldUtil.dotFilter(tableName);
-		return FieldUtil.upperFirstLetter(tableName);
+		return FieldUtil.lowerFirstLetter(tableName);
 	}
 	
 	public String getPkName(){

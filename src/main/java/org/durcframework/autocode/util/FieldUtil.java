@@ -47,6 +47,20 @@ public class FieldUtil {
 		}
 		return str;
 	}
+	
+	/**
+	 * 将第一个字母转换成小写
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String lowerFirstLetter(String str) {
+		if (StringUtils.hasText(str)) {
+			String firstLower = str.substring(0, 1).toLowerCase();
+			str = firstLower + str.substring(1, str.length());
+		}
+		return str;
+	}
 
 	
 	public static void main(String[] args) {

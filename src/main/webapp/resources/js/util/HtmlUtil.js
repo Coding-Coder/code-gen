@@ -4,6 +4,8 @@ var HtmlUtil = (function(){
 		"<":"&lt;"
 		,">":"&gt;"
 		,"\r\n":"<br>"
+		,"\r":"<br>"
+		,"\n":"<br>"
 		," ":"&nbsp;"
 		,"\t":"&nbsp;&nbsp;&nbsp;&nbsp;"
 	}

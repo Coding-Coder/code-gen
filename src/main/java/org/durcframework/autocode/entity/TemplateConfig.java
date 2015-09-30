@@ -5,6 +5,7 @@ public class TemplateConfig {
     private int tcId;
     private String name;
     private String savePath;
+    private String fileName;
     private String content;
     private String backUser;
     private String suffix;
@@ -56,5 +57,13 @@ public class TemplateConfig {
     public void setBackUser(String backUser) {
         this.backUser = backUser;
     }
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 }

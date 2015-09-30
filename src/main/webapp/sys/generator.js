@@ -6,29 +6,43 @@ var viewWin;
 var finishWin;
 var finishTree;
 var schPanelTemplate
+var step1Panel;
+var step2Panel;
 
 var listUrlDS = ctx + 'listDataSource.do'; // 查询
 var listUrlTable = ctx + 'listTable.do'; // 查询
 var listUrlTemplate = ctx + 'listUserTepmlate.do'; // 查询
 
-//请求参数
-var GeneratorParam = {
-	dcId:0
-	,tableNames:[]
-	,tcIds:[]
-	,packageName:''
-}
+step1Panel = new FDFormPanel({
+	domId:'step1Panel'
+	,controls:[
+		new FDHidden({domId:'txt-dcId',name:'dcId',defaultValue:0}) 
+	]
+});
+
+step2Panel = new FDFormPanel({
+	domId:'step2Panel'
+	,controls:[
+		new FDTextBox({domId:'txt-packageName',name:'packageName',nativeAttr:{placeholder:'com.aa.bb'},width:'300px'}) 
+//		,new FDTextBox({domId:'txt-boFolderName',name:'boFolderName',defaultValue:'bo'}) 
+//		,new FDTextBox({domId:'txt-daoFolderName',name:'daoFolderName',defaultValue:'dao'}) 
+//		,new FDTextBox({domId:'txt-pojoFolderName',name:'pojoFolderName',defaultValue:'pojo'}) 
+//		,new FDTextBox({domId:'txt-webFolderName',name:'webFolderName',defaultValue:'web'}) 
+	]
+});
+
 
 gridDS = new FDGrid({
 	domId:'gridDS'
 	,url:listUrlDS
+	,width:'800px'
 	,columns:[
- 		{text:'名称',name:'name',style:{width:'200px'}}
+ 		{text:'操作',name:'name',style:{width:'50px'},render:function(row){
+ 			return '<a href="#" onclick="'+FunUtil.createFun(window,'selectDataSource',row)+'">选择</a>';
+ 		}}
+ 		,{text:'名称',name:'name',style:{width:'200px'}}
  		,{text:'链接',name:'jdbcUrl'}
  	]
-	,actionButtons:[
-   		{text:'选择',onclick:selectDataSource}
-   	]
 });
 
 gridTable = new FDGrid({
@@ -49,11 +63,12 @@ gridTemplate = new FDGrid({
 	domId:'gridTemplate'
 	,selectOption:{multiSelect:true}
 	,url:listUrlTemplate
-	,width:'600px'
 	,loadSearch:false
-	,columns:[
+		,columns:[
 		{text:'模版名',name:'name'}
-		,{text:'内容',name:'content',style:{'textAlign':'center'},render:formatContent}
+		,{text:'文件名',name:'fileName'}
+		,{text:'保存路径',name:'savePath',style:{width:'120px','textAlign':'center'}}
+		,{text:'内容',name:'content',style:{width:'50px','textAlign':'center'},render:formatContent}
 	]
 });
 
@@ -129,7 +144,7 @@ function selectDataSource(row){
 	testConnection(row,function(row){
 		MaskUtil.unmask();
 		
-		GeneratorParam.dcId = row.dcId;
+		step1Panel.getControl('dcId').setValue(row.dcId);
 		
 		showStep2(function(){		
 			gridTable.search({dcId:row.dcId})
@@ -155,7 +170,8 @@ function formatContent(row){
 
 //展示内容
 this.showContent = function(row){
-	$('#viewCode').html(HtmlUtil.parseToHtml(row.content));
+	$('#viewCode').val(row.content);
+	viewWin.setTitle(row.name);
 	viewWin.show();
 }
 
@@ -197,12 +213,6 @@ function goStep3(){
 		return false;
 	}
 	
-	GeneratorParam.packageName = packageName;
-	GeneratorParam.tableNames = [];
-	
-	for(var i=0,len=rows.length;i<len;i++){
-		GeneratorParam.tableNames.push(rows[i].tableName);
-	}
 	showStep3(listTemplate);
 }
 
@@ -230,10 +240,6 @@ function finish(){
 	var rows = gridTemplate.getChecked();
 	
 	if(rows && rows.length > 0){
-		GeneratorParam.tcIds = [];
-		for(var i=0,len=rows.length;i<len;i++){
-			GeneratorParam.tcIds.push(rows[i].tcId);
-		}
 		generate();
 	}else{
 		FDWindow.alert('请选择模板');
@@ -243,7 +249,10 @@ function finish(){
 //生成代码
 function generate(){
 	MaskUtil.mask('代码生成中,请稍后...');
-	Action.jsonAsyncActByData(ctx + 'generatFile.do',GeneratorParam,function(rows){
+	
+	var data = getPostData();
+	
+	Action.jsonAsyncActByData(ctx + 'generatFile.do',data,function(rows){
 		MaskUtil.unmask();
 		if(rows){
 			showGeneratCode(rows);
@@ -251,6 +260,31 @@ function generate(){
 			FDWindow.alert(e.errorMsg);
 		}
 	});
+}
+
+function getPostData() {
+	var data1 = step1Panel.getData();
+	var data2 = step2Panel.getData();
+	var data = $.extend({},data1,data2);
+	var tcIds = [];
+	var tableNames = [];
+	
+	var templateRows = gridTemplate.getChecked();
+	
+	for(var i=0,len=templateRows.length;i<len;i++){
+		tcIds.push(templateRows[i].tcId);
+	}
+	
+	data.tcIds = tcIds;
+	
+	var tableRows = gridTable.getChecked();
+	for(var i=0,len=tableRows.length;i<len;i++){
+		tableNames.push(tableRows[i].tableName);
+	}
+	
+	data.tableNames = tableNames;
+	
+	return data;
 }
 
 //显示结果

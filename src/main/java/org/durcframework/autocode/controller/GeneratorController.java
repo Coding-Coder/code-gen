@@ -1,6 +1,10 @@
 package org.durcframework.autocode.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.durcframework.autocode.entity.CodeFile;
 import org.durcframework.autocode.entity.DataSourceConfig;
@@ -27,13 +31,34 @@ public class GeneratorController {
 
 	@RequestMapping("/generatFile.do")
 	public @ResponseBody
-	Object generatFile(GeneratorParam generatorParam) {
+	Object generatFile(GeneratorParam generatorParam,HttpServletRequest request) {
+		
+		request.getSession().setAttribute("generatorParam", generatorParam);
+		
 		DataSourceConfig dataSourceConfig = 
 				dataSourceConfigService.get(generatorParam.getDcId());
 
 		List<CodeFile> resultList = 
 				generatorService.generate(generatorParam,dataSourceConfig);
-
+		
 		return resultList;
+	}
+	
+	@RequestMapping("/downloadZip.do")
+	public void downloadZip(HttpServletRequest request,HttpServletResponse response) {
+		GeneratorParam generatorParam = (GeneratorParam)request.getSession().getAttribute("generatorParam");
+		String webRootPath = request.getSession().getServletContext().getRealPath("/");
+		
+		DataSourceConfig dataSourceConfig = 
+				dataSourceConfigService.get(generatorParam.getDcId());
+
+		String zipPath = generatorService.generateZip(generatorParam, dataSourceConfig, webRootPath);
+		
+		try {
+			String downloadUrl = request.getContextPath() + zipPath.substring(webRootPath.length()).replace("\\", "/");
+			response.sendRedirect(downloadUrl);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
