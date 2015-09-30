@@ -57,4 +57,5 @@
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.8/junit-4.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/servlet-api/6.0.29/servlet-api-6.0.29.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sourceforge/jtds/jtds/1.2.2/jtds-1.2.2.jar" sourcepath="M2_REPO/net/sourceforge/jtds/jtds/1.2.2/jtds-1.2.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/ant/ant/1.8.2/ant-1.8.2.jar"/>
 </classpath>
