@@ -102,5 +102,7 @@ function goLogin() {
 // 菜单高亮
 $(".uuid-${param.srId}").parent().addClass('on');
 </script>
+<!-- 保持session -->
+<iframe src="${ctx}keepSession.jsp" frameborder="0" height="0" width="0" style="height: 0px;width: 0px;"></iframe>
 </body>
 </html>

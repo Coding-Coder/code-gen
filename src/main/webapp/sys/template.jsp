@@ -206,8 +206,5 @@ function search() {
 	
 })();
 </script>
-<!-- 保持session -->
-<iframe src="${ctx}keepSession.jsp" frameborder="0" height="0" width="0" style="height: 0px;width: 0px;"></iframe>
-
 </body>
 </html>
