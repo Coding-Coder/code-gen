@@ -244,27 +244,44 @@ public class FileUtil {
 				DateUtil.ymdFormat(new Date())));
 		out.setEncoding("GBK");
 		zip(out, inputFile, "");
-		out.close();
 	}
 
-	private static void zip(ZipOutputStream out, File f, String base)
-			throws Exception {
+	private static void zip(ZipOutputStream out, File f, String base) {
+		FileInputStream in = null;
 		if (f.isDirectory()) {
 			File[] fl = f.listFiles();
 			// 如果不加最外层文件夹作为zip名
 			base = (base.length() == 0 ? f.getName() : base);
-			out.putNextEntry(new org.apache.tools.zip.ZipEntry(base + "/"));
+			try {
+				out.putNextEntry(new org.apache.tools.zip.ZipEntry(base + "/"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			base = base.length() == 0 ? "" : base + "/";
 			for (File file : fl) {
 				zip(out, file, base + file.getName());
 			}
 		} else {
-			out.putNextEntry(new org.apache.tools.zip.ZipEntry(base));
-			FileInputStream in = new FileInputStream(f);
-			byte[] buf = new byte[in.available()];
-			in.read(buf);
-			out.write(buf);
-			in.close();
+			try {
+				out.putNextEntry(new org.apache.tools.zip.ZipEntry(base));
+				in = new FileInputStream(f);
+				byte[] buf = new byte[in.available()];
+				in.read(buf);
+				out.write(buf);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
