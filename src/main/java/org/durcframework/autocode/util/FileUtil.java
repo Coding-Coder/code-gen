@@ -244,6 +244,7 @@ public class FileUtil {
 				DateUtil.ymdFormat(new Date())));
 		out.setEncoding("GBK");
 		zip(out, inputFile, "");
+		out.close();
 	}
 
 	private static void zip(ZipOutputStream out, File f, String base) {
@@ -270,17 +271,6 @@ public class FileUtil {
 				out.write(buf);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}finally{
-				try {
-					in.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				try {
-					out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 	}
