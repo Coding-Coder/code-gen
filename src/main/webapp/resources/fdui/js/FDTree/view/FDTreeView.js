@@ -81,7 +81,7 @@ FDTreeView.prototype = {
 		});
 	}
 	,_doSelectAllOption:function(callback) {
-		if(this._getOptionsValue('isShowCheckbox')) {
+		if(this._getOptionsValue('checkable')) {
 			var that = this;
 			var allCheckboxes = this._getAllCheckboxes();
 			FDLib.util.each(allCheckboxes,function(checkbox){
@@ -94,7 +94,7 @@ FDTreeView.prototype = {
 		return FDLib.dom.getChildNodes(this.div,'input');
 	}
 	,getSelectedCheckboxes:function() {
-		if(!this._getOptionsValue('isShowCheckbox')) {
+		if(!this._getOptionsValue('checkable')) {
 			return [];
 		}
 		var selectedCheckboxes = [];
@@ -108,7 +108,7 @@ FDTreeView.prototype = {
 		return selectedCheckboxes;
 	}
 	,_doSelectOption:function(id,callback) {
-		if(this._getOptionsValue('isShowCheckbox')) {
+		if(this._getOptionsValue('checkable')) {
 			var uniqueId = this._wrapId2UniqueId(id);
 			var span = FDLib.getEl(uniqueId);
 			if(span) {
@@ -286,7 +286,7 @@ FDTreeView.prototype = {
 	}
 	,_buildNodeTextHtml:function(node) {
 		var text = '';
-		if(this._getOptionsValue('isShowCheckbox')) {
+		if(this._getOptionsValue('checkable')) {
 			text += this._buildCheckboxHtml(node);
 		}
 		text += this._getNodeText(node);

@@ -51,7 +51,7 @@ domId:null
 // 后台传递数据子元素的属性名
 ,childrenFieldName:'children'
 // 是否显示checkbox
-,isShowCheckbox:false
+,checkable:false
 // 任何情况下点击"+/-"展开/收缩
 // true时点击节点即可展开/收缩
 // 默认为false
@@ -77,7 +77,7 @@ domId:null
 			,textFieldName:'text'
 			,childrenFieldName:'children'
 			// 是否显示checkbox
-			,isShowCheckbox:false
+			,checkable:false
 			// 任何情况下点击"+/-"展开/收缩
 			// true时点击节点即可展开/收缩
 			// 默认为false

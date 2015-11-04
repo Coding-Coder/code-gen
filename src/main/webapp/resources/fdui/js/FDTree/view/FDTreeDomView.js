@@ -172,7 +172,7 @@ FDTreeDomView.prototype = {
 		return lab;
 	}
 	,buildCheckbox:function(rowData,lab){
-		if(this.options.isShowCheckbox){
+		if(this.options.checkable){
 			var that = this;
 			var checkbox = document.createElement(FDTag.INPUT);
 			checkbox.type = 'checkbox';
