@@ -269,6 +269,7 @@ public class FileUtil {
 				byte[] buf = new byte[in.available()];
 				in.read(buf);
 				out.write(buf);
+				in.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
