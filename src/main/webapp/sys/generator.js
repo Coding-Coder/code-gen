@@ -80,7 +80,10 @@ finishTree = new FDTree({
 		var attributes = node.attributes;
 		if(attributes){
 			$("#copyCode").show();
-			$('#codeContent').html(attributes.content);
+			//$('#codeContent').html(attributes.content);
+			finishEditor.setValue(attributes.content);
+			var suffix = getSuffix({fileName:node.text});
+			changeMode(finishEditor,getMode(suffix));
 			
 			if(!bindCopyEvent.binded){
 				bindCopyEvent();
@@ -170,9 +173,19 @@ function formatContent(row){
 
 //展示内容
 this.showContent = function(row){
-	$('#viewCode').val(row.content);
 	viewWin.setTitle(row.name);
 	viewWin.show();
+	
+	viewEditor.setValue(row.content);
+}
+
+function getSuffix(row) {
+	var fileName = row.fileName;
+	var index = fileName.lastIndexOf('.');
+	if(index == -1) {
+		return 'js';
+	}
+	return fileName.substring(index+1,fileName.length);
 }
 
 //显示第二步
@@ -236,7 +249,6 @@ function validatePackage(packageName){
 
 //完成
 function finish(){
-	reset();
 	var rows = gridTemplate.getChecked();
 	
 	if(rows && rows.length > 0){
@@ -292,6 +304,7 @@ function showGeneratCode(rows){
 	var treeData = buildTreeData(rows);
 	finishTree.setData(treeData);
 	finishWin.show();
+	reset();
 }
 
 //构建树菜单数据
@@ -331,7 +344,7 @@ function buildChildren(codeFileArr){
 		var child = {
 			text:codeFile.templateName
 			,attributes:{
-				content:HtmlUtil.parseToHtml(codeFile.content)
+				content:codeFile.content
 			}
 		};
 		
@@ -342,8 +355,8 @@ function buildChildren(codeFileArr){
 }
 	
 function reset(){
+	finishEditor.setValue('点击树菜单查看代码');
 	$("#copyCode").hide();
-	$('#codeContent').html('点击树菜单查看代码');
 }
 
 // 绑定复制代码事件
@@ -351,7 +364,7 @@ function bindCopyEvent(){
 	$('#copyCode').show().zclip({ 
 		path:ctx + 'resources/js/plugin/jquery.zclip/ZeroClipboard.swf', 
 		copy:function(){
-			return HtmlUtil.parseToText($('#codeContent').html());
+			return finishEditor.getValue();
 		},
 		afterCopy:function(){ 
 			FDWindow.alert('复制成功');

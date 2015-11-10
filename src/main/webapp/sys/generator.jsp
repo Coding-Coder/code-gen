@@ -6,9 +6,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>生成代码</title>
+<!-- codemirror -->
+<script src="${resources}codemirror/lib/codemirror.js"></script>
+<script src="${resources}codemirror/mode/xml/xml.js"></script>
+<script src="${resources}codemirror/mode/css/css.js"></script>
+<script src="${resources}codemirror/mode/javascript/javascript.js"></script>
+<script src="${resources}codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="${resources}codemirror/mode/htmlembedded/htmlembedded.js"></script>
+<script src="${resources}codemirror/mode/clike/clike.js"></script>
+<script src="${resources}codemirror/mode/velocity/velocity.js"></script>
+<link rel="stylesheet" href="${resources}codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="${resources}codemirror/theme/neat.css">
+<style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+<!-- codemirror end -->
 <style type="text/css">
-	.step{margin-bottom: 20px;padding:5px;border-bottom: 1px solid #ccc;}
-	.codeArea{height:400px;overflow:auto;width:100%;font-size:13px;border: dotted #ccc 1px;padding: 3px;font-family: 宋体,Consolas,sans-serif ;}
+.step{margin-bottom: 20px;padding:5px;border-bottom: 1px solid #ccc;}
 </style>
 </head>
 <body>
@@ -67,11 +79,10 @@
 		<button onclick="showStep2();">上一步</button>
 		<button onclick="finish();">生成代码</button>
 	</div>
-	
 
 	<div id="viewWin" style="height: 430px;overflow: auto;">   
-   		<textarea readonly="readonly" id="viewCode" style="height: 400px;width: 950px;"></textarea>
-	</div>
+   		<textarea name="code" readonly="readonly" id="viewCode" style="height: 400px;width: 950px;"></textarea>
+	</div> 
 	
 	<div id="finishWin" style="padding:5px;display: none;">   
 		<a id="dlBtn" target="_blank" href="${ctx}downloadZip.do">下载ZIP</a>
@@ -80,7 +91,7 @@
 			<tr>
 				<td valign="top" width="200"><div id="tree"></div></td>
 				<td valign="top">
-					<div id="codeContent" class="codeArea">点击树菜单查看代码</div>
+					<textarea id="codeContent" name="code">点击树菜单查看代码</textarea>
 				</td>
 			</tr>
 		</table>
@@ -90,5 +101,44 @@
 
 <script type="text/javascript" src="${ctx}resources/js/plugin/jquery.zclip/jquery.zclip.min.js"></script>
 <script type="text/javascript" src="generator.js"></script>
+<script type="text/javascript">
+viewEditor = CodeMirror.fromTextArea(document.getElementById("viewCode"), {
+    tabMode: "indent",
+    theme: "neat",
+    lineNumbers: true,
+    indentUnit: 4,
+    readOnly:true,
+    mode: "text/velocity"
+});
+
+viewEditor.setSize(950,400);
+
+var finishEditor = CodeMirror.fromTextArea(document.getElementById("codeContent"), {
+    tabMode: "indent",
+    lineNumbers: true,
+    indentUnit: 4,
+    readOnly:true,
+});
+
+finishEditor.setSize(700,400);
+
+var mode_map = {
+	'js':{folder:'javascript',mode:'text/x-java'}
+	,'java':{folder:'clike',mode:'text/x-java'}
+	,'jsp':{folder:'htmlembedded',mode:'application/x-jsp'}
+	,'html':{folder:'htmlmixed',mode:'text/html'}
+	,'aspx':{folder:'htmlembedded',mode:'application/x-aspx'}
+	,'xml':{folder:'xml',mode:'xml'}
+};
+
+function changeMode(editor,modelConfig) {
+   editor.setOption("mode", modelConfig.mode);
+}
+
+function getMode(suffix) {
+	var mode = mode_map[suffix] || 'javascript';
+	return mode;
+}
+</script>
 </body>
 </html>

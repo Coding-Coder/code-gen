@@ -5,6 +5,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- codemirror -->
+<link rel="stylesheet" href="${resources}codemirror/lib/codemirror.css">
+<script src="${resources}codemirror/lib/codemirror.js"></script>
+<script src="${resources}codemirror/mode/velocity/velocity.js"></script>
+<link rel="stylesheet" href="${resources}codemirror/theme/neat.css">
+<!-- codemirror end -->
+<style type="text/css">
+  .CodeMirror-fullscreen {
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    z-index: 9999;
+  }
+</style>
 <title>配置模板</title>
 </head>
 <body>
@@ -55,7 +70,7 @@
    </div>
    
 	<div id="viewWin" style="height: 430px;overflow: auto;">   
-   		<textarea readonly="readonly" id="viewCode" style="height: 400px;width: 950px;"></textarea>
+   		<textarea name="code" readonly="readonly" id="viewCode" style="height: 400px;width: 950px;"></textarea>
 	</div> 
 
 <script type="text/javascript">
@@ -111,9 +126,43 @@ function formatContent(row){
 
 //展示内容
 this.showContent = function(row){
-	$('#viewCode').val(row.content);
 	viewWin.setTitle(row.name);
 	viewWin.show();
+	
+	var editor = getViewEditor();
+	editor.setValue(row.content);
+}
+
+function getViewEditor() {
+	if(!window.viewEditor) {
+		window.viewEditor = CodeMirror.fromTextArea(document.getElementById("viewCode"), {
+	        tabMode: "indent",
+	        theme: "neat",
+	        lineNumbers: true,
+	        indentUnit: 4,
+	        readOnly:true,
+	        mode: "text/velocity"
+	    });
+		
+		window.viewEditor.setSize(950,400);
+	}
+	return window.viewEditor;
+}
+
+function getAddEditor() {
+	if(!window.addEditor) {
+		var textarea = formPanel.getControl('content');
+		window.addEditor = CodeMirror.fromTextArea(textarea.getControlDom(), {
+	        tabMode: "indent",
+	        theme: "neat",
+	        lineNumbers: true,
+	        indentUnit: 4,
+	        mode: "text/velocity"
+	    });
+		
+		window.addEditor.setSize(800,360);
+	}
+	return window.addEditor;
 }
 
 crudWin = new FDWindow({
@@ -123,7 +172,7 @@ crudWin = new FDWindow({
 	,modal:false
 	,buttons:[
 		{text:'保存',onclick:function(){
-			formPanel.save();
+			save();
 		}}
 		,{text:'取消',onclick:function(){
 			crudWin.hide();
@@ -179,6 +228,12 @@ formPanel = new FDFormPanel({
 	]
 });
 
+function save(){
+	var content = getAddEditor().getValue();
+	formPanel.getControl('content').setValue(content);
+	formPanel.save();;
+}
+
 function getSuffixItems() {
 	var items = [];
 	for(var i=0,len=suffixArr.length;i<len;i++){
@@ -189,10 +244,15 @@ function getSuffixItems() {
 
 function add() {
 	formPanel.add();
+	var editor = getAddEditor();
+	editor.setValue('##请编辑velocity模板\r\n');
+	editor.focus();
 }
 
 function update(rowData,rowIndex) {
 	formPanel.update(rowData);
+	var editor = getAddEditor();
+	editor.setValue(rowData.content);
 }
 
 
@@ -206,5 +266,31 @@ function search() {
 	
 })();
 </script>
+<script>
+    function isFullScreen(cm) {
+      return /\bCodeMirror-fullscreen\b/.test(cm.getWrapperElement().className);
+    }
+    function winHeight() {
+      return window.innerHeight || (document.documentElement || document.body).clientHeight;
+    }
+    function setFullScreen(cm, full) {
+      var wrap = cm.getWrapperElement();
+      if (full) {
+        wrap.className += " CodeMirror-fullscreen";
+        wrap.style.height = winHeight() + "px";
+        document.documentElement.style.overflow = "hidden";
+      } else {
+        wrap.className = wrap.className.replace(" CodeMirror-fullscreen", "");
+        wrap.style.height = "";
+        document.documentElement.style.overflow = "";
+      }
+      cm.refresh();
+    }
+    CodeMirror.on(window, "resize", function() {
+      var showing = document.body.getElementsByClassName("CodeMirror-fullscreen")[0];
+      if (!showing) return;
+      showing.CodeMirror.getWrapperElement().style.height = winHeight() + "px";
+    });
+  </script>
 </body>
 </html>
