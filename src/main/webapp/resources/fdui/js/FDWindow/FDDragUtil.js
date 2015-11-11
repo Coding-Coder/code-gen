@@ -17,12 +17,31 @@ var FDDragUtil = (function(){
 	var oldLeft = 0;
 	var moveable = false;
 	
+	var FUN_TRUE = function(){return true;};
+	var FUN_FALSE = function(){return false;};
+	
+	function disableSelectWords() {
+		if(doc.all){
+		    doc.onselectstart= FUN_FALSE; //for ie
+		}else{
+		    doc.onmousedown= FUN_FALSE;
+		}
+	}
+	
+	function enableSelectWords() {
+		if(doc.all){
+		    doc.onselectstart = FUN_TRUE; //for ie
+		}else{
+		    doc.onmousedown = FUN_TRUE;
+		}
+	}
+	
 	return {
 		/**
 		 * 注册拖拽
 		 * 需要传入整个窗体dom和标题部分的dom
 		 */
-		regist:function(winDom,titleDom) {	
+		regist:function(winDom,titleDom) {
 			var winStyle = winDom.style;
 			var winWidth = parseInt(winStyle.width || 200);
 			var winHeight = parseInt(winStyle.height || 30);
@@ -30,6 +49,7 @@ var FDDragUtil = (function(){
 			var clientWidth = 0;
 			
 			titleDom.onmousedown = function(evt) {
+				disableSelectWords();
 				evt = evt || window.event;
 				clientHeight = doc.documentElement.clientHeight || doc.body.clientHeight;
 				clientWidth = doc.documentElement.clientWidth || doc.body.clientWidth;
@@ -42,34 +62,30 @@ var FDDragUtil = (function(){
 				 // 窗体原始坐标,相对于窗体左上角
 				oldTop = parseInt(winStyle.top);
 				oldLeft = parseInt(winStyle.left);
+				
+				doc.onmousemove = function(e) {
+					e = e || window.event;
+					if (moveable) {
+						// 水平拖行距离 = 鼠标滑动时的位置 - 鼠标点击title时的位置
+						var dragSizeWidth = e.clientX - clickedClientX; // 水平拖动距离
+						var dragSizeHeight = e.clientY - clickedClientY; // 垂直拖动距离
+						// 窗体新的坐标 = 鼠标拖动距离 + 窗体老的坐标距离
+						var newLeft = dragSizeWidth + oldLeft;							
+						var newTop = dragSizeHeight + oldTop;
+						
+						if (newLeft > 0 && newLeft < clientWidth - winWidth) {
+							winStyle.left = newLeft + "px";
+						}
+						if(newTop > 0 && newTop < clientHeight - winHeight){
+							winStyle.top = newTop + "px";
+						}
+					}
+				
+				};
 			}
 			
-			winDom.onmousemove = function(e) {
-				e = e || window.event;
-				if (moveable) {
-					// 水平拖行距离 = 鼠标滑动时的位置 - 鼠标点击title时的位置
-					var dragSizeWidth = e.clientX - clickedClientX; // 水平拖动距离
-					var dragSizeHeight = e.clientY - clickedClientY; // 垂直拖动距离
-					// 窗体新的坐标 = 鼠标拖动距离 + 窗体老的坐标距离
-					var newLeft = dragSizeWidth + oldLeft;							
-					var newTop = dragSizeHeight + oldTop;
-					
-					if (newLeft > 0 && newLeft < clientWidth - winWidth) {
-						winStyle.left = newLeft + "px";
-					}
-					if(newTop > 0 && newTop < clientHeight - winHeight){
-						winStyle.top = newTop + "px";
-					}
-				}
-				if(typeof e.preventDefault === 'function') {
-					e.preventDefault();
-					e.stopPropagation();
-				}else {
-					e.returnValue = false;
-					e.cancelBubble = true;
-				}
-			};
-			winDom.onmouseup = function () { 
+			titleDom.onmouseup = function () {
+				enableSelectWords();
 				if (moveable) { 					
 					moveable = false; 
 					clickedClientX = 0;
@@ -78,6 +94,7 @@ var FDDragUtil = (function(){
 					oldLeft = 0;
 				} 
 			};
+			
 		}
 		,moveToCenter:function(win,winWidth,winHeight) {
 			var body = doc.body

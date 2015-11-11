@@ -354,6 +354,31 @@ FDControl.generateCount = function() {
         '`': '&#x60;'
     };
     
+    var paramMap = null;
+    
+    function getParamMap() {
+		if(!paramMap) {
+			var map = {};
+			var query = location.search; 
+			
+			if(query && query.length>=1) {
+				query = query.substring(1);
+				var pairs = query.split("&");
+				for(var i = 0; i < pairs.length; i++) { 
+					var pos = pairs[i].indexOf('='); 
+					if (pos == -1) continue; 
+					var argname = pairs[i].substring(0,pos); 
+					var value = pairs[i].substring(pos+1); 
+					value = decodeURIComponent(value);
+					map[argname] = value;
+				}
+			}
+			
+			paramMap = map;
+		}
+		return paramMap;
+	}
+    
 	return {
 		/**
 		 * 是否为数组
@@ -474,6 +499,30 @@ FDControl.generateCount = function() {
 			}
 		}
 		/**
+		 * 数组arr中是否包含o
+		 * @param arr 数组
+		 * @param o 
+		 * @return 包含返回true
+		 */
+		,contains:function(arr,o) {
+			return this.indexOf(arr,o) >= 0;
+		}
+		/**
+		 * o在数组elementData中的位置,从0开始,没有则返回-1
+		 * @param elementData 数组
+		 * @param o 
+		 */
+		,indexOf:function(elementData,o) {
+			if (o && this.isArray(elementData)) {
+				for (var i = 0,size=elementData.length; i < size; i++){
+	            	if (o == elementData[i]){
+	                	return i;
+	                }
+				}
+	        } 
+	        return -1;
+		}
+		/**
 		 * 格式化长度值,如'100px'变为100
 		 * @return 返回int型的值
 		 */
@@ -524,6 +573,13 @@ FDControl.generateCount = function() {
 		    }
 		    document.cookie = name + "=" + escape(value) + expire;
 		}
+		/**
+		 * 获取网址参数,http://www.xx.com/p-javascript_location.shtml?part=1
+		 * FDLib.util.getParam('part'); // 1
+		 */
+		,getParam:function(key) {
+			return getParamMap()[key];
+		}
 	};
 })();
 
@@ -558,14 +614,18 @@ FDLib.dom = {
 	 * @param dom DOM对象
 	 */
 	,hideDom:function(dom) {
-		dom.style.display = "none";
+		if(dom) {
+			dom.style.display = "none";
+		}
 	}
 	/**
 	 * 显示节点
 	 * @param dom DOM对象
 	 */
 	,showDom:function(dom) {
-		dom.style.display = "";
+		if(dom) {
+			dom.style.display = "";
+		}
 	}
 	/**
 	 * 添加元素的class属性
@@ -780,7 +840,7 @@ FDComponent.prototype = {
 			this.options.domId = domId;
 		}
 		
-		var desDom = FDLib.getEl(this.options.domId) || document.body;
+		var desDom = FDLib.getEl(this.options.domId);
 		this.renderToDom(desDom);
 	}
 	/**
@@ -788,9 +848,11 @@ FDComponent.prototype = {
 	 * @param dom DOM对象
 	 */
 	,renderToDom:function(desDom){
-		FDLib.util.each(this.contentDoms,function(dom){
-			desDom.appendChild(dom);
-		});
+		if(desDom && FDRight.checkByCode(this.options.operateCode)) {
+			FDLib.util.each(this.contentDoms,function(dom){
+				desDom.appendChild(dom);
+			});
+		}
 	}
 	/**
 	 * 初始化控件内容
@@ -1215,14 +1277,18 @@ FDValidate.prototype = {
 			this.msgDom.className = '';
 			FDLib.dom.addClass(this.msgDom,this.options.errorClass);
 		}
-		this.msgDom.innerHTML = msg || this.options.errorMsg;
+		if(this.msgDom) {
+			this.msgDom.innerHTML = msg || this.options.errorMsg;
+		}
 	}
 	,showSuccessMsg:function(msg) {
 		if(this.options.successClass) {
 			this.msgDom.className = '';
 			FDLib.dom.addClass(this.msgDom,this.options.successClass);
 		}
-		this.msgDom.innerHTML = msg || this.options.successMsg;
+		if(this.msgDom) {
+			this.msgDom.innerHTML = msg || this.options.successMsg;
+		}
 	}
 	/**
 	 * 验证操作
@@ -1558,6 +1624,75 @@ FDFieldComponent.prototype.validate = function() {
 }
 
 
+
+/**
+ * 权限检查<br>
+ * 使用方法:FDRight.setData(datas);
+ * var hasPermission = FDRight.check(1,'view');
+ * @class
+ */
+var FDRight = (function() {
+	
+	var config = {
+		// 系统资源ID名称
+		systemResourceIdName:'srId'
+		// 操作代码名称
+		,operateCodeName:'operateCode'
+		// 强行检查,如果没有定义operateCode属性则没有权限
+		,forceCheck:false
+	};
+	
+	/**
+	 * 结构:
+	 * //key/value -> srId/operateCodes
+	 * var permissionData = {
+			{"1":["view","update"],"2":["del"]}
+			,{"2":["view","del"]}
+		}
+	* */
+	var permissionData = [];
+	
+	return {
+		config:function(configParam){
+			FDLib.util.apply(config,configParam);
+		}
+		,setData:function(data) {
+			permissionData = data;
+			return this;
+		}
+		,setForceCheck:function(b){
+			config.forceCheck = !!b;
+			return this;
+		}
+		/**
+		 * 检查权限
+		 */
+		,check:function(srId,operateCode){
+			// 非强制检查,如果operateCode属性没有定义则显示
+			if(!config.forceCheck && FDLib.util.isUndefined(operateCode)) {
+				return true;
+			}
+			
+			if(!srId || !operateCode) {
+				return false;
+			}
+			
+			var operateCodeArr = permissionData[srId];
+			
+			return FDLib.util.contains(operateCodeArr,operateCode);
+		}
+		,checkByCode:function(operateCode,callback){
+			var srId = FDLib.util.getParam(config.systemResourceIdName);
+			var hasPerm = this.check(srId,operateCode);
+			if(hasPerm && callback) {
+				return callback();
+			}else{
+				return hasPerm;
+			}
+		}
+	};
+	
+})();
 
 /**
  * 文本框控件FDButton,继承自<a href="FDFieldComponent.html">FDFieldComponent</a><br>
@@ -2365,8 +2500,10 @@ FDCalendar.prototype = {
 	 * 定位到dom节点
 	 */
 	,render:function() {
-		var dom = FDLib.getEl(this.options.domId) || document.body;
-		dom.appendChild(this.calendarDiv);
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			var dom = FDLib.getEl(this.options.domId) || document.body;
+			dom.appendChild(this.calendarDiv);
+		}
 	}
 	/**
 	 * 获取年月日对象
@@ -3661,12 +3798,16 @@ FDButtonView.prototype.buildCellData = function(rowData,td,rowIndex,tr) {
 	var style =  this.getStyle();
 	
 	FDLib.util.each(this.actionButtons,function(button){
-		var a = self._buildButton(button,rowData,rowIndex);
 		
-		if(a) {
-			td.appendChild(a);
-			FDLib.dom.bindDomStyle(td,style);
+		if(FDRight.checkByCode(button.operateCode)) {
+			var a = self._buildButton(button,rowData,rowIndex);
+		
+			if(a) {
+				td.appendChild(a);
+				FDLib.dom.bindDomStyle(td,style);
+			}
 		}
+		
 	});
 
 }
@@ -3900,13 +4041,6 @@ FDHeadView.prototype._addButtonView = function(options) {
  */
 var FDPanelDomView = function(options){
 	this.options = options;
-	
-	this.panel = this.buildPanel();
-	this.titleBar = this.buildTitleBar();
-	this.title = this.buildTitle();
-	this.closeBtn = this.buildCloseBtn();
-	this.toggleBtn = this.buildToggleBtn();
-	this.content = this.buildContent();
 	// 目标节点
 	this.targetDom = this.buildTargetDom();
 	
@@ -3917,9 +4051,21 @@ var FDPanelDomView = function(options){
 
 FDPanelDomView.prototype = {
 	initPanel:function() {
+		this.panel = this.buildPanel();
+		this.titleBar = this.buildTitleBar();
+		this.title = this.buildTitle();
+		this.content = this.buildContent();
+		
 		this.titleBar.appendChild(this.title);
-		this.titleBar.appendChild(this.toggleBtn);
-		this.titleBar.appendChild(this.closeBtn);
+		
+		if(this.options.closeable){
+			this.closeBtn = this.buildCloseBtn();
+			this.titleBar.appendChild(this.closeBtn);
+		}
+		if(this.options.toggleable){
+			this.toggleBtn = this.buildToggleBtn();
+			this.titleBar.appendChild(this.toggleBtn);
+		}
 		
 		this.panel.appendChild(this.titleBar);
 		this.panel.appendChild(this.content);
@@ -3943,14 +4089,16 @@ FDPanelDomView.prototype = {
 		this.content.innerHTML = content;
 	}
 	,render:function(domId){
-		this.content.appendChild(this.targetDom);
-		
-		if(domId){
-			this.options.domId = domId;
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			this.content.appendChild(this.targetDom);
+			
+			if(domId){
+				this.options.domId = domId;
+			}
+			var dom = FDLib.getEl(this.options.domId) || document.body;
+			
+			dom.appendChild(this.panel);
 		}
-		var dom = FDLib.getEl(this.options.domId) || document.body;
-		
-		dom.appendChild(this.panel);
 	}
 	,close:function() {
 		this.panel.style.display = 'none';
@@ -3983,10 +4131,16 @@ FDPanelDomView.prototype = {
 		return panel;
 	}
 	,buildTitleBar:function() {
-		return this.createEl(FDTag.DIV,this.getTitleBarClassName());
+		var titleBar = this.createEl(FDTag.DIV,this.getTitleBarClassName());
+		titleBar.style.fontSize = '12px';
+		return titleBar;
 	}
 	,buildTitle:function() {
 		var title = this.createEl(FDTag.SPAN,this.getTitleClassName());
+		// 标题文字不可选中
+		title.setAttribute('unselectable','on');
+		title.setAttribute('onselectstart','return false;');
+		title.style.cssText = '-moz-user-select:none;';
 		if(this.options.title){
 			title.innerHTML = this.options.title;
 		}
@@ -4027,6 +4181,12 @@ FDPanelDomView.prototype = {
 			
 			FDLib.addHoverEffect(toggleBtn);
 			
+			if(this.options.isExpand) {
+				toggleBtn.title = "点击收缩";
+			}else{
+				toggleBtn.title = "点击展开";
+			}
+			
 			return toggleBtn;
 		}else{
 			return this._getEmptySpan();
@@ -4043,7 +4203,7 @@ FDPanelDomView.prototype = {
 	}
 	,slideToggle:function() {
 		if(this.isExpand()) {
-			this.unexpand();
+			this.collapse();
 		}else{
 			this.expand();
 		}
@@ -4057,8 +4217,12 @@ FDPanelDomView.prototype = {
 		var icon = this.getToggleIcon();
 		FDLib.dom.removeClass(icon,'ui-icon-plusthick');
 		FDLib.dom.addClass(icon,'ui-icon-minusthick');
+		this.afterExpand();
 	}
 	,unexpand:function() {
+		this.collapse();
+	}
+	,collapse:function() {
 		var target = this.toggleBtn;
 		this.content.style.display = 'none';
 		this.options.isExpand = false;
@@ -4066,11 +4230,18 @@ FDPanelDomView.prototype = {
 		var icon = this.getToggleIcon();
 		FDLib.dom.addClass(icon,'ui-icon-plusthick');
 		FDLib.dom.removeClass(icon,'ui-icon-minusthick');
+		this.afterCollapse();
+	}
+	,afterExpand:function() {
+		
+	}
+	,afterCollapse:function(){
+		
 	}
 	,isExpand:function() {
 		var options = this.options;
-		var isSlide = options.isSlide
-		return !isSlide || (options.isExpand && isSlide);
+		var toggleable = options.toggleable
+		return !toggleable || (options.isExpand && toggleable);
 	}
 	
 	,getTitleBarBtnClassName:function() {
@@ -4183,6 +4354,8 @@ FDPanel.prototype = {
 			,height:null
 			/** 是否显示关闭按钮 */
 			,closeable:false
+			/** 是否显示折叠按钮 */
+			,toggleable:true
 		};
 	}
 	/**
@@ -4262,12 +4435,31 @@ var FDDragUtil = (function(){
 	var oldLeft = 0;
 	var moveable = false;
 	
+	var FUN_TRUE = function(){return true;};
+	var FUN_FALSE = function(){return false;};
+	
+	function disableSelectWords() {
+		if(doc.all){
+		    doc.onselectstart= FUN_FALSE; //for ie
+		}else{
+		    doc.onmousedown= FUN_FALSE;
+		}
+	}
+	
+	function enableSelectWords() {
+		if(doc.all){
+		    doc.onselectstart = FUN_TRUE; //for ie
+		}else{
+		    doc.onmousedown = FUN_TRUE;
+		}
+	}
+	
 	return {
 		/**
 		 * 注册拖拽
 		 * 需要传入整个窗体dom和标题部分的dom
 		 */
-		regist:function(winDom,titleDom) {	
+		regist:function(winDom,titleDom) {
 			var winStyle = winDom.style;
 			var winWidth = parseInt(winStyle.width || 200);
 			var winHeight = parseInt(winStyle.height || 30);
@@ -4275,6 +4467,7 @@ var FDDragUtil = (function(){
 			var clientWidth = 0;
 			
 			titleDom.onmousedown = function(evt) {
+				disableSelectWords();
 				evt = evt || window.event;
 				clientHeight = doc.documentElement.clientHeight || doc.body.clientHeight;
 				clientWidth = doc.documentElement.clientWidth || doc.body.clientWidth;
@@ -4287,34 +4480,30 @@ var FDDragUtil = (function(){
 				 // 窗体原始坐标,相对于窗体左上角
 				oldTop = parseInt(winStyle.top);
 				oldLeft = parseInt(winStyle.left);
+				
+				doc.onmousemove = function(e) {
+					e = e || window.event;
+					if (moveable) {
+						// 水平拖行距离 = 鼠标滑动时的位置 - 鼠标点击title时的位置
+						var dragSizeWidth = e.clientX - clickedClientX; // 水平拖动距离
+						var dragSizeHeight = e.clientY - clickedClientY; // 垂直拖动距离
+						// 窗体新的坐标 = 鼠标拖动距离 + 窗体老的坐标距离
+						var newLeft = dragSizeWidth + oldLeft;							
+						var newTop = dragSizeHeight + oldTop;
+						
+						if (newLeft > 0 && newLeft < clientWidth - winWidth) {
+							winStyle.left = newLeft + "px";
+						}
+						if(newTop > 0 && newTop < clientHeight - winHeight){
+							winStyle.top = newTop + "px";
+						}
+					}
+				
+				};
 			}
 			
-			winDom.onmousemove = function(e) {
-				e = e || window.event;
-				if (moveable) {
-					// 水平拖行距离 = 鼠标滑动时的位置 - 鼠标点击title时的位置
-					var dragSizeWidth = e.clientX - clickedClientX; // 水平拖动距离
-					var dragSizeHeight = e.clientY - clickedClientY; // 垂直拖动距离
-					// 窗体新的坐标 = 鼠标拖动距离 + 窗体老的坐标距离
-					var newLeft = dragSizeWidth + oldLeft;							
-					var newTop = dragSizeHeight + oldTop;
-					
-					if (newLeft > 0 && newLeft < clientWidth - winWidth) {
-						winStyle.left = newLeft + "px";
-					}
-					if(newTop > 0 && newTop < clientHeight - winHeight){
-						winStyle.top = newTop + "px";
-					}
-				}
-				if(typeof e.preventDefault === 'function') {
-					e.preventDefault();
-					e.stopPropagation();
-				}else {
-					e.returnValue = false;
-					e.cancelBubble = true;
-				}
-			};
-			winDom.onmouseup = function () { 
+			titleDom.onmouseup = function () {
+				enableSelectWords();
 				if (moveable) { 					
 					moveable = false; 
 					clickedClientX = 0;
@@ -4323,6 +4512,7 @@ var FDDragUtil = (function(){
 					oldLeft = 0;
 				} 
 			};
+			
 		}
 		,moveToCenter:function(win,winWidth,winHeight) {
 			var body = doc.body
@@ -4362,6 +4552,8 @@ var FDWindowDomView = function(options) {
 	this._createButtons();
 	
 	this.setDragable();
+	
+	this.setPanelClick();
 }
 
 FDLib.extend(FDWindowDomView,FDPanelDomView);
@@ -4381,12 +4573,12 @@ FDWindowDomView.getNextZ_Index = function() {
  */
 //@override
 FDWindowDomView.prototype.show = function(callback) {
-	var zIndex = FDWindowDomView.getNextZ_Index();
+	
 	if(this.options.modal) {
-		this.showBgModal(zIndex);
+		this.showBgModal();
 	}
 	// 放在showBgModal()后面,确保zIndex始终比遮罩层的大
-	this.panel.style.zIndex = ++zIndex;
+	this.addPanelZ_Index();
 	
 	FDWindowDomView.superclass.show.call(this);
 	
@@ -4400,6 +4592,11 @@ FDWindowDomView.prototype.show = function(callback) {
 	}
 }
 
+// 增加z-index
+FDWindowDomView.prototype.addPanelZ_Index = function() {
+	this.panel.style.zIndex = FDWindowDomView.getNextZ_Index();
+}
+
 //@override
 FDWindowDomView.prototype.close = function(callback) {
 	this.hideBgModal();
@@ -4408,6 +4605,17 @@ FDWindowDomView.prototype.close = function(callback) {
 		callback();
 	}
 }
+
+//@override
+FDWindowDomView.prototype.afterExpand = function() {
+	FDLib.dom.showDom(this.buttonPanel);
+}
+
+//@override
+FDWindowDomView.prototype.afterCollapse = function(){
+	FDLib.dom.hideDom(this.buttonPanel);
+}
+
 
 FDWindowDomView.prototype.hideBgModal = function() {
 	this.getBgModal().style.display = 'none';
@@ -4434,8 +4642,8 @@ FDWindowDomView.prototype.getBgModal = function() {
 	return this.bgModal;
 }
 
-FDWindowDomView.prototype.showBgModal = function(zIndex) {
-	zIndex = zIndex || FDWindowDomView.getNextZ_Index();
+FDWindowDomView.prototype.showBgModal = function() {
+	var zIndex = FDWindowDomView.getNextZ_Index();
 	var doc = document;
 	var body = doc.body;
 	var docEl = doc.documentElement;
@@ -4465,6 +4673,13 @@ FDWindowDomView.prototype.setDragable = function() {
 	}else{
 		FDDragUtil.destory(this.titleBar);
 	}
+}
+
+FDWindowDomView.prototype.setPanelClick = function() {
+	var that = this;
+	FDLib.event.addEvent(this.panel,'mousedown',function(e){
+		that.addPanelZ_Index();
+	});
 }
 
 // 构建按钮
@@ -4612,6 +4827,7 @@ FDWindow.prototype.getOptions = function() {
 		,afterClose:null
 		/** 是否立即显示 */
 		,isLoadShow:false
+		,toggleable:false
 	});
 }
 
@@ -4895,16 +5111,18 @@ FDTabView.prototype = {
 	 */
 	,showItemByValue:function(value) {
 		var item = this._getItemByValue(value);
-		// 始终执行onclick事件
-		if(item && this._isAbleOperate(item)) {
-			this._processClickEvent(item);
+		if(item) {
+			// 始终执行onclick事件
+			if(this._isAbleOperate(item)) {
+				this._processClickEvent(item);
+			}
+			if(this._isAbleOperate(item) && !this.isChecked(item)) {
+				this._selectItem(item);
+				this._processChangeEvent(item);
+			}
+			// 刷新iframe
+			this._refresh(item);
 		}
-		if(item && this._isAbleOperate(item) && !this.isChecked(item)) {
-			this._selectItem(item);
-			this._processChangeEvent(item);
-		}
-		// 刷新iframe
-		this._refresh(item);
 	}
 	// 将所有的items未选中
 	,_unselectAllItems:function() {
@@ -4922,10 +5140,12 @@ FDTabView.prototype = {
 	}
 	// 选中item
 	,_selectItem:function(item) {
-		this._unselectAllItems();
-		item.checked = true;
-		FDLib.dom.addClass(this._getLiByValue(item.value),this._getSelectClassName());
-		this._showItemContent(item);
+		if(item) {
+			this._unselectAllItems();
+			item.checked = true;
+			FDLib.dom.addClass(this._getLiByValue(item.value),this._getSelectClassName());
+			this._showItemContent(item);
+		}
 	}
 	// 未选中
 	,_unselectItem:function(item) {
@@ -4957,9 +5177,11 @@ FDTabView.prototype = {
 	}
 	// 将tab定位在HTML节点上
 	,_renderToDesDom:function() {
-		var desDom = FDLib.getEl(this.options.domId) || document.body;
-		desDom.appendChild(this.tabDiv);
-		this._selectItem(this.checkedItem || this.options.items[0]);
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			var desDom = FDLib.getEl(this.options.domId);
+			desDom.appendChild(this.tabDiv);
+			this._selectItem(this.checkedItem || this.options.items[0]);
+		}
 	}
 	// 构建选项卡
 	,_buildTabItem:function(items) {
@@ -5364,18 +5586,31 @@ FDTab.prototype = {
 	// 初始化items项
 	,_initItems:function(items) {
 		var self = this;
-		FDLib.util.each(items,function(item){
+		var newItems = this._refreshPermissionItems(items);
+		FDLib.util.each(newItems,function(item){
 			item = self._checkValueAndContentId(item);
 			item = self._checkContentDiv(item);
 			
 			self._storeItem(item);
 		});
 		
-		return items;
+		return newItems;
+	}
+	,_refreshPermissionItems:function(items) {
+		var newItems = [];
+		FDLib.util.each(items,function(item){
+			FDRight.checkByCode(item.operateCode,function(){
+				newItems.push(item);
+			});
+		});
+		
+		this.options.items = newItems;
+		
+		return newItems;
 	}
 	,_buildTab:function(items) {
-		var items = this._initItems(items);
-		this.tabInstance.buildTab(items);
+		var newItems = this._initItems(items);
+		this.tabInstance.buildTab(newItems);
 	}
 	,_resetData:function() {
 		this.options.itemStore = {};
@@ -5657,6 +5892,18 @@ FDPaginationView.prototype._initBtnState = function(data) {
 	}
 }
 
+FDPaginationView.prototype.hide = function() {
+	if(this.gridDomMap.pageDiv_3){
+		FDLib.dom.hideDom(this.gridDomMap.pageDiv_3);
+	}
+}
+
+FDPaginationView.prototype.show = function() {
+	if(this.gridDomMap.pageDiv_3){
+		FDLib.dom.showDom(this.gridDomMap.pageDiv_3);
+	}
+}
+
 /**
  * 构建分页
  */
@@ -5668,7 +5915,6 @@ FDPaginationView.prototype.buildPagination = function() {
 		this._buidlPaginButtons();
 	
 		this._appendPaginToDiv();
-		
 	}
 }
 
@@ -5699,7 +5945,7 @@ FDPaginationView.prototype._buidlPaginButtons = function() {
 	}
 	
 	if(!this.options.showPaging && !this.options.showSetting) {
-		FDLib.dom.hideDom(this.gridDomMap.pageDiv_3);
+		this.hide();
 	}
 }
 
@@ -5902,6 +6148,24 @@ FDRowSelectView.prototype._buildSelector = function(rowData,rowIndex,tr) {
 			self.grid._doNoSelectedHandler(selector,tr);
 		}
 		
+		if(self.selectOption.cache) {
+			if(selector.type == 'radio') {
+				self.grid.resetSelectCache();
+			}
+			self.grid.getSelectCache()[this.value] = this.checked ? rowData : false;
+		}
+		
+	}
+	
+	selector.setSelect = function(checked) {
+		selector.checked = !!checked;
+		selector.onclick();
+	}
+	
+	if(selector.checked) { // 如果勾选
+		self.grid._doSelectHandler(selector,tr);
+	}else{
+		self.grid._doNoSelectedHandler(selector,tr);
 	}
 	
 	return selector;
@@ -5915,6 +6179,10 @@ FDRowSelectView.prototype._buildSelectInput = function(selectType,rowData) {
 	var idValue = rowData[this.id];
 	if(idValue){
 		selector.value = idValue;
+	}
+	
+	if(this.selectOption.cache) {
+		selector.checked = this.grid.isInCache(rowData,this.id);
 	}
 	
 	return selector;
@@ -5960,15 +6228,13 @@ FDTableView.prototype.processData = function(resultData) {
 	this.resultData = resultData;
 	
 	this.removeAllData();
-	this._resetHeight();
 	
 	if((this.resultData[GlobalParams.serverRowsName] || []).length > 0) {
 		this._buildGridData();
-		this._refreshPaginationInfo(resultData);
 	}else{
 		this.showNoResultMsg();
 	}
-	
+	this._refreshPaginationInfo(resultData);
 }
 
 FDTableView.prototype.renderTo = function(domId) {
@@ -6024,9 +6290,6 @@ FDTableView.prototype._buildGridData = function() {
 	this.each(rows,function(rowData,rowIndex){
 		self.insertRow(rowIndex,rowData);
 	});
-	
-	this._initTableSize();
-	
 	this.showTable();
 }
 
@@ -6165,6 +6428,10 @@ FDTableView.prototype._initTableDom = function() {
 	this._initFrame();
 	this._initHeadDom();
 	this._initPaginDom();
+	
+	this.setStyle();
+	
+	this._initTableSize();
 }
 
 /**
@@ -6180,8 +6447,6 @@ FDTableView.prototype._initFrame = function() {
 	this.gridDomMap.table_1.appendChild(this.gridDomMap.tbody_0);
 	this.gridDomMap.tableDiv_2.appendChild(this.gridDomMap.table_1);
 	this.gridDomMap.gridDiv_3.appendChild(this.gridDomMap.tableDiv_2);
-	
-	this.setStyle();
 }
 
 
@@ -6240,8 +6505,14 @@ FDLib.ajax = {
 			if(xhr.readyState !== 4) {
 				return;
 			}
-			var jsonData = JSON.parse(xhr.responseText);
-			if(xhr.status === 200 || xhr.status === 0) {
+			var status = xhr.status;
+			var jsonData = '';
+			try{
+				jsonData = JSON.parse(xhr.responseText);
+			}catch(e){
+				jsonData = JSON.parse('{"message":"后台请求错误(status:' + status + ')"}');
+			}
+			if(status === 200 || status === 0) {
 				callback(jsonData);
 			} else {
 				error(jsonData);
@@ -6327,8 +6598,8 @@ FDModel.prototype = {
 	 * @return 返回后台数据
 	 */
 	postData:function(url,schData,callback) {
-		FDLib.ajax.request({url:url,params:schData,success:callback,error:function(){
-			alert('查询出错,请查看日志');
+		FDLib.ajax.request({url:url,params:schData,success:callback,error:function(e){
+			FDWindow.alert(e.message);
 		}});
 	}
 };
@@ -6593,7 +6864,12 @@ FDGrid.prototype = {
 				,onclick:function(rowData,selector,tr,rowIndex){}
 				,onload:function(rowData,selector,tr,rowIndex){}
 				,hideCheckAll:false // 隐藏全选checkbox
+				// 设置缓存,为true时,表格翻页也会记住勾选状态
+				// 当进行search()或reload()会清除缓存
+				,cache:false
 			}
+			// 表格勾选缓存
+			,selectCache:{}
 			 // 存放表格DOM节点实例,统一管理
 			,gridDomMap:{
 				tbody_0:null // <tbody>
@@ -6655,6 +6931,7 @@ FDGrid.prototype = {
 			,onBeforeLoad:function(param){return true;}
 			 // 在数据加载成功的时候触发。
 			,onLoadSuccess:function(data){return data;}
+			,afterRefresh:function(data) {}
 			 // 在用户点击一行的时候触发
 			 //  @param rowIndex：点击的行的索引值，该索引值从0开始。
 			 //  @param rowData：对应于点击行的记录。
@@ -6701,7 +6978,19 @@ FDGrid.prototype = {
 			this.options.schData = schData || {};
 			this.options.pageIndex = 1;
 		}
+		this.resetSelectCache();
 		this.refresh();
+	}
+	/**
+	 * 清空勾选缓存
+	 */
+	,resetSelectCache:function() {
+		if(this.isSelectable()) {
+			this.options.selectCache = {};
+		}
+	}
+	,getSelectCache:function() {
+		return this.options.selectCache;
 	}
 	/**
 	 * 加载本地数据，旧的行将被移除。
@@ -6736,18 +7025,50 @@ FDGrid.prototype = {
 	 */
 	,getChecked:function(){
 		if(this.multiSelect()) {
+			var idName = this.options.id;
 			var ret = [];
 			var rows = this.getRows();
 			var self = this;
+			
+			var isCache = this.options.selectOption.cache;
+			
+			if(isCache) {
+				var selectCache = this.getSelectCache();
+				// 先添加缓存中的
+				for(var idVal in selectCache) {
+					if(selectCache[idVal]) {
+						ret.push(selectCache[idVal]);
+					}
+				}
+			}
+			// 再添加真实勾选的
 			FDLib.util.each(rows,function(row,i){
 				var selector = self.getSelectorByRowIndex(i);
-				if(selector && selector.checked) {
+				var isInCache = self.isInCache(row,idName);
+				if(selector && selector.checked && !isInCache) {
 					ret.push(row);
 				}
 			});
 			
 			return ret;
 		}
+	}
+	,isInCache:function(row,idName) {
+		if(!idName) {
+			return false;
+		}
+		var idVal = row[idName];
+		return !!this.options.selectCache[idVal];
+	}
+	/**
+	 * 获取选中条数
+	 */
+	,getCheckedLength:function() {
+		var checked = this.getChecked();
+		if(!checked){
+			return 0;
+		}
+		return checked.length;
 	}
 	/**
 	 * 返回第一个被选中的行
@@ -6757,6 +7078,19 @@ FDGrid.prototype = {
 		if(this.singleSelect()) {
 			var rows = this.getRows();
 			var self = this;
+			
+			var isCache = this.options.selectOption.cache;
+			
+			if(isCache) {
+				var selectCache = this.getSelectCache();
+				// 先添加缓存中的
+				for(var idVal in selectCache) {
+					if(selectCache[idVal]) {
+						return selectCache[idVal];
+					}
+				}
+			}
+			
 			return FDLib.util.each(rows,function(row,i){
 				var selector = self.getSelectorByRowIndex(i);
 				if(selector && selector.checked) {
@@ -6835,20 +7169,11 @@ FDGrid.prototype = {
 	,clearChecked:function(){
 		this.uncheckAll();
 	}
-	,_selectedHandler:function(selector,i) {
-		var rows = this.getTableTR();
-		if(selector.disabled) {
-			return;
-		}
-		var tr = rows[i];
-		this._doSelectHandler(selector,tr);
-	}
 	// 勾选行
 	,_doSelectHandler:function(selector,tr){
 		if(selector.disabled) {
 			return;
 		}
-		selector.checked = 'checked';
 		if(this.singleSelect()){ // 如果是单选,移除上一条单选的状态
 			this._bindSingleSelectRow(tr);
 		}
@@ -6965,6 +7290,8 @@ FDGrid.prototype = {
 			this.options.result = newObj;
 			this.callViewsProcess();
 		}
+		
+		this.options.afterRefresh(this.options.result);
 	}
 	,getPageIndex:function() {
 		return this.options.pageIndex;
@@ -7056,8 +7383,11 @@ FDGrid.prototype = {
 	/**
 	 * 是否是选择状态
 	 */
-	,isSelectStatus:function() {
+	,isSelectable:function() {
 		return this.singleSelect() || this.multiSelect();
+	}
+	,isSelectStatus:function(){
+		return this.isSelectable();
 	}
 	/**
 	 * 是否单选
@@ -7082,7 +7412,7 @@ FDGrid.prototype = {
 	 * 通过行索引获取选择器,即input
 	 */
 	,getSelectorByRowIndex:function(rowIndex) {
-		if(this.isSelectStatus()) {
+		if(this.isSelectable()) {
 			var trs = this.getTableTR();
 			return this._getInput(trs,rowIndex);
 		}
@@ -7106,7 +7436,11 @@ FDGrid.prototype = {
 	 */
 	,setSelected:function(rowIndex) {
 		var selector = this.getSelectorByRowIndex(rowIndex);
-		this._selectedHandler(selector,rowIndex);
+		if(selector.disabled) {
+			return;
+		}
+		selector.checked = 'checked';
+		selector.onclick();
 	}
 	/**
 	 * 设置某行数据不被选中 
@@ -7114,7 +7448,11 @@ FDGrid.prototype = {
 	 */
 	,setNoSelected:function(rowIndex) {
 		var selector = this.getSelectorByRowIndex(rowIndex);
-		this._noSelectedHandler(selector,rowIndex);
+		if(selector.disabled) {
+			return;
+		}
+		selector.checked = '';
+		selector.onclick();
 	}
 	/**
 	 * 取消单选的选择
@@ -7519,13 +7857,15 @@ FDTreeDomView.prototype = {
 	}
 	,buildToggler:function(rowData){
 		var className = 'pui-tree-toggler ui-icon ' 
-			+ (this._isOpen(rowData) ? this.getOpenClassName() : this.getCloseClassName());
+			+ ( (rowData.state && 'open' == rowData.state) ? this.getOpenClassName() : this.getCloseClassName());
 		// 没有子节点,隐藏箭头
 		if(!this.hasChild(rowData)){
 			className = 'pui-treenode-leaf-icon';
 		}
+		
 		var span = this._createNodeSpan(className);
 		var that = this;
+		
 		span.onclick = function() {
 			that.toggle(this,rowData);
 		};
@@ -7551,8 +7891,15 @@ FDTreeDomView.prototype = {
 		// 点击文字伸缩
 		var isClickToggle = this.options.clickToggle;
 		var that = this;
+		var isHoverEffect = true;
 		
-		FDLib.addHoverEffect(lab);
+		var hoverEffectHandler = this.options.hoverEffectHandler;
+		if(FDLib.util.isFunction(hoverEffectHandler)){
+			isHoverEffect = hoverEffectHandler(rowData,lab);
+		}
+		if(isHoverEffect){
+			FDLib.addHoverEffect(lab);
+		}
 		
 		lab.onclick = function(){
 			if(isClickToggle){
@@ -7744,7 +8091,7 @@ FDTreeDomView.prototype = {
 		FDLib.dom.addClass(dom,'ui-state-highlight');
 	}
 	,toggle:function(dom,rowData){
-		if(this._isOpen(rowData)){
+		if(this._isOpen(dom)){
 			this.collapse(dom);
 			rowData.state = 'closed';
 		}else{
@@ -7763,6 +8110,7 @@ FDTreeDomView.prototype = {
 		}
 	}
 	,expand:function(toggler){
+		toggler.state = 'open';
 		var children = toggler.childrenUL;
 		if(children){
 			FDLib.dom.removeClass(toggler,this.getCloseClassName());
@@ -7771,6 +8119,7 @@ FDTreeDomView.prototype = {
 		}
 	}
 	,collapse:function(toggler){
+		toggler.state = 'close';
 		var children = toggler.childrenUL;
 		if(children){
 			FDLib.dom.removeClass(toggler,this.getOpenClassName());
@@ -7778,8 +8127,11 @@ FDTreeDomView.prototype = {
 			children.style.display="none";
 		}
 	}
-	,_isOpen:function(rowData){
-		return rowData.state == 'open';
+	,_isOpen:function(dom){
+		if(!dom.state) {
+			return false;
+		}
+		return dom.state == 'open';
 	}
 	,_createNodeSpan:function(className,text){
 		var span = document.createElement(FDTag.SPAN);
@@ -7792,6 +8144,9 @@ FDTreeDomView.prototype = {
 	,buildTreePanel:function() {
 		var treePanel = document.createElement(FDTag.DIV);
 		treePanel.className = 'pui-tree ui-widget ui-widget-content ui-corner-all';
+		if(!this.options.showBorder) {
+			treePanel.style.border = '0px';
+		}
 		return treePanel;
 	}
 	,hasChild:function(rowData){
@@ -7801,9 +8156,11 @@ FDTreeDomView.prototype = {
 		return rowData[this.childrenFieldName] || [];
 	}
 	,render:function(){
-		var dom = FDLib.getEl(this.options.domId);
-		dom.innerHTML = '';
-		dom.appendChild(this.treePanel);
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			var dom = FDLib.getEl(this.options.domId);
+			dom.innerHTML = '';
+			dom.appendChild(this.treePanel);
+		}
 	}
 }
 
@@ -7861,6 +8218,8 @@ domId:null
 ,childrenFieldName:'children'
 // 是否显示checkbox
 ,checkable:false
+// 是否显示边框
+,showBorder:true
 // 任何情况下点击"+/-"展开/收缩
 // true时点击节点即可展开/收缩
 // 默认为false
@@ -7887,10 +8246,16 @@ domId:null
 			,childrenFieldName:'children'
 			// 是否显示checkbox
 			,checkable:false
+			// 是否显示边框
+			,showBorder:true
 			// 任何情况下点击"+/-"展开/收缩
 			// true时点击节点即可展开/收缩
 			// 默认为false
 			,clickToggle:false
+			// 点击时高亮
+			,highlightHandler:function(rowData,dom){return true;}
+			// 鼠标移动高亮
+			,hoverEffectHandler:function(rowData,lab){return true;}
 		}
 	}
 	/**
