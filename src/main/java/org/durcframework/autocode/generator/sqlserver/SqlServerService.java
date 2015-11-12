@@ -9,7 +9,7 @@ public class SqlServerService implements SQLService {
 
 	@Override
 	public TableSelector getTableSelector(DataBaseConfig dataBaseConfig) {
-		return new SqlServerTableSelector(dataBaseConfig);
+		return new SqlServerTableSelector(new SqlServerColumnSelector(dataBaseConfig), dataBaseConfig);
 	}
 
 	@Override

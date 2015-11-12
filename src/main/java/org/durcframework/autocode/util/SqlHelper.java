@@ -59,11 +59,22 @@ List<Map<String, Object>> map = SqlHelper.runSql(dataSourceConfig, sql,params);
 		DataSource dataSource = buildDataSource(dataBaseConfig);
 		
 		String runSql = buildSqlWithParams(dataSource, sql, params);
+		String[] sqls = runSql.split(";");
 		logger.info("执行SQL:" + runSql);
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
-			return buildSqlRunner(conn).selectAll(runSql,new Object[]{});
+			SqlRunner runner = buildSqlRunner(conn);
+			int sqlCount = sqls.length;
+			if(sqlCount == 1) {
+				return runner.selectAll(sqls[0],new Object[]{});
+			}else {
+				for (int i = 0; i < sqlCount-1; i++) {
+					runner.run(sqls[i]);
+				}
+				return runner.selectAll(sqls[sqlCount - 1],new Object[]{});
+			}
+			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			try {
@@ -71,6 +82,7 @@ List<Map<String, Object>> map = SqlHelper.runSql(dataSourceConfig, sql,params);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			return null;
 		}finally{
 			if(conn != null){
 				try {
@@ -80,8 +92,6 @@ List<Map<String, Object>> map = SqlHelper.runSql(dataSourceConfig, sql,params);
 				}
 			}
 		}
-		
-		return null;
 	}
 	
 	// 参数绑定

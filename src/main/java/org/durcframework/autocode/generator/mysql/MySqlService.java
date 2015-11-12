@@ -9,7 +9,7 @@ public class MySqlService implements SQLService {
 
 	@Override
 	public TableSelector getTableSelector(DataBaseConfig dataBaseConfig) {
-		return new MySqlTableSelector(dataBaseConfig);
+		return new MySqlTableSelector(new MySqlColumnSelector(dataBaseConfig), dataBaseConfig);
 	}
 
 	@Override

@@ -36,21 +36,19 @@
 	<div id="step2" style="display: none;">
 		<table width="100%">
 			<tr>
-				<td valign="top" width="200"><div id="gridTable"></div></td>
-				<td valign="top">
+				<td>
 					<div id="step2Panel">
 						<fieldset style="border: 1px solid #ccc;font-size: 12px;">
 						    <legend>配置项</legend>
 						    <table>
 						    	<tr><td>package: </td><td id="txt-packageName"></td></tr>
-<!-- 							    <tr><td>bo文件夹名:</td><td id="txt-boFolderName"></td></tr> -->
-<!-- 							    <tr><td>dao文件夹名:</td><td id="txt-daoFolderName"></td></tr> -->
-<!-- 							    <tr><td>pojo文件夹名:</td><td id="txt-pojoFolderName"></td></tr> -->
-<!-- 							    <tr><td>web文件夹名:</td><td id="txt-webFolderName"></td></tr> -->
 						    </table>
 						</fieldset>
 					</div>
 				</td>
+			</tr>
+			<tr>
+				<td><div id="gridTable"></div></td>
 			</tr>
 		</table>
 		<button onclick="showStep1();">上一步</button>

@@ -16,8 +16,10 @@ public class SqlHelperTest extends TestBase{
 	public void testSql(){
 		String sql = "SHOW TABLES";
 		DataSourceConfig dataSourceConfig = new DataSourceConfig();
+		dataSourceConfig.setDbName("auto_code");
+		dataSourceConfig.setIp("localhost");
+		dataSourceConfig.setPort(3306);
 		dataSourceConfig.setDriverClass("com.mysql.jdbc.Driver");
-		dataSourceConfig.setJdbcUrl("jdbc:mysql://localhost:3306/auto_code");
 		dataSourceConfig.setUsername("root");
 		dataSourceConfig.setPassword("root");
 		
@@ -31,8 +33,10 @@ public class SqlHelperTest extends TestBase{
 	public void testSqlParam(){
 		String sql = "SELECT * FROM datasource_config WHERE dc_id=${id}";
 		DataSourceConfig dataSourceConfig = new DataSourceConfig();
+		dataSourceConfig.setDbName("auto_code");
+		dataSourceConfig.setIp("localhost");
+		dataSourceConfig.setPort(3306);
 		dataSourceConfig.setDriverClass("com.mysql.jdbc.Driver");
-		dataSourceConfig.setJdbcUrl("jdbc:mysql://localhost:3306/auto_code");
 		dataSourceConfig.setUsername("root");
 		dataSourceConfig.setPassword("root");
 		
@@ -43,6 +47,44 @@ public class SqlHelperTest extends TestBase{
 		
 		Assert.notEmpty(map);
 		
+	}
+	
+	private static String SHOW_TABLE_SQL = 
+			"USE information_schema; " +
+			"SELECT " +
+				"t.`COLUMN_NAME`" +
+				",t.`DATA_TYPE`" +
+				",t.`COLUMN_KEY`" +
+				",t.`EXTRA`" +
+				",t.`COLUMN_COMMENT` " +
+			"FROM COLUMNS t " +
+			"WHERE table_name='datasource_config';";
+	
+	@Test
+	public void testAA() {
+
+		String[] sqls = "select * from sss".split(";");
+		System.out.println(sqls.length);
+		for (String s : sqls) {
+			System.out.println(s);
+		}
+	}
+	
+	@Test
+	public void testShowTable(){
+		DataSourceConfig dataSourceConfig = new DataSourceConfig();
+		dataSourceConfig.setDbName("auto_code");
+		dataSourceConfig.setIp("localhost");
+		dataSourceConfig.setPort(3306);
+		dataSourceConfig.setDriverClass("com.mysql.jdbc.Driver");
+		dataSourceConfig.setUsername("root");
+		dataSourceConfig.setPassword("root");
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> map = SqlHelper.runSql(dataSourceConfig, SHOW_TABLE_SQL,params);
+		
+		Assert.notEmpty(map);
 	}
 	
 	@Test
@@ -77,8 +119,10 @@ public class SqlHelperTest extends TestBase{
 		.append("ORDER BY [schema] ASC,table_name ASC ");
 		
 		DataSourceConfig dataSourceConfig = new DataSourceConfig();
+		dataSourceConfig.setDbName("auto_code");
+		dataSourceConfig.setIp("192.168.9.31");
+		dataSourceConfig.setPort(1433);
 		dataSourceConfig.setDriverClass("net.sourceforge.jtds.jdbc.Driver");
-		dataSourceConfig.setJdbcUrl("jdbc:jtds:sqlserver://192.168.9.31:1433;databaseName=fire");
 		dataSourceConfig.setUsername("sa");
 		dataSourceConfig.setPassword("isp#123");
 		

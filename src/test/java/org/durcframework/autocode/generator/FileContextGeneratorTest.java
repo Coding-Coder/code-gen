@@ -131,7 +131,7 @@ public class FileContextGeneratorTest extends TestBase {
 	static DataSourceConfig dataSourceConfig = new DataSourceConfig();
 	static {
 		dataSourceConfig.setDriverClass("com.mysql.jdbc.Driver");
-		dataSourceConfig.setJdbcUrl("jdbc:mysql://localhost:3306/auto_code");
+		//dataSourceConfig.setJdbcUrl("jdbc:mysql://localhost:3306/auto_code");
 		dataSourceConfig.setUsername("root");
 		dataSourceConfig.setPassword("root");
 	}

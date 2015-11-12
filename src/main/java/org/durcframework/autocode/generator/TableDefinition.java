@@ -9,21 +9,20 @@ import java.util.List;
 public class TableDefinition {
 
 	private String tableName; // 表名
-	private List<ColumnDefinition> columnDefinitions; // 字段定义
-	
-	public TableDefinition(String tableName) {
-		this(tableName, Collections.<ColumnDefinition> emptyList());
+	private String comment; // 注释
+	private List<ColumnDefinition> columnDefinitions = Collections.emptyList(); // 字段定义
+
+	public TableDefinition() {
 	}
 
-	public TableDefinition(String tableName,
-			List<ColumnDefinition> columnDefinitions) {
+	public TableDefinition(String tableName) {
 		this.tableName = tableName;
-		this.columnDefinitions = columnDefinitions;
 	}
-	
-	public ColumnDefinition getPkColumn(){
+
+
+	public ColumnDefinition getPkColumn() {
 		for (ColumnDefinition column : columnDefinitions) {
-			if(column.getIsPk()){
+			if (column.getIsPk()) {
 				return column;
 			}
 		}
@@ -36,6 +35,14 @@ public class TableDefinition {
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public List<ColumnDefinition> getColumnDefinitions() {

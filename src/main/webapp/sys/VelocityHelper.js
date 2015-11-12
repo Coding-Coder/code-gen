@@ -29,6 +29,7 @@ var VelocityHelper = (function(){
 			     ,{text:'${table}'
 			     	,children:[
 			     		{text:'${table.tableName} : 数据库表名'}
+			     		,{text:'${table.comment} : 表注释'}
 			     	]
 			     }
 			     ,{text:'#foreach($column in $columns)...#end'
@@ -43,6 +44,7 @@ var VelocityHelper = (function(){
 			     		,{text:'${$column.isPk} : 是否自增主键,返回boolean'}
 			     		,{text:'${$column.isIdentityPk} : 是否自增主键,返回boolean'}
 			     		,{text:'${$column.mybatisJdbcType} : 返回mybatis定义的jdbcType'}
+			     		,{text:'${$column.comment} : 表字段注释'}
 			     	]
 			     }
 			];

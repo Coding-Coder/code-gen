@@ -3,16 +3,18 @@ package org.durcframework.autocode.generator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.durcframework.autocode.util.SqlHelper;
 
 public abstract class TableSelector {
 
+	private ColumnSelector columnSelector;
 	private DataBaseConfig dataBaseConfig;
+	private List<String> schTableNames;
 
-	public TableSelector(DataBaseConfig dataBaseConfig) {
+	public TableSelector(ColumnSelector columnSelector,DataBaseConfig dataBaseConfig) {
 		this.dataBaseConfig = dataBaseConfig;
+		this.columnSelector = columnSelector;
 	}
 
 	/**
@@ -20,34 +22,56 @@ public abstract class TableSelector {
 	 * 
 	 * @return
 	 */
-	protected abstract String getShowTablesSQL();
-
-	/**
-	 * 返回表结构
-	 * 
-	 * @return
-	 */
-	public List<TableBean> getTableList() {
-		List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL());
-		List<TableBean> tableNames = new ArrayList<TableBean>();
+	protected abstract String getShowTablesSQL(String dbName);
+	
+	protected abstract TableDefinition buildTableDefinition(Map<String, Object> tableMap);
+	
+	public List<TableDefinition> getTableDefinitions() {
+		List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL(dataBaseConfig.getDbName()));
+		List<TableDefinition> tablesList = new ArrayList<>(resultList.size());
 		
 		for (Map<String, Object> rowMap : resultList) {
-			Set<String> keySet = rowMap.keySet();
-			for (String key : keySet) {
-				String tableName = (String)rowMap.get(key);
-				tableNames.add(new TableBean(tableName));
-			}
+			TableDefinition tableDefinition = this.buildTableDefinition(rowMap);
+			tableDefinition.setColumnDefinitions(columnSelector.getColumnDefinitions(tableDefinition.getTableName()));
+			tablesList.add(tableDefinition);
 		}
 		
-		return tableNames;
+		return tablesList;
 	}
-
+	
+	public List<TableDefinition> getSimpleTableDefinitions() {
+		List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL(dataBaseConfig.getDbName()));
+		List<TableDefinition> tablesList = new ArrayList<>(resultList.size());
+		
+		for (Map<String, Object> rowMap : resultList) {
+			tablesList.add(this.buildTableDefinition(rowMap));
+		}
+		
+		return tablesList;
+	}
+	
 	public DataBaseConfig getDataBaseConfig() {
 		return dataBaseConfig;
 	}
 
 	public void setDataBaseConfig(DataBaseConfig dataBaseConfig) {
 		this.dataBaseConfig = dataBaseConfig;
+	}
+
+	public ColumnSelector getColumnSelector() {
+		return columnSelector;
+	}
+
+	public void setColumnSelector(ColumnSelector columnSelector) {
+		this.columnSelector = columnSelector;
+	}
+
+	public List<String> getSchTableNames() {
+		return schTableNames;
+	}
+
+	public void setSchTableNames(List<String> schTableNames) {
+		this.schTableNames = schTableNames;
 	}
 
 }

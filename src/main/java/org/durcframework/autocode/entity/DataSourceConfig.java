@@ -4,7 +4,6 @@ import org.durcframework.autocode.generator.DataBaseConfig;
 
 public class DataSourceConfig extends DataBaseConfig {
 	private int dcId;
-	private String name;
 	private String backUser;
 
 	public int getDcId() {
@@ -13,14 +12,6 @@ public class DataSourceConfig extends DataBaseConfig {
 
 	public void setDcId(int dcId) {
 		this.dcId = dcId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getBackUser() {

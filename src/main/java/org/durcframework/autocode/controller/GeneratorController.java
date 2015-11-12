@@ -6,11 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.durcframework.autocode.entity.CodeFile;
 import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.entity.GeneratorParam;
 import org.durcframework.autocode.service.DataSourceConfigService;
 import org.durcframework.autocode.service.GeneratorService;
+import org.durcframework.core.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 
  */
 @Controller
-public class GeneratorController {
+public class GeneratorController extends BaseController{
 	@Autowired
 	private GeneratorService generatorService;
 	@Autowired
@@ -37,6 +39,10 @@ public class GeneratorController {
 		
 		DataSourceConfig dataSourceConfig = 
 				dataSourceConfigService.get(generatorParam.getDcId());
+		
+		if(StringUtils.isEmpty(dataSourceConfig.getDbName())) {
+			return this.error("请前往[数据源配置]填写数据库名(dbName)");
+		}
 
 		List<CodeFile> resultList = 
 				generatorService.generate(generatorParam,dataSourceConfig);

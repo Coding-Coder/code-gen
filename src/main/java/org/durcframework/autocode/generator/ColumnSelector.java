@@ -18,11 +18,11 @@ public abstract class ColumnSelector {
 	}
 
 	/**
-	 * 返回查询表信息的SQL语句,不同的数据查询表信息不一样
+	 * 返回查询表字段信息的SQL语句,不同的数据查询表信息不一样
 	 * 如mysql是DESC tableName
 	 * @return
 	 */
-	protected abstract String getTableDetailSQL(String tableName);
+	protected abstract String getColumnInfoSQL(String tableName);
 	
 	/**
 	 * 构建列信息
@@ -30,31 +30,17 @@ public abstract class ColumnSelector {
 	 * @return
 	 */
 	protected abstract ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap);
-
-	/**
-	 * 返回SQL上下文列表
-	 * @param tableNames
-	 * @return
-	 */
-	public List<SQLContext> buildSQLContextList(List<String> tableNames) {
-		List<SQLContext> contexts = new ArrayList<SQLContext>();
-		
-		for (String tableName : tableNames) {
-			List<Map<String, Object>> resultList = SqlHelper.runSql(this.getDataBaseConfig(), getTableDetailSQL(tableName));
-			
-			List<ColumnDefinition> columnDefinitionList = new ArrayList<ColumnDefinition>();
-			// 构建columnDefinition
-			for (Map<String, Object> rowMap : resultList) {
-				columnDefinitionList.add(buildColumnDefinition(rowMap));
-			}
-			
-			TableDefinition tableDefinition = new TableDefinition(tableName,columnDefinitionList);
-			SQLContext context = new SQLContext(tableDefinition);
-						
-			contexts.add(context);
-		}
 	
-		return contexts;
+	public List<ColumnDefinition> getColumnDefinitions(String tableName) {
+		List<Map<String, Object>> resultList = SqlHelper.runSql(this.getDataBaseConfig(), getColumnInfoSQL(tableName));
+		
+		List<ColumnDefinition> columnDefinitionList = new ArrayList<ColumnDefinition>(resultList.size());
+		// 构建columnDefinition
+		for (Map<String, Object> rowMap : resultList) {
+			columnDefinitionList.add(buildColumnDefinition(rowMap));
+		}
+					
+		return columnDefinitionList;
 	}
 
 	public DataBaseConfig getDataBaseConfig() {

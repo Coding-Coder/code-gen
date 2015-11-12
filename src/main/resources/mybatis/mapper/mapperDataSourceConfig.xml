@@ -4,9 +4,10 @@
 
 	<resultMap id="queryResultMap" type="org.durcframework.autocode.entity.DataSourceConfig">
 		<result column="dc_id" property="dcId" jdbcType="INTEGER" />
-		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="db_name" property="dbName" jdbcType="VARCHAR" />
 		<result column="driver_class" property="driverClass" jdbcType="VARCHAR" />
-		<result column="jdbc_url" property="jdbcUrl" jdbcType="VARCHAR" />
+		<result column="ip" property="ip" jdbcType="VARCHAR" />
+		<result column="port" property="port" jdbcType="INTEGER" />
 		<result column="username" property="username" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
 		<result column="back_user" property="backUser" jdbcType="VARCHAR" />
@@ -39,17 +40,20 @@
 	
 	<insert id="save" parameterType="org.durcframework.autocode.entity.DataSourceConfig" keyProperty="dcId" keyColumn="dc_id" useGeneratedKeys="true">
 		INSERT INTO `datasource_config`
-            (
-             `name`,
-             `driver_class`,
-             `jdbc_url`,
-             `username`,
-             `password`,
-             `back_user`)
+        (
+         `db_name`,
+         `driver_class`,
+         `ip`,
+         `port`,
+         `username`,
+         `password`,
+         `back_user`
+         )
 		VALUES (
-        #{name,jdbcType=VARCHAR},
+        #{dbName,jdbcType=VARCHAR},
         #{driverClass,jdbcType=VARCHAR},
-        #{jdbcUrl,jdbcType=VARCHAR},
+        #{ip,jdbcType=VARCHAR},
+        #{port,jdbcType=INTEGER},
         #{username,jdbcType=VARCHAR},
         #{password,jdbcType=VARCHAR},
         #{backUser,jdbcType=VARCHAR}
@@ -59,9 +63,10 @@
 	<update id="update" parameterType="org.durcframework.autocode.entity.DataSourceConfig">
 		UPDATE `datasource_config`
 		SET 
-		  `name` = #{name,jdbcType=VARCHAR},
+		  `db_name` = #{dbName,jdbcType=VARCHAR},
 		  `driver_class` = #{driverClass,jdbcType=VARCHAR},
-		  `jdbc_url` = #{jdbcUrl,jdbcType=VARCHAR},
+		  `ip` = #{ip,jdbcType=VARCHAR},
+		  `port` = #{port,jdbcType=INTEGER},
 		  `username` = #{username,jdbcType=VARCHAR},
 		  `password` = #{password,jdbcType=VARCHAR},
 		  `back_user` = #{backUser,jdbcType=VARCHAR}

@@ -35,12 +35,11 @@ step2Panel = new FDFormPanel({
 gridDS = new FDGrid({
 	domId:'gridDS'
 	,url:listUrlDS
-	,width:'800px'
 	,columns:[
  		{text:'操作',name:'name',style:{width:'50px'},render:function(row){
  			return '<a href="#" onclick="'+FunUtil.createFun(window,'selectDataSource',row)+'">选择</a>';
  		}}
- 		,{text:'名称',name:'name',style:{width:'200px'}}
+ 		,{text:'名称',name:'dbName',style:{width:'200px'}}
  		,{text:'链接',name:'jdbcUrl'}
  	]
 });
@@ -52,10 +51,11 @@ gridTable = new FDGrid({
 	,loadSearch:false
 	,showPaging:false
 	,showSetting:false
-	,width:'400px'
+	,width:'800px'
 	,height:'500px'
 	,columns:[
  		{text:'表名',name:'tableName'}
+ 		,{text:'备注',name:'comment'}
  	]
 });
 

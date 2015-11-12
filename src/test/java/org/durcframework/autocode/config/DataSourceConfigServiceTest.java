@@ -17,8 +17,6 @@ public class DataSourceConfigServiceTest extends TestBase {
 		DataSourceConfig config = new DataSourceConfig();
 		config.setBackUser("admin");
 		config.setDriverClass("com.mysql.jdbc.Driver");
-		config.setJdbcUrl("jdbc:mysql://localhost:3306/auto_code");
-		config.setName("代码生成库");
 		config.setPassword("root");
 		config.setUsername("root");
 		
@@ -38,8 +36,6 @@ public class DataSourceConfigServiceTest extends TestBase {
 		DataSourceConfig config = configService.get(1);
 		config.setBackUser("admin1");
 		config.setDriverClass("com.mysql.jdbc.Driver1");
-		config.setJdbcUrl("jdbc:mysql://localhost:3306/auto_code1");
-		config.setName("代码生成库1");
 		config.setPassword("root1");
 		config.setUsername("root1");
 		

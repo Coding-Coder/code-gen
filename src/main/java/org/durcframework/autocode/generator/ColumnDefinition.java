@@ -12,6 +12,7 @@ public class ColumnDefinition  {
 	private String type; // 数据库类型
 	private boolean isIdentity; // 是否自增
 	private boolean isPk; // 是否主键
+	private String comment; // 字段注释
 
 	/**
 	 * 是否是自增主键
@@ -91,5 +92,18 @@ public class ColumnDefinition  {
 	public void setIsPk(boolean isPk) {
 		this.isPk = isPk;
 	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		if(comment == null) {
+			comment = "";
+		}
+		this.comment = comment;
+	}
+	
+	
 
 }

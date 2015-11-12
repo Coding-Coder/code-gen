@@ -28,13 +28,13 @@ public class DBConnect {
 			con = DBConnect.getConnection(dataSourceConfig);
 			// 不为空说明连接成功
 			if (con == null) {
-				ret = dataSourceConfig.getName() + "连接失败";
+				ret = dataSourceConfig.getDbName() + "连接失败";
 			}
 		} catch (ClassNotFoundException e) {
-			ret = dataSourceConfig.getName() + "连接失败" + "<br>错误信息:"
+			ret = dataSourceConfig.getDbName() + "连接失败" + "<br>错误信息:"
 					+ "找不到驱动" + dataSourceConfig.getDriverClass();
 		} catch (SQLException e) {
-			ret = dataSourceConfig.getName() + "连接失败" + "<br>错误信息:"
+			ret = dataSourceConfig.getDbName() + "连接失败" + "<br>错误信息:"
 					+ e.getMessage();
 		} finally {
 			if (con != null) {

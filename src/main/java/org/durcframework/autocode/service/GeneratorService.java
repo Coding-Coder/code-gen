@@ -13,6 +13,8 @@ import org.durcframework.autocode.entity.TemplateConfig;
 import org.durcframework.autocode.generator.SQLContext;
 import org.durcframework.autocode.generator.SQLService;
 import org.durcframework.autocode.generator.SQLServiceFactory;
+import org.durcframework.autocode.generator.TableDefinition;
+import org.durcframework.autocode.generator.TableSelector;
 import org.durcframework.autocode.util.FileUtil;
 import org.durcframework.autocode.util.VelocityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,7 @@ public class GeneratorService {
      */
     public List<CodeFile> generate(GeneratorParam generatorParam, DataSourceConfig dataSourceConfig) {
 
-        SQLService service = SQLServiceFactory.build(dataSourceConfig);
-
-        List<SQLContext> contextList = service.getColumnSelector(dataSourceConfig).buildSQLContextList(generatorParam.getTableNames());
+    	List<SQLContext> contextList = this.buildSQLContextList(generatorParam,dataSourceConfig);
 
         List<CodeFile> codeFileList = new ArrayList<CodeFile>();
         
@@ -70,8 +70,7 @@ public class GeneratorService {
      * @return
      */
     public String generateZip(GeneratorParam generatorParam, DataSourceConfig dataSourceConfig,String webRootPath) {
-        SQLService service = SQLServiceFactory.build(dataSourceConfig);
-        List<SQLContext> contextList = service.getColumnSelector(dataSourceConfig).buildSQLContextList(generatorParam.getTableNames());
+    	List<SQLContext> contextList = this.buildSQLContextList(generatorParam,dataSourceConfig);
         String projectFolder = this.buildProjectFolder(webRootPath);
         
         for (SQLContext sqlContext : contextList) {
@@ -105,6 +104,29 @@ public class GeneratorService {
 
         return projectFolder + ".zip";
     }
+    
+    /**
+	 * 返回SQL上下文列表
+	 * @param tableNames
+	 * @return
+	 */
+	private List<SQLContext> buildSQLContextList(GeneratorParam generatorParam,DataSourceConfig dataSourceConfig) {
+		
+		List<String> tableNames = generatorParam.getTableNames();
+		List<SQLContext> contextList = new ArrayList<SQLContext>();
+        SQLService service = SQLServiceFactory.build(dataSourceConfig);
+        
+        TableSelector tableSelector = service.getTableSelector(dataSourceConfig);
+        tableSelector.setSchTableNames(tableNames);
+        
+        List<TableDefinition> tableDefinitions = tableSelector.getTableDefinitions();
+        
+        for (TableDefinition tableDefinition : tableDefinitions) {
+        	contextList.add(new SQLContext(tableDefinition));
+		}
+	
+		return contextList;
+	}
     
     private String buildProjectFolder(String webRootPath) {
     	return webRootPath + File.separator + 

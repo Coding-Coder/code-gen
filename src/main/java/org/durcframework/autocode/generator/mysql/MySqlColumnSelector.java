@@ -13,24 +13,21 @@ import org.springframework.util.StringUtils;
  *
  */
 public class MySqlColumnSelector extends ColumnSelector {
-
+	
 	public MySqlColumnSelector(DataBaseConfig dataBaseConfig) {
 		super(dataBaseConfig);
 	}
 
+	/**
+	 * SHOW FULL COLUMNS FROM 表名
+	 */
 	@Override
-	protected String getTableDetailSQL(String tableName) {
-		return "DESC " + tableName;
+	protected String getColumnInfoSQL(String tableName) {
+		return "SHOW FULL COLUMNS FROM " + tableName;
 	}
 	
 	/*
-	 * [{FIELD=dc_id, EXTRA=auto_increment, KEY=PRI, NULL=NO, DEFAULT=null, TYPE=int(11)}
-	 * , {FIELD=name, EXTRA=, KEY=, NULL=YES, DEFAULT=null, TYPE=varchar(20)}
-	 * , {FIELD=driver_class, EXTRA=, KEY=, NULL=YES, DEFAULT=null, TYPE=varchar(50)}
-	 * , {FIELD=jdbc_url, EXTRA=, KEY=, NULL=YES, DEFAULT=null, TYPE=varchar(100)}
-	 * , {FIELD=username, EXTRA=, KEY=MUL, NULL=YES, DEFAULT=null, TYPE=varchar(50)}
-	 * , {FIELD=password, EXTRA=, KEY=, NULL=YES, DEFAULT=null, TYPE=varchar(50)}
-	 * , {FIELD=back_user, EXTRA=, KEY=, NULL=YES, DEFAULT=null, TYPE=varchar(20)}]
+	 * {FIELD=username, EXTRA=, COMMENT=用户名, COLLATION=utf8_general_ci, PRIVILEGES=select,insert,update,references, KEY=PRI, NULL=NO, DEFAULT=null, TYPE=varchar(20)}
 	 */
 	protected ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap){
 		Set<String> columnSet = rowMap.keySet();
@@ -49,12 +46,15 @@ public class MySqlColumnSelector extends ColumnSelector {
 		boolean isPk = "PRI".equalsIgnoreCase((String)rowMap.get("KEY"));
 		columnDefinition.setIsPk(isPk);
 		
-		String type = buildType((String)rowMap.get("TYPE"));
-		columnDefinition.setType(type);
+		String type = (String)rowMap.get("TYPE");
+		columnDefinition.setType(buildType(type));
+		
+		columnDefinition.setComment((String)rowMap.get("COMMENT"));
 		
 		return columnDefinition;
 	}
 	
+	// 将varchar(50)转换成VARCHAR
 	private String buildType(String type){
 		if (StringUtils.hasText(type)) {
 			int index = type.indexOf("(");
@@ -63,7 +63,7 @@ public class MySqlColumnSelector extends ColumnSelector {
 			}
 			return type;
 		}
-		return "varchar";
+		return "VARCHAR";
 	}
-
+	
 }

@@ -7,9 +7,8 @@ import java.util.Map;
 import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.generator.SQLService;
 import org.durcframework.autocode.generator.SQLServiceFactory;
-import org.durcframework.autocode.generator.TableBean;
+import org.durcframework.autocode.generator.TableDefinition;
 import org.durcframework.autocode.service.DataSourceConfigService;
-import org.durcframework.autocode.util.DBConnect;
 import org.durcframework.core.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,15 +27,14 @@ public class TableController extends BaseController {
 	Object listTable(int dcId){
 		
 		DataSourceConfig dataSourceConfig = dataSourceConfigService.get(dcId);
-		String resultMsg = DBConnect.testConnection(dataSourceConfig);
 		
-		if(StringUtils.hasText(resultMsg)){
-			return error(resultMsg);
+		if(StringUtils.isEmpty(dataSourceConfig.getDbName())) {
+			return this.error("请前往[数据源配置]填写数据库名(dbName)");
 		}
 		
 		SQLService service = SQLServiceFactory.build(dataSourceConfig);
 		
-		List<TableBean> list = service.getTableSelector(dataSourceConfig).getTableList();
+		List<TableDefinition> list = service.getTableSelector(dataSourceConfig).getSimpleTableDefinitions();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
