@@ -24,10 +24,7 @@ step2Panel = new FDFormPanel({
 	domId:'step2Panel'
 	,controls:[
 		new FDTextBox({domId:'txt-packageName',name:'packageName',nativeAttr:{placeholder:'com.aa.bb'},width:'300px'}) 
-//		,new FDTextBox({domId:'txt-boFolderName',name:'boFolderName',defaultValue:'bo'}) 
-//		,new FDTextBox({domId:'txt-daoFolderName',name:'daoFolderName',defaultValue:'dao'}) 
-//		,new FDTextBox({domId:'txt-pojoFolderName',name:'pojoFolderName',defaultValue:'pojo'}) 
-//		,new FDTextBox({domId:'txt-webFolderName',name:'webFolderName',defaultValue:'web'}) 
+		,new FDTextBox({domId:'txt-charset',name:'charset',defaultValue:'UTF-8',nativeAttr:{placeholder:'输入文件编码,如:UTF-8'}}) 
 	]
 });
 

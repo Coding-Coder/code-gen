@@ -41,7 +41,10 @@
 						<fieldset style="border: 1px solid #ccc;font-size: 12px;">
 						    <legend>配置项</legend>
 						    <table>
-						    	<tr><td>package: </td><td id="txt-packageName"></td></tr>
+						    	<tr>
+						    		<td>package: </td><td id="txt-packageName"></td>
+						    		<td>文件编码: </td><td id="txt-charset"></td>	
+						    	</tr>
 						    </table>
 						</fieldset>
 					</div>
@@ -82,7 +85,7 @@
    		<textarea name="code" readonly="readonly" id="viewCode" style="height: 400px;width: 950px;"></textarea>
 	</div> 
 	
-	<div id="finishWin" style="padding:5px;display: none;">   
+	<div id="finishWin" style="display: none;">   
 		<a id="dlBtn" target="_blank" href="${ctx}downloadZip.do">下载ZIP</a>
 		<a id="copyCode" href="javascript:void(0)" style="display: none;">复制代码</a>
 		<table width="100%">

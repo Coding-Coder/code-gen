@@ -1,15 +1,14 @@
 package org.durcframework.autocode.util;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 public class FileUtil {
-
+	
+	public static final String UTF8 = "UTF-8";
 	public static final String NEXT_LINE = "\r\n";
 	
 	private static final String ZIP_COMMENT = "本文件由代码生成工具autoCode生成.\r\n项目地址:https://git.oschina.net/durcframework/autoCode";
@@ -78,20 +78,28 @@ public class FileUtil {
 	/**
 	 * 写文件
 	 */
-	public static void write(String txt, String fileName) {
-		BufferedWriter writer = null;
+	public static void write(String txt, String fileName,String charset) {
+		OutputStreamWriter osw = null;
 		try {
-			writer = new BufferedWriter(new FileWriter(fileName));
-			writer.write(txt);
+			if(charset == null) {
+				charset = UTF8;
+			}
+			osw = new OutputStreamWriter(new FileOutputStream(fileName), charset);
+			osw.write(txt);
+			osw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				writer.close();
+				osw.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static void write(String txt, String fileName) {
+		write(txt, fileName, UTF8);
 	}
 
 	/**

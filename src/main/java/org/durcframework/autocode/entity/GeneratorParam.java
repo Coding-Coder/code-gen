@@ -7,7 +7,8 @@ public class GeneratorParam {
 	private List<String> tableNames;
 	private List<Integer> tcIds;
 	private String packageName;
-	
+	private String charset;
+
 	public int getDcId() {
 		return dcId;
 	}
@@ -38,6 +39,14 @@ public class GeneratorParam {
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+
+	public String getCharset() {
+		return charset;
+	}
+
+	public void setCharset(String charset) {
+		this.charset = charset;
 	}
 
 }

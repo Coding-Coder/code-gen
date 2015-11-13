@@ -87,10 +87,10 @@ public class GeneratorService {
                 
                 FileUtil.createFolder(projectFolder +File.separator + savePath);
                 
-                FileUtil.write(content, 
-                		projectFolder + File.separator + 
+                String filePathName = projectFolder + File.separator + 
                 		savePath + File.separator + 
-                		fileName);
+                		fileName;
+                FileUtil.write(content,filePathName,generatorParam.getCharset());
             }
         }
         
