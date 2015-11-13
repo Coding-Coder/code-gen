@@ -8,17 +8,6 @@ import org.durcframework.autocode.generator.TableDefinition;
 import org.durcframework.autocode.generator.TableSelector;
 
 public class SqlServerTableSelector extends TableSelector {
-	// 查询数据库中表名
-	// 返回格式schema.表名
-	static String SQL_SHOW_TABLES = "SELECT SS.name + '.' + t.name AS tableName" +
-			" ,ISNULL(ext.value, '') as comment"
-			+ " FROM sysobjects t"
-			+ " INNER JOIN sys.objects SO ON t.name = SO.name"
-			+ " INNER JOIN sys.schemas  SS ON SO.schema_id = SS.schema_id"
-			+ " LEFT JOIN sys.extended_properties ext ON ext.major_id = SO.object_id and ext.minor_id=0"
-			+ " WHERE t.xtype='u'" + " ORDER BY SS.name ASC,t.name ASC";
-
-
 	
 	public SqlServerTableSelector(ColumnSelector columnSelector,
 			DataBaseConfig dataBaseConfig) {
