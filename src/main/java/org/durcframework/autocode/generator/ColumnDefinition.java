@@ -33,7 +33,7 @@ public class ColumnDefinition  {
 	}
 	
 	public String getJavaFieldName() {
-		return FieldUtil.underlineFilter(columnName);
+		return FieldUtil.underlineFilter(columnName.toLowerCase());
 	}
 	
 	/**
