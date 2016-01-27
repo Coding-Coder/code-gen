@@ -263,10 +263,10 @@ function generate(){
 	
 	Action.jsonAsyncActByData(ctx + 'generatFile.do',data,function(rows){
 		MaskUtil.unmask();
-		if(rows){
+		if(FDLib.util.isArray(rows)){
 			showGeneratCode(rows);
 		}else{
-			FDWindow.alert(e.errorMsg);
+			FDWindow.alert(rows.message);
 		}
 	});
 }

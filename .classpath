@@ -27,7 +27,7 @@
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-web/3.2.2.RELEASE/spring-web-3.2.2.RELEASE.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-oxm/3.2.2.RELEASE/spring-oxm-3.2.2.RELEASE.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.4/commons-lang-2.4.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-webmvc/3.2.2.RELEASE/spring-webmvc-3.2.2.RELEASE.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-webmvc/3.2.2.RELEASE/spring-webmvc-3.2.2.RELEASE.jar" sourcepath="/spring-webmvc"/>
 	<classpathentry kind="var" path="M2_REPO/org/aspectj/aspectjrt/1.6.12/aspectjrt-1.6.12.jar"/>
 	<classpathentry kind="var" path="M2_REPO/asm/asm/2.2.3/asm-2.2.3.jar"/>
 	<classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar"/>
