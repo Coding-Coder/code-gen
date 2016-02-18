@@ -15,6 +15,7 @@
 > **autoCode介绍**
 
 > - autoCode是一个代码生成工具。基于velocity模板引擎，采用SpringMVC + mybatis + FDUI + mysql
+> - 此工具只负责生成代码文件,不会生成完整功能的应用程序.
 
 > **其特点主要有**
 
