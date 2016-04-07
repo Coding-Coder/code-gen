@@ -28,7 +28,7 @@ public abstract class TableSelector {
 	
 	public List<TableDefinition> getTableDefinitions() {
 		List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL(dataBaseConfig.getDbName()));
-		List<TableDefinition> tablesList = new ArrayList<>(resultList.size());
+		List<TableDefinition> tablesList = new ArrayList<TableDefinition>(resultList.size());
 		
 		for (Map<String, Object> rowMap : resultList) {
 			TableDefinition tableDefinition = this.buildTableDefinition(rowMap);
@@ -41,7 +41,7 @@ public abstract class TableSelector {
 	
 	public List<TableDefinition> getSimpleTableDefinitions() {
 		List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL(dataBaseConfig.getDbName()));
-		List<TableDefinition> tablesList = new ArrayList<>(resultList.size());
+		List<TableDefinition> tablesList = new ArrayList<TableDefinition>(resultList.size());
 		
 		for (Map<String, Object> rowMap : resultList) {
 			tablesList.add(this.buildTableDefinition(rowMap));
