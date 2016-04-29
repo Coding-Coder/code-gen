@@ -207,7 +207,7 @@ formPanel = new FDFormPanel({
 		,new FDTextBox({domId:'txt-name',name:'name',msgId:'formMsg'
 			,validates:[
 		     {rule:{notNull:true},successClass:'green',errorClass:'require-red',errorMsg:'模版名不能为空'}
-		     ,{rule:{maxLength:20},successClass:'green',errorClass:'require-red',errorMsg:'模版名长度不能大于20'}
+		     ,{rule:{maxLength:30},successClass:'green',errorClass:'require-red',errorMsg:'模版名长度不能大于30'}
 		     ]
 		})
 	    ,new FDTextBox({domId:'txt-fileName',name:'fileName',msgId:'formMsg',width:300
