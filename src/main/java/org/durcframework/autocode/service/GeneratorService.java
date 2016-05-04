@@ -72,11 +72,7 @@ public class GeneratorService {
     
     private String doFormat(String fileName,String content) {
     	if(fileName.endsWith(".xml")) {
-    		try {
-				return XmlFormat.format(content);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			return XmlFormat.format(content);
     	}
     	return content;
     }
