@@ -17,6 +17,7 @@ import org.durcframework.autocode.generator.TableDefinition;
 import org.durcframework.autocode.generator.TableSelector;
 import org.durcframework.autocode.util.FileUtil;
 import org.durcframework.autocode.util.VelocityUtil;
+import org.durcframework.autocode.util.XmlFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -55,11 +56,29 @@ public class GeneratorService {
 
                 CodeFile codeFile = new CodeFile(packageName, fileName, content);
                 
+                this.formatFile(codeFile);
+                
                 codeFileList.add(codeFile);
             }
         }
 
         return codeFileList;
+    }
+    
+    private void formatFile(CodeFile file) {
+    	String formated = this.doFormat(file.getTemplateName(), file.getContent());
+    	file.setContent(formated);
+    }
+    
+    private String doFormat(String fileName,String content) {
+    	if(fileName.endsWith(".xml")) {
+    		try {
+				return XmlFormat.format(content);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+    	return content;
     }
     
     /**
@@ -80,6 +99,8 @@ public class GeneratorService {
                 String content = doGenerator(sqlContext, template.getContent());
                 String fileName = doGenerator(sqlContext,template.getFileName());
                 String savePath = doGenerator(sqlContext,template.getSavePath());
+                
+                content = this.doFormat(fileName, content);
                 
                 if(StringUtils.isEmpty(fileName)) {
                 	fileName = template.getName();
