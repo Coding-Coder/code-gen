@@ -18,6 +18,10 @@ public class SQLContext {
 		this.packageName = getJavaBeanName().toLowerCase();
 	}
 	
+	/**
+	 * 返回Java类名
+	 * @return
+	 */
 	public String getJavaBeanName(){
 		String tableName = getJavaBeanNameLF();
 		return FieldUtil.upperFirstLetter(tableName);
@@ -95,6 +99,13 @@ public class SQLContext {
 		for (SQLContext ctx : tt) {
 			System.out.println(ctx.getJavaBeanName());
 		}
+		/*
+		输出:
+		RTableB
+		MyTable
+		UserFrontUser
+		UserBackUser
+		*/
 	}
 	
 	
