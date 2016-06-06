@@ -25,10 +25,20 @@ public class FieldUtil {
 		return "";
 	}
 	
+	/**
+	 * 过滤"."
+	 * @param field
+	 * @return
+	 */
 	public static String dotFilter(String field){
 		if (StringUtils.hasText(field)) {
 			if(field.indexOf(".") > -1) {
-				return field.split("\\.")[1];
+				String[] words = field.split("\\.");
+				String ret = "";
+				for (String str : words) {
+					ret +=upperFirstLetter(str);
+				}
+				return ret;
 			}
 		}
 		return field;

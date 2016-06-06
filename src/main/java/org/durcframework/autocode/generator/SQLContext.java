@@ -82,4 +82,20 @@ public class SQLContext {
 		this.packageName = packageName;
 	}
 	
+	
+	public static void main(String[] args) {
+		
+		SQLContext[] tt = {
+			new SQLContext(new TableDefinition("r_table_b"))
+			,new SQLContext(new TableDefinition("MyTable"))
+			,new SQLContext(new TableDefinition("user.frontUser"))
+			,new SQLContext(new TableDefinition("user.back_user"))
+		};
+		
+		for (SQLContext ctx : tt) {
+			System.out.println(ctx.getJavaBeanName());
+		}
+	}
+	
+	
 }
