@@ -76,6 +76,7 @@ FDWindow.prototype.getOptions = function() {
 		,afterClose:null
 		/** 是否立即显示 */
 		,isLoadShow:false
+		,toggleable:false
 	});
 }
 

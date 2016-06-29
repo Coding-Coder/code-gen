@@ -105,16 +105,18 @@ FDTabView.prototype = {
 	 */
 	,showItemByValue:function(value) {
 		var item = this._getItemByValue(value);
-		// 始终执行onclick事件
-		if(item && this._isAbleOperate(item)) {
-			this._processClickEvent(item);
+		if(item) {
+			// 始终执行onclick事件
+			if(this._isAbleOperate(item)) {
+				this._processClickEvent(item);
+			}
+			if(this._isAbleOperate(item) && !this.isChecked(item)) {
+				this._selectItem(item);
+				this._processChangeEvent(item);
+			}
+			// 刷新iframe
+			this._refresh(item);
 		}
-		if(item && this._isAbleOperate(item) && !this.isChecked(item)) {
-			this._selectItem(item);
-			this._processChangeEvent(item);
-		}
-		// 刷新iframe
-		this._refresh(item);
 	}
 	// 将所有的items未选中
 	,_unselectAllItems:function() {
@@ -132,10 +134,12 @@ FDTabView.prototype = {
 	}
 	// 选中item
 	,_selectItem:function(item) {
-		this._unselectAllItems();
-		item.checked = true;
-		FDLib.dom.addClass(this._getLiByValue(item.value),this._getSelectClassName());
-		this._showItemContent(item);
+		if(item) {
+			this._unselectAllItems();
+			item.checked = true;
+			FDLib.dom.addClass(this._getLiByValue(item.value),this._getSelectClassName());
+			this._showItemContent(item);
+		}
 	}
 	// 未选中
 	,_unselectItem:function(item) {
@@ -167,9 +171,11 @@ FDTabView.prototype = {
 	}
 	// 将tab定位在HTML节点上
 	,_renderToDesDom:function() {
-		var desDom = FDLib.getEl(this.options.domId) || document.body;
-		desDom.appendChild(this.tabDiv);
-		this._selectItem(this.checkedItem || this.options.items[0]);
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			var desDom = FDLib.getEl(this.options.domId);
+			desDom.appendChild(this.tabDiv);
+			this._selectItem(this.checkedItem || this.options.items[0]);
+		}
 	}
 	// 构建选项卡
 	,_buildTabItem:function(items) {

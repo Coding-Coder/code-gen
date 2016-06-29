@@ -12,8 +12,8 @@ FDModel.prototype = {
 	 * @return 返回后台数据
 	 */
 	postData:function(url,schData,callback) {
-		FDLib.ajax.request({url:url,params:schData,success:callback,error:function(){
-			alert('查询出错,请查看日志');
+		FDLib.ajax.request({url:url,params:schData,success:callback,error:function(e){
+			FDWindow.alert(e.message);
 		}});
 	}
 };

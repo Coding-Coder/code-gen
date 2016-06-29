@@ -4,13 +4,6 @@
  */
 var FDPanelDomView = function(options){
 	this.options = options;
-	
-	this.panel = this.buildPanel();
-	this.titleBar = this.buildTitleBar();
-	this.title = this.buildTitle();
-	this.closeBtn = this.buildCloseBtn();
-	this.toggleBtn = this.buildToggleBtn();
-	this.content = this.buildContent();
 	// 目标节点
 	this.targetDom = this.buildTargetDom();
 	
@@ -21,9 +14,21 @@ var FDPanelDomView = function(options){
 
 FDPanelDomView.prototype = {
 	initPanel:function() {
+		this.panel = this.buildPanel();
+		this.titleBar = this.buildTitleBar();
+		this.title = this.buildTitle();
+		this.content = this.buildContent();
+		
 		this.titleBar.appendChild(this.title);
-		this.titleBar.appendChild(this.toggleBtn);
-		this.titleBar.appendChild(this.closeBtn);
+		
+		if(this.options.closeable){
+			this.closeBtn = this.buildCloseBtn();
+			this.titleBar.appendChild(this.closeBtn);
+		}
+		if(this.options.toggleable){
+			this.toggleBtn = this.buildToggleBtn();
+			this.titleBar.appendChild(this.toggleBtn);
+		}
 		
 		this.panel.appendChild(this.titleBar);
 		this.panel.appendChild(this.content);
@@ -47,14 +52,16 @@ FDPanelDomView.prototype = {
 		this.content.innerHTML = content;
 	}
 	,render:function(domId){
-		this.content.appendChild(this.targetDom);
-		
-		if(domId){
-			this.options.domId = domId;
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			this.content.appendChild(this.targetDom);
+			
+			if(domId){
+				this.options.domId = domId;
+			}
+			var dom = FDLib.getEl(this.options.domId) || document.body;
+			
+			dom.appendChild(this.panel);
 		}
-		var dom = FDLib.getEl(this.options.domId) || document.body;
-		
-		dom.appendChild(this.panel);
 	}
 	,close:function() {
 		this.panel.style.display = 'none';
@@ -87,10 +94,16 @@ FDPanelDomView.prototype = {
 		return panel;
 	}
 	,buildTitleBar:function() {
-		return this.createEl(FDTag.DIV,this.getTitleBarClassName());
+		var titleBar = this.createEl(FDTag.DIV,this.getTitleBarClassName());
+		titleBar.style.fontSize = '12px';
+		return titleBar;
 	}
 	,buildTitle:function() {
 		var title = this.createEl(FDTag.SPAN,this.getTitleClassName());
+		// 标题文字不可选中
+		title.setAttribute('unselectable','on');
+		title.setAttribute('onselectstart','return false;');
+		title.style.cssText = '-moz-user-select:none;';
 		if(this.options.title){
 			title.innerHTML = this.options.title;
 		}
@@ -131,6 +144,12 @@ FDPanelDomView.prototype = {
 			
 			FDLib.addHoverEffect(toggleBtn);
 			
+			if(this.options.isExpand) {
+				toggleBtn.title = "点击收缩";
+			}else{
+				toggleBtn.title = "点击展开";
+			}
+			
 			return toggleBtn;
 		}else{
 			return this._getEmptySpan();
@@ -147,7 +166,7 @@ FDPanelDomView.prototype = {
 	}
 	,slideToggle:function() {
 		if(this.isExpand()) {
-			this.unexpand();
+			this.collapse();
 		}else{
 			this.expand();
 		}
@@ -161,8 +180,12 @@ FDPanelDomView.prototype = {
 		var icon = this.getToggleIcon();
 		FDLib.dom.removeClass(icon,'ui-icon-plusthick');
 		FDLib.dom.addClass(icon,'ui-icon-minusthick');
+		this.afterExpand();
 	}
 	,unexpand:function() {
+		this.collapse();
+	}
+	,collapse:function() {
 		var target = this.toggleBtn;
 		this.content.style.display = 'none';
 		this.options.isExpand = false;
@@ -170,11 +193,18 @@ FDPanelDomView.prototype = {
 		var icon = this.getToggleIcon();
 		FDLib.dom.addClass(icon,'ui-icon-plusthick');
 		FDLib.dom.removeClass(icon,'ui-icon-minusthick');
+		this.afterCollapse();
+	}
+	,afterExpand:function() {
+		
+	}
+	,afterCollapse:function(){
+		
 	}
 	,isExpand:function() {
 		var options = this.options;
-		var isSlide = options.isSlide
-		return !isSlide || (options.isExpand && isSlide);
+		var toggleable = options.toggleable
+		return !toggleable || (options.isExpand && toggleable);
 	}
 	
 	,getTitleBarBtnClassName:function() {

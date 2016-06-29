@@ -147,6 +147,104 @@ var FDLib = (function(){
 		createInterface : function(methods) {
 			return new Interface(methods);
 		}
+		,createClass:function(className,initFun,superClass) {
+			var subClass = initFun;
+			window[className] = subClass;
+			if(superClass) {
+				this.extend(subClass,superClass);
+			}
+		}
+		/**
+		 * 创建接口
+		 * @param {String} className 类名
+		 * @param {Array} methods 接口方法列表
+		 */
+		,Interface:function(className,methods) {
+			var _interface = new Interface(methods);
+			_interface.className = className;
+			window[className] = _interface;
+			return _interface;
+		}
+		/**
+		 * 创建类
+		 * @param {String} className 类名
+		 * @param {Object} props 类方法
+		 * @param {Function} superClass 父类
+		 */
+		,Class:function(className,props,superClass) {
+			var subClass = function() {
+				// 如果有父类,调用父类构造函数
+				if(subClass.superclass) {
+					subClass.superclass.init.apply(this,arguments);
+				}
+				// 调用构造函数
+				props.init.apply(this,arguments);
+				// 将构造函数清除,不允许后续再调用
+				this.init = function(){
+					throw new Error('类' + this.getClassName() + '已经被初始化,调用init()无效');
+				};
+			}
+			
+			// 如果有父类,则继承
+			if(typeof superClass === 'function') {
+				var F = function(){};
+				F.prototype = superClass.prototype;
+				subClass.prototype = new F();			
+				subClass.prototype.constructor = subClass;
+				
+				subClass.superclass = superClass.prototype;
+				if(superClass.prototype.constructor == Object.prototype.constructor) {
+					superClass.prototype.constructor = superClass;
+				}
+				
+				// 新增一个函数,可以用来调用父类方法
+				subClass.prototype._super = function(methodName) {
+					var argus = [];
+					for(var i=1, len=arguments.length;i<len; i++) {
+						argus.push(arguments[i]);
+					}
+					return subClass.superclass[methodName].apply(this,argus);
+				}
+			}
+			
+			var subProto = subClass.prototype;
+			// 复制方法
+			for(var propName in props) {
+				subProto[propName] = props[propName];
+			}
+			
+			// 增加方法,放在继承处理之后
+			subClass.prototype.getClassName = function() {
+				return className;
+			}
+			
+			// 接口验证
+			subClass.impl = function() {
+				if (arguments.length > 0) {
+					var proto = subClass.prototype;
+		        	var _className = proto.getClassName();
+		            for (var i = 0, len = arguments.length; i < len; i++) {
+		                var interfac = arguments[i];
+		                var interfaceName = interfac.className;
+		                if (!interfac._isInterfaceType) {
+		                    throw new Error(_className + ".impl()第" + (i + 1) + "个参数必须是接口类型");
+		                }
+		                for (var j = 0, methodLen = interfac.methods.length; j < methodLen; j++) {
+		                    var method = interfac.methods[j];
+		                    if (!proto[method] || typeof proto[method] !== "function") {
+		                        throw new Error("类"+_className+"没有实现"+interfaceName+"." + method + "()方法");
+		                    }
+		                }
+		            }
+		        }
+		        
+		        return subClass;
+			}
+			
+			window[className] = subClass;
+			
+			return subClass;
+		}
 		/**
 		 * 继承原型
 		 * <pre>

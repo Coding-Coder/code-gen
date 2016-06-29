@@ -49,6 +49,18 @@ FDPaginationView.prototype._initBtnState = function(data) {
 	}
 }
 
+FDPaginationView.prototype.hide = function() {
+	if(this.gridDomMap.pageDiv_3){
+		FDLib.dom.hideDom(this.gridDomMap.pageDiv_3);
+	}
+}
+
+FDPaginationView.prototype.show = function() {
+	if(this.gridDomMap.pageDiv_3){
+		FDLib.dom.showDom(this.gridDomMap.pageDiv_3);
+	}
+}
+
 /**
  * 构建分页
  */
@@ -60,7 +72,6 @@ FDPaginationView.prototype.buildPagination = function() {
 		this._buidlPaginButtons();
 	
 		this._appendPaginToDiv();
-		
 	}
 }
 
@@ -91,7 +102,7 @@ FDPaginationView.prototype._buidlPaginButtons = function() {
 	}
 	
 	if(!this.options.showPaging && !this.options.showSetting) {
-		FDLib.dom.hideDom(this.gridDomMap.pageDiv_3);
+		this.hide();
 	}
 }
 

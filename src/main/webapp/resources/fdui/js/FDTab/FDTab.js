@@ -232,18 +232,31 @@ FDTab.prototype = {
 	// 初始化items项
 	,_initItems:function(items) {
 		var self = this;
-		FDLib.util.each(items,function(item){
+		var newItems = this._refreshPermissionItems(items);
+		FDLib.util.each(newItems,function(item){
 			item = self._checkValueAndContentId(item);
 			item = self._checkContentDiv(item);
 			
 			self._storeItem(item);
 		});
 		
-		return items;
+		return newItems;
+	}
+	,_refreshPermissionItems:function(items) {
+		var newItems = [];
+		FDLib.util.each(items,function(item){
+			FDRight.checkByCode(item.operateCode,function(){
+				newItems.push(item);
+			});
+		});
+		
+		this.options.items = newItems;
+		
+		return newItems;
 	}
 	,_buildTab:function(items) {
-		var items = this._initItems(items);
-		this.tabInstance.buildTab(items);
+		var newItems = this._initItems(items);
+		this.tabInstance.buildTab(newItems);
 	}
 	,_resetData:function() {
 		this.options.itemStore = {};

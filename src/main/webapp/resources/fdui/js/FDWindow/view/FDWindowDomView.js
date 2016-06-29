@@ -6,6 +6,8 @@ var FDWindowDomView = function(options) {
 	this._createButtons();
 	
 	this.setDragable();
+	
+	this.setPanelClick();
 }
 
 FDLib.extend(FDWindowDomView,FDPanelDomView);
@@ -25,12 +27,12 @@ FDWindowDomView.getNextZ_Index = function() {
  */
 //@override
 FDWindowDomView.prototype.show = function(callback) {
-	var zIndex = FDWindowDomView.getNextZ_Index();
+	
 	if(this.options.modal) {
-		this.showBgModal(zIndex);
+		this.showBgModal();
 	}
 	// 放在showBgModal()后面,确保zIndex始终比遮罩层的大
-	this.panel.style.zIndex = ++zIndex;
+	this.addPanelZ_Index();
 	
 	FDWindowDomView.superclass.show.call(this);
 	
@@ -44,6 +46,11 @@ FDWindowDomView.prototype.show = function(callback) {
 	}
 }
 
+// 增加z-index
+FDWindowDomView.prototype.addPanelZ_Index = function() {
+	this.panel.style.zIndex = FDWindowDomView.getNextZ_Index();
+}
+
 //@override
 FDWindowDomView.prototype.close = function(callback) {
 	this.hideBgModal();
@@ -52,6 +59,17 @@ FDWindowDomView.prototype.close = function(callback) {
 		callback();
 	}
 }
+
+//@override
+FDWindowDomView.prototype.afterExpand = function() {
+	FDLib.dom.showDom(this.buttonPanel);
+}
+
+//@override
+FDWindowDomView.prototype.afterCollapse = function(){
+	FDLib.dom.hideDom(this.buttonPanel);
+}
+
 
 FDWindowDomView.prototype.hideBgModal = function() {
 	this.getBgModal().style.display = 'none';
@@ -78,8 +96,8 @@ FDWindowDomView.prototype.getBgModal = function() {
 	return this.bgModal;
 }
 
-FDWindowDomView.prototype.showBgModal = function(zIndex) {
-	zIndex = zIndex || FDWindowDomView.getNextZ_Index();
+FDWindowDomView.prototype.showBgModal = function() {
+	var zIndex = FDWindowDomView.getNextZ_Index();
 	var doc = document;
 	var body = doc.body;
 	var docEl = doc.documentElement;
@@ -109,6 +127,13 @@ FDWindowDomView.prototype.setDragable = function() {
 	}else{
 		FDDragUtil.destory(this.titleBar);
 	}
+}
+
+FDWindowDomView.prototype.setPanelClick = function() {
+	var that = this;
+	FDLib.event.addEvent(this.panel,'mousedown',function(e){
+		that.addPanelZ_Index();
+	});
 }
 
 // 构建按钮

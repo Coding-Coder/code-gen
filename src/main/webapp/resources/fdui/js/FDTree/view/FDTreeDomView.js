@@ -124,13 +124,15 @@ FDTreeDomView.prototype = {
 	}
 	,buildToggler:function(rowData){
 		var className = 'pui-tree-toggler ui-icon ' 
-			+ (this._isOpen(rowData) ? this.getOpenClassName() : this.getCloseClassName());
+			+ ( (rowData.state && 'open' == rowData.state) ? this.getOpenClassName() : this.getCloseClassName());
 		// 没有子节点,隐藏箭头
 		if(!this.hasChild(rowData)){
 			className = 'pui-treenode-leaf-icon';
 		}
+		
 		var span = this._createNodeSpan(className);
 		var that = this;
+		
 		span.onclick = function() {
 			that.toggle(this,rowData);
 		};
@@ -156,8 +158,15 @@ FDTreeDomView.prototype = {
 		// 点击文字伸缩
 		var isClickToggle = this.options.clickToggle;
 		var that = this;
+		var isHoverEffect = true;
 		
-		FDLib.addHoverEffect(lab);
+		var hoverEffectHandler = this.options.hoverEffectHandler;
+		if(FDLib.util.isFunction(hoverEffectHandler)){
+			isHoverEffect = hoverEffectHandler(rowData,lab);
+		}
+		if(isHoverEffect){
+			FDLib.addHoverEffect(lab);
+		}
 		
 		lab.onclick = function(){
 			if(isClickToggle){
@@ -349,7 +358,7 @@ FDTreeDomView.prototype = {
 		FDLib.dom.addClass(dom,'ui-state-highlight');
 	}
 	,toggle:function(dom,rowData){
-		if(this._isOpen(rowData)){
+		if(this._isOpen(dom)){
 			this.collapse(dom);
 			rowData.state = 'closed';
 		}else{
@@ -368,6 +377,7 @@ FDTreeDomView.prototype = {
 		}
 	}
 	,expand:function(toggler){
+		toggler.state = 'open';
 		var children = toggler.childrenUL;
 		if(children){
 			FDLib.dom.removeClass(toggler,this.getCloseClassName());
@@ -376,6 +386,7 @@ FDTreeDomView.prototype = {
 		}
 	}
 	,collapse:function(toggler){
+		toggler.state = 'close';
 		var children = toggler.childrenUL;
 		if(children){
 			FDLib.dom.removeClass(toggler,this.getOpenClassName());
@@ -383,8 +394,11 @@ FDTreeDomView.prototype = {
 			children.style.display="none";
 		}
 	}
-	,_isOpen:function(rowData){
-		return rowData.state == 'open';
+	,_isOpen:function(dom){
+		if(!dom.state) {
+			return false;
+		}
+		return dom.state == 'open';
 	}
 	,_createNodeSpan:function(className,text){
 		var span = document.createElement(FDTag.SPAN);
@@ -397,6 +411,9 @@ FDTreeDomView.prototype = {
 	,buildTreePanel:function() {
 		var treePanel = document.createElement(FDTag.DIV);
 		treePanel.className = 'pui-tree ui-widget ui-widget-content ui-corner-all';
+		if(!this.options.showBorder) {
+			treePanel.style.border = '0px';
+		}
 		return treePanel;
 	}
 	,hasChild:function(rowData){
@@ -406,8 +423,10 @@ FDTreeDomView.prototype = {
 		return rowData[this.childrenFieldName] || [];
 	}
 	,render:function(){
-		var dom = FDLib.getEl(this.options.domId);
-		dom.innerHTML = '';
-		dom.appendChild(this.treePanel);
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			var dom = FDLib.getEl(this.options.domId);
+			dom.innerHTML = '';
+			dom.appendChild(this.treePanel);
+		}
 	}
 }

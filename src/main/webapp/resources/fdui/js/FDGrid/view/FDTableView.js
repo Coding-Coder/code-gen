@@ -37,15 +37,13 @@ FDTableView.prototype.processData = function(resultData) {
 	this.resultData = resultData;
 	
 	this.removeAllData();
-	this._resetHeight();
 	
 	if((this.resultData[GlobalParams.serverRowsName] || []).length > 0) {
 		this._buildGridData();
-		this._refreshPaginationInfo(resultData);
 	}else{
 		this.showNoResultMsg();
 	}
-	
+	this._refreshPaginationInfo(resultData);
 }
 
 FDTableView.prototype.renderTo = function(domId) {
@@ -101,9 +99,6 @@ FDTableView.prototype._buildGridData = function() {
 	this.each(rows,function(rowData,rowIndex){
 		self.insertRow(rowIndex,rowData);
 	});
-	
-	this._initTableSize();
-	
 	this.showTable();
 }
 
@@ -242,6 +237,10 @@ FDTableView.prototype._initTableDom = function() {
 	this._initFrame();
 	this._initHeadDom();
 	this._initPaginDom();
+	
+	this.setStyle();
+	
+	this._initTableSize();
 }
 
 /**
@@ -257,8 +256,6 @@ FDTableView.prototype._initFrame = function() {
 	this.gridDomMap.table_1.appendChild(this.gridDomMap.tbody_0);
 	this.gridDomMap.tableDiv_2.appendChild(this.gridDomMap.table_1);
 	this.gridDomMap.gridDiv_3.appendChild(this.gridDomMap.tableDiv_2);
-	
-	this.setStyle();
 }
 
 

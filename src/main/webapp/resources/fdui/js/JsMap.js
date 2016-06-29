@@ -7,7 +7,9 @@ FDLib.JsMap = {
 		path:'FDCalendar/FDCalendar.js'
 		,require:['FDButton','FDControl','JString','FDLib.date','FDLib.util','FDLib.dom','FDLib.event','FDTag','FDSelectBox']
 	}
-	,FDControl:{path:'FDControl/FDControl.js'}
+	,FDControl:{path:'FDControl/FDControl.js'
+		,require:['FDRight']
+	}
 	,FDField:{path:'FDForm/interface/FDField.js'}
 	,FDItem:{path:'FDForm/interface/FDItem.js'}
 	,FDButton:{
@@ -136,6 +138,10 @@ FDLib.JsMap = {
 	,FDPanel:{
 		path:'FDPanel/FDPanel.js'
 		,require:['FDControl','FDLib.util','FDPanelDomView']
+	}
+	,FDRight:{
+		path:'FDRight/FDRight.js'
+		,require:['FDLib.util']
 	}
 	,FDTabView:{
 		path:'FDTab/view/FDTabView.js'

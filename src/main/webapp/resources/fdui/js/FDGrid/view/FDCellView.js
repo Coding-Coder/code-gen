@@ -23,14 +23,11 @@ FDCellView.prototype.buildCellData = function(rowData,td,rowIndex,tr) {
 	var html = rowData[this.column.name] || '';
 	var style =  this.getStyle();
 	
-	td.innerHTML = html; // 设置TD内容
-	
 	if(FDLib.util.isFunction(this.column.render)){
-		var renderHtml = this.column.render(rowData,td,rowIndex);
-		if(renderHtml){
-			td.innerHTML = renderHtml;
-		}
+		html = this.column.render(rowData,td,rowIndex);
 	}
+	
+	td.innerHTML = html; // 设置TD内容
 	
 	FDLib.dom.bindDomStyle(td,style);
 	// 文本在同一行

@@ -46,6 +46,24 @@ FDRowSelectView.prototype._buildSelector = function(rowData,rowIndex,tr) {
 			self.grid._doNoSelectedHandler(selector,tr);
 		}
 		
+		if(self.selectOption.cache) {
+			if(selector.type == 'radio') {
+				self.grid.resetSelectCache();
+			}
+			self.grid.getSelectCache()[this.value] = this.checked ? rowData : false;
+		}
+		
+	}
+	
+	selector.setSelect = function(checked) {
+		selector.checked = !!checked;
+		selector.onclick();
+	}
+	
+	if(selector.checked) { // 如果勾选
+		self.grid._doSelectHandler(selector,tr);
+	}else{
+		self.grid._doNoSelectedHandler(selector,tr);
 	}
 	
 	return selector;
@@ -59,6 +77,10 @@ FDRowSelectView.prototype._buildSelectInput = function(selectType,rowData) {
 	var idValue = rowData[this.id];
 	if(idValue){
 		selector.value = idValue;
+	}
+	
+	if(this.selectOption.cache) {
+		selector.checked = this.grid.isInCache(rowData,this.id);
 	}
 	
 	return selector;

@@ -52,6 +52,8 @@ domId:null
 ,childrenFieldName:'children'
 // 是否显示checkbox
 ,checkable:false
+// 是否显示边框
+,showBorder:true
 // 任何情况下点击"+/-"展开/收缩
 // true时点击节点即可展开/收缩
 // 默认为false
@@ -78,10 +80,16 @@ domId:null
 			,childrenFieldName:'children'
 			// 是否显示checkbox
 			,checkable:false
+			// 是否显示边框
+			,showBorder:true
 			// 任何情况下点击"+/-"展开/收缩
 			// true时点击节点即可展开/收缩
 			// 默认为false
 			,clickToggle:false
+			// 点击时高亮
+			,highlightHandler:function(rowData,dom){return true;}
+			// 鼠标移动高亮
+			,hoverEffectHandler:function(rowData,lab){return true;}
 		}
 	}
 	/**

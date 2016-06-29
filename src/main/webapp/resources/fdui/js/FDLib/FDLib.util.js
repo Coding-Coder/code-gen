@@ -19,6 +19,31 @@
         '`': '&#x60;'
     };
     
+    var paramMap = null;
+    
+    function getParamMap() {
+		if(!paramMap) {
+			var map = {};
+			var query = location.search; 
+			
+			if(query && query.length>=1) {
+				query = query.substring(1);
+				var pairs = query.split("&");
+				for(var i = 0; i < pairs.length; i++) { 
+					var pos = pairs[i].indexOf('='); 
+					if (pos == -1) continue; 
+					var argname = pairs[i].substring(0,pos); 
+					var value = pairs[i].substring(pos+1); 
+					value = decodeURIComponent(value);
+					map[argname] = value;
+				}
+			}
+			
+			paramMap = map;
+		}
+		return paramMap;
+	}
+    
 	return {
 		/**
 		 * 是否为数组
@@ -139,6 +164,30 @@
 			}
 		}
 		/**
+		 * 数组arr中是否包含o
+		 * @param arr 数组
+		 * @param o 
+		 * @return 包含返回true
+		 */
+		,contains:function(arr,o) {
+			return this.indexOf(arr,o) >= 0;
+		}
+		/**
+		 * o在数组elementData中的位置,从0开始,没有则返回-1
+		 * @param elementData 数组
+		 * @param o 
+		 */
+		,indexOf:function(elementData,o) {
+			if (o && this.isArray(elementData)) {
+				for (var i = 0,size=elementData.length; i < size; i++){
+	            	if (o == elementData[i]){
+	                	return i;
+	                }
+				}
+	        } 
+	        return -1;
+		}
+		/**
 		 * 格式化长度值,如'100px'变为100
 		 * @return 返回int型的值
 		 */
@@ -188,6 +237,13 @@
 		        expire = "; expires=" + expire.toGMTString();
 		    }
 		    document.cookie = name + "=" + escape(value) + expire;
+		}
+		/**
+		 * 获取网址参数,http://www.xx.com/p-javascript_location.shtml?part=1
+		 * FDLib.util.getParam('part'); // 1
+		 */
+		,getParam:function(key) {
+			return getParamMap()[key];
 		}
 	};
 })();

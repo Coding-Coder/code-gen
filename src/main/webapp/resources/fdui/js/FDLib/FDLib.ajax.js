@@ -19,8 +19,14 @@ FDLib.ajax = {
 			if(xhr.readyState !== 4) {
 				return;
 			}
-			var jsonData = JSON.parse(xhr.responseText);
-			if(xhr.status === 200 || xhr.status === 0) {
+			var status = xhr.status;
+			var jsonData = '';
+			try{
+				jsonData = JSON.parse(xhr.responseText);
+			}catch(e){
+				jsonData = JSON.parse('{"message":"后台请求错误(status:' + status + ')"}');
+			}
+			if(status === 200 || status === 0) {
 				callback(jsonData);
 			} else {
 				error(jsonData);
@@ -29,6 +35,7 @@ FDLib.ajax = {
 		
 		xhr.open('POST',url,false);
 		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		xhr.setRequestHeader("X-Requested-With","XMLHttpRequest");
 		xhr.send(this.formatParam(params) || null);
 	}
 	,formatParam:function(params) {

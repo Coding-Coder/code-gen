@@ -199,7 +199,12 @@ FDGrid.prototype = {
 				,onclick:function(rowData,selector,tr,rowIndex){}
 				,onload:function(rowData,selector,tr,rowIndex){}
 				,hideCheckAll:false // 隐藏全选checkbox
+				// 设置缓存,为true时,表格翻页也会记住勾选状态
+				// 当进行search()或reload()会清除缓存
+				,cache:false
 			}
+			// 表格勾选缓存
+			,selectCache:{}
 			 // 存放表格DOM节点实例,统一管理
 			,gridDomMap:{
 				tbody_0:null // <tbody>
@@ -261,6 +266,7 @@ FDGrid.prototype = {
 			,onBeforeLoad:function(param){return true;}
 			 // 在数据加载成功的时候触发。
 			,onLoadSuccess:function(data){return data;}
+			,afterRefresh:function(data) {}
 			 // 在用户点击一行的时候触发
 			 //  @param rowIndex：点击的行的索引值，该索引值从0开始。
 			 //  @param rowData：对应于点击行的记录。
@@ -307,7 +313,19 @@ FDGrid.prototype = {
 			this.options.schData = schData || {};
 			this.options.pageIndex = 1;
 		}
+		this.resetSelectCache();
 		this.refresh();
+	}
+	/**
+	 * 清空勾选缓存
+	 */
+	,resetSelectCache:function() {
+		if(this.isSelectable()) {
+			this.options.selectCache = {};
+		}
+	}
+	,getSelectCache:function() {
+		return this.options.selectCache;
 	}
 	/**
 	 * 加载本地数据，旧的行将被移除。
@@ -342,18 +360,50 @@ FDGrid.prototype = {
 	 */
 	,getChecked:function(){
 		if(this.multiSelect()) {
+			var idName = this.options.id;
 			var ret = [];
 			var rows = this.getRows();
 			var self = this;
+			
+			var isCache = this.options.selectOption.cache;
+			
+			if(isCache) {
+				var selectCache = this.getSelectCache();
+				// 先添加缓存中的
+				for(var idVal in selectCache) {
+					if(selectCache[idVal]) {
+						ret.push(selectCache[idVal]);
+					}
+				}
+			}
+			// 再添加真实勾选的
 			FDLib.util.each(rows,function(row,i){
 				var selector = self.getSelectorByRowIndex(i);
-				if(selector && selector.checked) {
+				var isInCache = self.isInCache(row,idName);
+				if(selector && selector.checked && !isInCache) {
 					ret.push(row);
 				}
 			});
 			
 			return ret;
 		}
+	}
+	,isInCache:function(row,idName) {
+		if(!idName) {
+			return false;
+		}
+		var idVal = row[idName];
+		return !!this.options.selectCache[idVal];
+	}
+	/**
+	 * 获取选中条数
+	 */
+	,getCheckedLength:function() {
+		var checked = this.getChecked();
+		if(!checked){
+			return 0;
+		}
+		return checked.length;
 	}
 	/**
 	 * 返回第一个被选中的行
@@ -363,6 +413,19 @@ FDGrid.prototype = {
 		if(this.singleSelect()) {
 			var rows = this.getRows();
 			var self = this;
+			
+			var isCache = this.options.selectOption.cache;
+			
+			if(isCache) {
+				var selectCache = this.getSelectCache();
+				// 先添加缓存中的
+				for(var idVal in selectCache) {
+					if(selectCache[idVal]) {
+						return selectCache[idVal];
+					}
+				}
+			}
+			
 			return FDLib.util.each(rows,function(row,i){
 				var selector = self.getSelectorByRowIndex(i);
 				if(selector && selector.checked) {
@@ -441,20 +504,11 @@ FDGrid.prototype = {
 	,clearChecked:function(){
 		this.uncheckAll();
 	}
-	,_selectedHandler:function(selector,i) {
-		var rows = this.getTableTR();
-		if(selector.disabled) {
-			return;
-		}
-		var tr = rows[i];
-		this._doSelectHandler(selector,tr);
-	}
 	// 勾选行
 	,_doSelectHandler:function(selector,tr){
 		if(selector.disabled) {
 			return;
 		}
-		selector.checked = 'checked';
 		if(this.singleSelect()){ // 如果是单选,移除上一条单选的状态
 			this._bindSingleSelectRow(tr);
 		}
@@ -571,6 +625,8 @@ FDGrid.prototype = {
 			this.options.result = newObj;
 			this.callViewsProcess();
 		}
+		
+		this.options.afterRefresh(this.options.result);
 	}
 	,getPageIndex:function() {
 		return this.options.pageIndex;
@@ -662,8 +718,11 @@ FDGrid.prototype = {
 	/**
 	 * 是否是选择状态
 	 */
-	,isSelectStatus:function() {
+	,isSelectable:function() {
 		return this.singleSelect() || this.multiSelect();
+	}
+	,isSelectStatus:function(){
+		return this.isSelectable();
 	}
 	/**
 	 * 是否单选
@@ -688,7 +747,7 @@ FDGrid.prototype = {
 	 * 通过行索引获取选择器,即input
 	 */
 	,getSelectorByRowIndex:function(rowIndex) {
-		if(this.isSelectStatus()) {
+		if(this.isSelectable()) {
 			var trs = this.getTableTR();
 			return this._getInput(trs,rowIndex);
 		}
@@ -712,7 +771,11 @@ FDGrid.prototype = {
 	 */
 	,setSelected:function(rowIndex) {
 		var selector = this.getSelectorByRowIndex(rowIndex);
-		this._selectedHandler(selector,rowIndex);
+		if(selector.disabled) {
+			return;
+		}
+		selector.checked = 'checked';
+		selector.onclick();
 	}
 	/**
 	 * 设置某行数据不被选中 
@@ -720,7 +783,11 @@ FDGrid.prototype = {
 	 */
 	,setNoSelected:function(rowIndex) {
 		var selector = this.getSelectorByRowIndex(rowIndex);
-		this._noSelectedHandler(selector,rowIndex);
+		if(selector.disabled) {
+			return;
+		}
+		selector.checked = '';
+		selector.onclick();
 	}
 	/**
 	 * 取消单选的选择

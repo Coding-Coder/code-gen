@@ -25,12 +25,16 @@ FDButtonView.prototype.buildCellData = function(rowData,td,rowIndex,tr) {
 	var style =  this.getStyle();
 	
 	FDLib.util.each(this.actionButtons,function(button){
-		var a = self._buildButton(button,rowData,rowIndex);
 		
-		if(a) {
-			td.appendChild(a);
-			FDLib.dom.bindDomStyle(td,style);
+		if(FDRight.checkByCode(button.operateCode)) {
+			var a = self._buildButton(button,rowData,rowIndex);
+		
+			if(a) {
+				td.appendChild(a);
+				FDLib.dom.bindDomStyle(td,style);
+			}
 		}
+		
 	});
 
 }

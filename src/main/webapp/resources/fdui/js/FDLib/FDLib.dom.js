@@ -29,14 +29,18 @@ FDLib.dom = {
 	 * @param dom DOM对象
 	 */
 	,hideDom:function(dom) {
-		dom.style.display = "none";
+		if(dom) {
+			dom.style.display = "none";
+		}
 	}
 	/**
 	 * 显示节点
 	 * @param dom DOM对象
 	 */
 	,showDom:function(dom) {
-		dom.style.display = "";
+		if(dom) {
+			dom.style.display = "";
+		}
 	}
 	/**
 	 * 添加元素的class属性

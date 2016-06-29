@@ -73,7 +73,7 @@ FDComponent.prototype = {
 			this.options.domId = domId;
 		}
 		
-		var desDom = FDLib.getEl(this.options.domId) || document.body;
+		var desDom = FDLib.getEl(this.options.domId);
 		this.renderToDom(desDom);
 	}
 	/**
@@ -81,9 +81,11 @@ FDComponent.prototype = {
 	 * @param dom DOM对象
 	 */
 	,renderToDom:function(desDom){
-		FDLib.util.each(this.contentDoms,function(dom){
-			desDom.appendChild(dom);
-		});
+		if(desDom && FDRight.checkByCode(this.options.operateCode)) {
+			FDLib.util.each(this.contentDoms,function(dom){
+				desDom.appendChild(dom);
+			});
+		}
 	}
 	/**
 	 * 初始化控件内容

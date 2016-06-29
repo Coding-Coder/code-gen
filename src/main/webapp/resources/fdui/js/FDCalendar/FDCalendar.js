@@ -194,8 +194,10 @@ FDCalendar.prototype = {
 	 * 定位到dom节点
 	 */
 	,render:function() {
-		var dom = FDLib.getEl(this.options.domId) || document.body;
-		dom.appendChild(this.calendarDiv);
+		if(FDRight.checkByCode(this.options.operateCode)) {
+			var dom = FDLib.getEl(this.options.domId) || document.body;
+			dom.appendChild(this.calendarDiv);
+		}
 	}
 	/**
 	 * 获取年月日对象

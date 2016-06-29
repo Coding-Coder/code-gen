@@ -1,6 +1,7 @@
 /**
- * 面板视图层
+ * 面板视图层,已废弃,改用FDPanelDomView
  * 2012-8-12
+ * @deprecated
  * @private
  */
 var FDPanelView = function(options) {

@@ -54,14 +54,18 @@ FDValidate.prototype = {
 			this.msgDom.className = '';
 			FDLib.dom.addClass(this.msgDom,this.options.errorClass);
 		}
-		this.msgDom.innerHTML = msg || this.options.errorMsg;
+		if(this.msgDom) {
+			this.msgDom.innerHTML = msg || this.options.errorMsg;
+		}
 	}
 	,showSuccessMsg:function(msg) {
 		if(this.options.successClass) {
 			this.msgDom.className = '';
 			FDLib.dom.addClass(this.msgDom,this.options.successClass);
 		}
-		this.msgDom.innerHTML = msg || this.options.successMsg;
+		if(this.msgDom) {
+			this.msgDom.innerHTML = msg || this.options.successMsg;
+		}
 	}
 	/**
 	 * 验证操作

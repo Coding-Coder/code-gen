@@ -71,6 +71,8 @@ FDPanel.prototype = {
 			,height:null
 			/** 是否显示关闭按钮 */
 			,closeable:false
+			/** 是否显示折叠按钮 */
+			,toggleable:true
 		};
 	}
 	/**
