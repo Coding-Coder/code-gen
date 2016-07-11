@@ -109,6 +109,71 @@
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<!-- YUI Compressor Maven压缩插件 -->
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.3.0</version>
+				<configuration>
+					<!-- 读取js,css文件采用UTF-8编码 -->
+					<encoding>UTF-8</encoding>
+					<!-- 不显示js可能的错误 -->
+					<jswarn>false</jswarn>
+					<!-- 若存在已压缩的文件，会先对比源文件是否有改动。有改动便压缩，无改动就不压缩 -->
+					<force>false</force>
+					<!-- 在指定的列号后插入新行 -->
+					<linebreakpos>-1</linebreakpos>
+					<!-- 压缩之前先执行聚合文件操作 -->
+					<preProcessAggregates>true</preProcessAggregates>
+					<!-- 压缩后保存文件后缀 -->
+					<suffix>.min</suffix>
+					<!-- 源目录，即需压缩的根目录 -->
+					<sourceDirectory>src/main/webapp/easyui/res/js</sourceDirectory>
+					<!-- 压缩js和css文件 -->
+					<includes>
+						<!-- 只压缩src/main/webapp/easyui/res/js/common.js -->
+						<include>common.js</include>
+					</includes>
+					<!-- 以下目录和文件不会被压缩 -->
+					<excludes>
+						<exclude>easyui/locale/*.js</exclude>
+						<exclude>easyui/themes/*.css</exclude>
+					</excludes>
+					<!-- 压缩后输出文件目录 -->
+					<outputDirectory>src/main/webapp/easyui/res/js</outputDirectory>
+					<!-- 聚合文件 -->
+					<aggregations>
+						<aggregation>
+							<!-- 合并每一个文件后插入一新行 -->
+							<insertNewLine>true</insertNewLine>
+							<!-- 需合并文件的根文件夹 -->
+							<inputDir>src/main/webapp/easyui/res/js</inputDir>
+							<!-- 最终合并的输出文件 -->
+							<output>src/main/webapp/easyui/res/js/common.js</output>
+							<!-- 把以下js文件合并成一个js文件，是按顺序合并的 -->
+							
+							<!-- 
+							运行命令mvn yuicompressor:compress
+							会把下面几个js文件压缩到src/main/webapp/js/common.js中
+							并生成一个common.min.js
+							不会影响到其它js,css
+							 -->
+							<includes>
+								<include>Action.js</include>
+								<include>Crud.js</include>
+								<include>EventUtil.js</include>
+								<include>FunUtil.js</include>
+								<include>HtmlUtil.js</include>
+								<include>MaskUtil.js</include>
+								<include>MsgUtil.js</include>
+								<include>VelocityContext.js</include>
+							</includes>
+						</aggregation>
+					</aggregations>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 

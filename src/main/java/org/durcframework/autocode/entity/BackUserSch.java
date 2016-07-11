@@ -3,6 +3,7 @@ package org.durcframework.autocode.entity;
 import java.util.Date;
 
 import org.durcframework.core.SearchEntity;
+import org.durcframework.core.expression.annotation.LikeDoubleField;
 import org.durcframework.core.expression.annotation.ValueField;
 
 public class BackUserSch extends SearchEntity{
@@ -15,7 +16,7 @@ public class BackUserSch extends SearchEntity{
         this.usernameSch = usernameSch;
     }
     
-    @ValueField(column = "username")
+    @LikeDoubleField(column = "username")
     public String getUsernameSch(){
         return this.usernameSch;
     }

@@ -6,7 +6,7 @@
     <link href="resources/css/admin_login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div class="admin_login_wrap">
+<div class="admin_login_wrap" style="width: 512px;">
     <h1 style="text-align: center;">代码生成系统</h1>
     <div class="adming_login_border">
         <div class="admin_input">
@@ -19,6 +19,13 @@
                    <li>
                        <label for="pwd">密码：</label>
                        <input onkeyup="keyPress(event);" type="password" name="pwd" value="" id="password" size="40" class="admin_input_style" />
+                   </li>
+                   <li>
+                       <label>界面风格：</label>
+                       <select id="uiStyle" class="admin_input_style" >
+                       		<option value="sys/home.jsp">FDUI</option>
+                       		<option value="easyui/page/main.jsp">EasyUI</option>
+                       </select>
                    </li>
                    <li>
                        <input type="button" tabindex="3" value="登   录" onclick="login();" class="btn btn-primary" />
@@ -35,7 +42,8 @@ function login(){
 	var data = {username:$('#username').val(),password:$('#password').val()};
 	Action.post('login.do',data,function(result){
 		if (result.success){
-			window.location = 'sys/home.jsp';
+			//window.location = 'sys/home.jsp';
+			window.location = $('#uiStyle').val();
 		} else {
 			var errorMsg = result.message;
 			$('#msg').html(errorMsg);
