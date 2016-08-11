@@ -32,8 +32,12 @@ public class ColumnDefinition  {
 		return FieldUtil.upperFirstLetter(getJavaFieldName());
 	}
 	
+	/**
+	 * 返回java字段
+	 * @return
+	 */
 	public String getJavaFieldName() {
-		return FieldUtil.underlineFilter(columnName.toLowerCase());
+		return FieldUtil.underlineFilter(columnName);
 	}
 	
 	/**
