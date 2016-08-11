@@ -1,16 +1,6 @@
 欢迎使用autoCode
 ===================
-> **更新列表:**
-
-> - 2016-5-4更新,更新BUI模板(运行update-2016-4-12-bui.sql);XML输出格式化;
-> - 2016-4-12更新,新增BUI(http://www.builive.com/)模板,此次更新需要运行update-2016-4-12-bui.sql
-> - 2016-1-27更新,新增bootstrap模板,此次更新需要运行update-2016-1-27.sql
-> - 2015-11-12更新,新增代码高亮;新增表/字段注释参数.此次更新需要运行update-2015-11-12.sql文件,登录后请重新配置下数据源.
-> - 2015-9-30,新增下载功能,代码生成后可以下载zip包,代码可直接导入项目中使用.[界面预览](https://git.oschina.net/durcframework/autoCode/wikis/autoCode%E6%96%B0%E7%89%88%E9%A2%84%E8%A7%88)
-> - 2015-9-25,前端改造,使用FDUI
-> - 2015-5-15,新建了一个QQ群:328180219欢迎加群探讨
-> - 升级为依赖[durcframework-core](https://git.oschina.net/durcframework/durcframework-core)框架
-> - 解决SQLSERVER数据库的schema问题.
+QQ群:328180219
 
 项目介绍
 -------------------
