@@ -20,6 +20,7 @@
                        <label for="pwd">密码：</label>
                        <input onkeyup="keyPress(event);" type="password" name="pwd" value="admin" id="password" size="40" class="admin_input_style" />
                    </li>
+                   <!-- 
                    <li>
                        <label>界面风格：</label>
                        <select id="uiStyle" class="admin_input_style" >
@@ -27,6 +28,7 @@
                        		<option value="easyui/page/main.jsp">EasyUI</option>
                        </select>
                    </li>
+                    -->
                    <li>
                        <input type="button" tabindex="3" value="登   录" onclick="login();" class="btn btn-primary" />
                    </li>
@@ -42,8 +44,8 @@ function login(){
 	var data = {username:$('#username').val(),password:$('#password').val()};
 	Action.post('login.do',data,function(result){
 		if (result.success){
-			//window.location = 'sys/home.jsp';
-			window.location = $('#uiStyle').val();
+			window.location = 'sys/home.jsp';
+			//window.location = $('#uiStyle').val();
 		} else {
 			var errorMsg = result.message;
 			$('#msg').html(errorMsg);
