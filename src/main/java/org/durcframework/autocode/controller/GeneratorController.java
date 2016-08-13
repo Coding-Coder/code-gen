@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.durcframework.autocode.entity.ClientParam;
 import org.durcframework.autocode.entity.CodeFile;
 import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.entity.GeneratorParam;
+import org.durcframework.autocode.generator.DataBaseConfig;
 import org.durcframework.autocode.service.DataSourceConfigService;
 import org.durcframework.autocode.service.GeneratorService;
 import org.durcframework.core.controller.BaseController;
@@ -67,4 +69,20 @@ public class GeneratorController extends BaseController{
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping("/downloadCode.do")
+	public void downloadCode(ClientParam clientParam,HttpServletRequest request,HttpServletResponse response) {
+		String webRootPath = request.getSession().getServletContext().getRealPath("/");
+		
+		String zipPath = generatorService.generateClientZip(clientParam, webRootPath);
+		
+		try {
+			String downloadUrl = request.getContextPath() + zipPath.substring(webRootPath.length()).replace("\\", "/");
+			response.sendRedirect(downloadUrl);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

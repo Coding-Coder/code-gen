@@ -58,7 +58,7 @@
                 <tr>
                 	<th><i class="require-red">*</i>文件名：</th>
                     <td id="txt-fileName" colspan="2"></td>
-                    <th width="80"><i class="require-red">*</i>保存路径：</th>
+                    <th width="80">保存路径：</th>
                     <td id="txt-savePath"></td>
                 </tr>
                 <tr>
@@ -216,9 +216,6 @@ formPanel = new FDFormPanel({
 	    	]
 	    })
 	    ,new FDTextBox({domId:'txt-savePath',name:'savePath',msgId:'formMsg',width:300
-	    	,validates:[
-	    		{rule:{notNull:true},successClass:'green',errorClass:'require-red',errorMsg:'保存路径不能为空'}
-	    	]
 	    })
 		,new FDTextArea({domId:'txt-content',name:'content',msgId:'formMsg',width:800,height:360
 			,validates:[

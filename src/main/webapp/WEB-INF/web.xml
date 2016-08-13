@@ -71,6 +71,7 @@
 				index.jsp
 				,login.jsp
 				,login.do
+				,downloadCode.do
 			</param-value>
 		</init-param>
 	</filter>

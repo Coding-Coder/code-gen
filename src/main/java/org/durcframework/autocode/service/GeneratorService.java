@@ -2,14 +2,17 @@ package org.durcframework.autocode.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.velocity.VelocityContext;
 import org.durcframework.autocode.common.AutoCodeContext;
+import org.durcframework.autocode.entity.ClientParam;
 import org.durcframework.autocode.entity.CodeFile;
 import org.durcframework.autocode.entity.DataSourceConfig;
 import org.durcframework.autocode.entity.GeneratorParam;
 import org.durcframework.autocode.entity.TemplateConfig;
+import org.durcframework.autocode.generator.DataBaseConfig;
 import org.durcframework.autocode.generator.SQLContext;
 import org.durcframework.autocode.generator.SQLService;
 import org.durcframework.autocode.generator.SQLServiceFactory;
@@ -122,12 +125,105 @@ public class GeneratorService {
         return projectFolder + ".zip";
     }
     
+    public String generateClientZip(ClientParam clientParam,String webRootPath) {
+    	DataBaseConfig dataBaseConfig = clientParam.buildDataBaseConfig();
+    	SQLContext sqlContext = this.buildClientSQLContextList(clientParam,dataBaseConfig);
+    	
+    	int[] classTcIds = {clientParam.getTcIdController(),clientParam.getTcIdDao(),clientParam.getTcIdEntity()
+    			,clientParam.getTcIdEntitySch(),clientParam.getTcIdService()};
+    	
+    	int[] resourcesTcIds = {clientParam.getTcIdMyBatis()};
+    	
+    	String projectFolder = this.buildProjectFolder(webRootPath);
+    	String classFolder = projectFolder + "/class";
+    	String resourcesFolder = projectFolder + "/resources";
+    	
+         setPackageName(sqlContext, clientParam.getPackageName());
+         
+         for (int tcId : classTcIds) {
+             TemplateConfig template = templateConfigService.get(tcId);
+             String content = doGenerator(sqlContext, template.getContent());
+             String fileName = doGenerator(sqlContext,template.getFileName());
+             String savePath = doGenerator(sqlContext,template.getSavePath());
+             
+             content = this.doFormat(fileName, content);
+             
+             if(StringUtils.isEmpty(fileName)) {
+             	fileName = template.getName();
+             }
+             
+             FileUtil.createFolder(classFolder +File.separator + savePath);
+             
+             String filePathName = classFolder + File.separator + 
+             		savePath + File.separator + 
+             		fileName;
+             FileUtil.write(content,filePathName,clientParam.getCharset());
+         }
+         
+         for (int tcId : resourcesTcIds) {
+             TemplateConfig template = templateConfigService.get(tcId);
+             String content = doGenerator(sqlContext, template.getContent());
+             String fileName = doGenerator(sqlContext,template.getFileName());
+             String savePath = doGenerator(sqlContext,template.getSavePath());
+             
+             content = this.doFormat(fileName, content);
+             
+             if(StringUtils.isEmpty(fileName)) {
+             	fileName = template.getName();
+             }
+             
+             FileUtil.createFolder(resourcesFolder +File.separator + savePath);
+             
+             String filePathName = resourcesFolder + File.separator + 
+             		savePath + File.separator + 
+             		fileName;
+             FileUtil.write(content,filePathName,clientParam.getCharset());
+         }
+         
+         try {
+			FileUtil.zip(classFolder, classFolder + ".zip");
+			FileUtil.zip(resourcesFolder, resourcesFolder + ".zip");
+			
+			FileUtil.deleteDir(new File(classFolder));
+			FileUtil.deleteDir(new File(resourcesFolder));
+			
+			FileUtil.zip(projectFolder, projectFolder + ".zip");
+			FileUtil.deleteDir(new File(projectFolder));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+         
+    	
+    	return projectFolder + ".zip";
+    }
+    
     /**
 	 * 返回SQL上下文列表
 	 * @param tableNames
 	 * @return
 	 */
-	private List<SQLContext> buildSQLContextList(GeneratorParam generatorParam,DataSourceConfig dataSourceConfig) {
+	private SQLContext buildClientSQLContextList(ClientParam generatorParam,DataBaseConfig dataBaseConfig) {
+		
+		List<String> tableNames = Arrays.asList(generatorParam.getTableName());
+		
+        SQLService service = SQLServiceFactory.build(dataBaseConfig);
+        
+        TableSelector tableSelector = service.getTableSelector(dataBaseConfig);
+        tableSelector.setSchTableNames(tableNames);
+        
+        List<TableDefinition> tableDefinitions = tableSelector.getTableDefinitions();
+        
+        SQLContext context = new SQLContext(tableDefinitions.get(0));
+        
+		return context;
+	}
+    
+    /**
+	 * 返回SQL上下文列表
+	 * @param tableNames
+	 * @return
+	 */
+	private List<SQLContext> buildSQLContextList(GeneratorParam generatorParam,DataBaseConfig dataSourceConfig) {
 		
 		List<String> tableNames = generatorParam.getTableNames();
 		List<SQLContext> contextList = new ArrayList<SQLContext>();
@@ -147,8 +243,7 @@ public class GeneratorService {
     
     private String buildProjectFolder(String webRootPath) {
     	return webRootPath + File.separator + 
-    			DOWNLOAD_FOLDER_NAME + File.separator + 
-    			AutoCodeContext.getInstance().getUser().getUsername() + System.currentTimeMillis();
+    			DOWNLOAD_FOLDER_NAME + File.separator + System.currentTimeMillis();
     }
 
     private void setPackageName(SQLContext sqlContext, String packageName) {

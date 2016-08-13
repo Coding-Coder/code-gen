@@ -7,7 +7,7 @@ public class GeneratorParam {
 	private List<String> tableNames;
 	private List<Integer> tcIds;
 	private String packageName;
-	private String charset;
+	private String charset = "UTF-8";
 
 	public int getDcId() {
 		return dcId;

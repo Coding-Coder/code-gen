@@ -260,7 +260,7 @@ public class FileUtil {
 		if (f.isDirectory()) {
 			File[] fl = f.listFiles();
 			// 如果不加最外层文件夹作为zip名
-			base = (base.length() == 0 ? f.getName() : base);
+			//base = (base.length() == 0 ? f.getName() : base);
 			try {
 				out.putNextEntry(new org.apache.tools.zip.ZipEntry(base + "/"));
 			} catch (IOException e) {
@@ -285,15 +285,11 @@ public class FileUtil {
 	}
 
 	public static void main(String[] args) {
-		 String s = read("S:/Users/thc/Desktop/1.txt");
-		String[] arr = s.split(",");
-		for (String str : arr) {
-			System.out.println("INSERT INTO table VALUE('" + str + "')");
+	
+		try {
+			zip("D:/ccc", "D:/ccc.zip");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-//		try {
-//			zip("D:/ccc", "D:/ccc.zip");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
 	}
 }

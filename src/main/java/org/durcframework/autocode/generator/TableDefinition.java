@@ -19,6 +19,19 @@ public class TableDefinition {
 		this.tableName = tableName;
 	}
 
+	/**
+	 * 是否含有时间字段
+	 * @return
+	 */
+	public boolean getHasDateField() {
+		List<ColumnDefinition> columns = getColumnDefinitions();
+		for (ColumnDefinition definition : columns) {
+			if("Date".equals(definition.getJavaType())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public ColumnDefinition getPkColumn() {
 		for (ColumnDefinition column : columnDefinitions) {
