@@ -1,9 +1,7 @@
 package client.exec;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -12,9 +10,7 @@ import client.util.FileUtil;
 import client.util.HttpUtil;
 
 public class FileExecutor {
-
-	private final static int BUFFER = 1024;
-
+	
 	private static final String FILE_TEMP = System.getProperty("java.io.tmpdir") + "autoCode/";
 
 	private String downloadUrl;
@@ -57,29 +53,15 @@ public class FileExecutor {
 	}
 
 	private File downloadFile() {
-		InputStream inputStream = HttpUtil.download(downloadUrl, this.buildParmas());
+		String fileName =System.currentTimeMillis() + ".zip";
+		File file  = HttpUtil.download(downloadUrl, this.buildParmas(),FILE_TEMP,fileName);
 
-		mkdir(FILE_TEMP);
-
-		String destFilePath = FILE_TEMP + System.currentTimeMillis() + ".zip";
-		try {
-			File file = new File(destFilePath);
-			FileOutputStream out = new FileOutputStream(file);
-
-			byte[] b = new byte[BUFFER];
-			int len = 0;
-			while ((len = inputStream.read(b)) != -1) {
-				out.write(b, 0, len);
-			}
-			inputStream.close();
-			out.close();
-			
-			return file;
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(file == null) {
+			throw new RuntimeException("下载文件失败,url:" + downloadUrl);
 		}
-
-		return null;
+		
+		return file;
+		
 	}
 
 	private Properties parsePropFile(String propFile) {
@@ -124,13 +106,6 @@ public class FileExecutor {
 			FileUtil.unZipFiles(resourcesZip, mybatisDestPath);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-
-	private static void mkdir(String dir) {
-		File file = new File(dir);
-		if (!file.exists()) {
-			file.mkdir();
 		}
 	}
 
