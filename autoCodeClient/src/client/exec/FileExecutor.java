@@ -12,12 +12,15 @@ import client.util.HttpUtil;
 public class FileExecutor {
 	
 	private static final String FILE_TEMP = System.getProperty("java.io.tmpdir") + "autoCode/";
+	private static final String OUT_FOLDER = System.getProperty("user.dir") + "/out/";
 
 	private String downloadUrl;
 	private Properties properties;
+	private String propFile;
 
 	public FileExecutor(String url, String propFile) {
 		this.downloadUrl = url;
+		this.propFile = propFile;
 		this.parsePropFile(propFile);
 	}
 
@@ -49,7 +52,10 @@ public class FileExecutor {
 	}
 	
 	private void setParam(Map<String, String> params,String paramName) {
-		params.put(paramName, properties.getProperty(paramName));
+		String value = properties.getProperty(paramName);
+		if(value != null) {
+			params.put(paramName, value);
+		}
 	}
 
 	private File downloadFile() {
@@ -84,15 +90,14 @@ public class FileExecutor {
 	}
 
 	private void unZip(File file) {
-
-		String classPackage = properties.getProperty("classPath");
-		String resourcesPackage = properties.getProperty("resourcesPath");
+//		String classPath = properties.getProperty("classPath");
+//		String resourcesPackage = properties.getProperty("resourcesPath");
 		String packageName = properties.getProperty("packageName").replaceAll("\\.", "\\/") + "/";
 		String mybatisPackage = properties.getProperty("mybatisPackage").replaceAll("\\.", "\\/") + "/";
 		// 包路径
-		String classDestPath = classPackage + packageName;
+		String classDestPath = OUT_FOLDER + propFile + "/" + packageName;
 		// mybatis路径
-		String mybatisDestPath = resourcesPackage + mybatisPackage;
+		String mybatisDestPath = OUT_FOLDER + propFile + "/" + mybatisPackage;
 
 		try {
 			String unzipDestFolder = file.getAbsolutePath().replace(".zip", "/");

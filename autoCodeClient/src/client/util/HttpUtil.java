@@ -40,9 +40,10 @@ public class HttpUtil {
 				NameValuePair[] values = new NameValuePair[keys.size()];
 				int i = 0;
 				for (String key : keys) {
+					String val = params.get(key);
 					NameValuePair v = new NameValuePair();
 					v.setName(key);
-					v.setValue(params.get(key));
+					v.setValue(val);
 					values[i++] = v;
 				}
 				
