@@ -34,17 +34,17 @@ var VelocityHelper = (function(){
 			     }
 			     ,{text:'#foreach($column in $columns)...#end'
 			     	,children:[
-			     		{text:'${$column.columnName} : 表中字段名'}
-			     		,{text:'${$column.type} : 字段的数据库类型'}
-			     		,{text:'${$column.javaFieldName} : java字段名'}
-			     		,{text:'${$column.javaFieldNameUF} : java字段名首字母大写'}
-			     		,{text:'${$column.javaType} : 字段的java类型'}
-			     		,{text:'${$column.javaTypeBox} : 字段的java装箱类型,如Integer,Long'}
-			     		,{text:'${$column.isIdentity} : 是否自增,返回boolean'}
-			     		,{text:'${$column.isPk} : 是否自增主键,返回boolean'}
-			     		,{text:'${$column.isIdentityPk} : 是否自增主键,返回boolean'}
-			     		,{text:'${$column.mybatisJdbcType} : 返回mybatis定义的jdbcType'}
-			     		,{text:'${$column.comment} : 表字段注释'}
+			     		{text:'$column.columnName : 表中字段名'}
+			     		,{text:'$column.type : 字段的数据库类型'}
+			     		,{text:'$column.javaFieldName : java字段名'}
+			     		,{text:'$column.javaFieldNameUF : java字段名首字母大写'}
+			     		,{text:'$column.javaType : 字段的java类型'}
+			     		,{text:'$column.javaTypeBox : 字段的java装箱类型,如Integer,Long'}
+			     		,{text:'$column.isIdentity : 是否自增,返回boolean'}
+			     		,{text:'$column.isPk} : 是否自增主键,返回boolean'}
+			     		,{text:'$column.isIdentityPk : 是否自增主键,返回boolean'}
+			     		,{text:'$column.mybatisJdbcType : 返回mybatis定义的jdbcType'}
+			     		,{text:'$column.comment : 表字段注释'}
 			     	]
 			     }
 			];
