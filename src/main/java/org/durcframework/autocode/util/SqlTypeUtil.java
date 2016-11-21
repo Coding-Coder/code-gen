@@ -36,6 +36,7 @@ public class SqlTypeUtil {
 		javaTypeMap.put("sql_variant", "String");
 		javaTypeMap.put("text", "String");
 		javaTypeMap.put("tinyint", "byte");
+		javaTypeMap.put("timestamp", "Date");
 		javaTypeMap.put("uniqueidentifier", "String");
 		javaTypeMap.put("varbinary", "byte[]");
 		javaTypeMap.put("varchar", "String");
@@ -65,6 +66,7 @@ public class SqlTypeUtil {
 		javaBoxTypeMap.put("sql_variant", "String");
 		javaBoxTypeMap.put("text", "String");
 		javaBoxTypeMap.put("tinyint", "Byte");
+		javaBoxTypeMap.put("timestamp", "Date");
 		javaBoxTypeMap.put("uniqueidentifier", "String");
 		javaBoxTypeMap.put("varbinary", "Byte[]");
 		javaBoxTypeMap.put("varchar", "String");
@@ -94,6 +96,7 @@ public class SqlTypeUtil {
 		mybatisTypeMap.put("sql_variant", "VARCHAR");
 		mybatisTypeMap.put("text", "VARCHAR");
 		mybatisTypeMap.put("tinyint", "TINYINT");
+		mybatisTypeMap.put("timestamp", "TIMESTAMP");
 		mybatisTypeMap.put("uniqueidentifier", "VARCHAR");
 		mybatisTypeMap.put("varbinary", "BLOB");
 		mybatisTypeMap.put("varchar", "VARCHAR");
