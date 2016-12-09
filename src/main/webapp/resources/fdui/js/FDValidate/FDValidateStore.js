@@ -10,7 +10,7 @@ var FDValidateStore = (function(){
 		,reg_notNegativeFloatNum = /^[0-9]{1,4}([.]{1}[0-9]{1,})?$/
 		,reg_email = /^\s*[_a-zA-Z0-9\-]+(\.[_a-zA-Z0-9\-]*)*@[a-zA-Z0-9\-]+([\.][a-zA-Z0-9\-]+)+\s*$/
 		,reg_mobile = /^\s*(\+86)*0*1(3|5|8)\d{9}\s*$/
-		,reg_tel = /\(?0\d{2}[) -]?\d{8}/
+		,reg_tel = /\(?0\d{2,3}[)-]?\d{7,8}/
 	
 	return {
 		/**
