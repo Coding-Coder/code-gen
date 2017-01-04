@@ -79,7 +79,7 @@ public class SqlTypeUtil {
 		mybatisTypeMap.put("char", "CHAR");
 		mybatisTypeMap.put("date", "TIMESTAMP");
 		mybatisTypeMap.put("datetime", "TIMESTAMP");
-		mybatisTypeMap.put("decimal", "TIMESTAMP");
+		mybatisTypeMap.put("decimal", "DECIMAL");
 		mybatisTypeMap.put("double", "DOUBLE");
 		mybatisTypeMap.put("float", "FLOAT");
 		mybatisTypeMap.put("int", "INTEGER");
