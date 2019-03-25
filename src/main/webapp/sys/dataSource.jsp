@@ -65,11 +65,13 @@ var delUrl = ctx + 'delDataSource.do'; // 删除
 
 var DB_ITEMS =[
    	{text:'MySql',value:'com.mysql.jdbc.Driver'}
+    ,{text:'Oracle',value:'oracle.jdbc.driver.OracleDriver'}
 	,{text:'SqlServer',value:'net.sourceforge.jtds.jdbc.Driver'}
 ];
 
 var portMap = {
 	'com.mysql.jdbc.Driver':3306
+    ,'oracle.jdbc.driver.OracleDriver':1521
 	,'net.sourceforge.jtds.jdbc.Driver':1433
 }
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class DataSourceConfigController extends
 		CrudController<DataSourceConfig, DataSourceConfigService> {
 
+	// oracle.jdbc.driver.OracleDriver
 	@RequestMapping("/addDataSource.do")
 	public @ResponseBody
 	MessageResult addDataSource(DataSourceConfig dataSourceConfig) {
