@@ -3,7 +3,6 @@ package org.durcframework.autocode.generator;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class DataBaseConfig {
 	
 	private static Map<String, String> jdbcUrlMap = new HashMap<String,String>();
@@ -12,6 +11,7 @@ public class DataBaseConfig {
 		// net.sourceforge.jtds.jdbc.Driver
 		// com.microsoft.sqlserver.jdbc.SQLServerDriver
 		jdbcUrlMap.put("com.mysql.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8");
+		jdbcUrlMap.put("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@%s:%s:%s");
 		jdbcUrlMap.put("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://%s:%s;databaseName=%s");
 	}
 	
