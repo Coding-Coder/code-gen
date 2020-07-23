@@ -1,4 +1,0 @@
-Hello, $name
-Here we use a custom tool: $toytool.message  
-$br  
-Here we get the date from the DateTool:  $date.medium 

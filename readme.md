@@ -1,29 +1,44 @@
-欢迎使用autoCode
-===================
-QQ群:328180219
+# code-generator
 
-项目介绍
--------------------
-> **autoCode介绍**
+一款代码生成工具，可自定义模板生成各种不同的代码。
 
-> - autoCode是一个代码生成工具。基于velocity模板引擎，采用SpringMVC + mybatis + FDUI + mysql
-> - 此工具只负责生成代码文件,不会生成完整功能的应用程序.
+无需额外配置，只需要一个Java8环境，下载后即可运行使用。
 
-> **其特点主要有**
+默认提供了实体类、mybatis接口、mybatis配置文件模板，可以快速开发mybatis。
 
-> - 用户登陆 - 每个用户有他自己独立的数据库连接配置和模板配置；
-> - 数据源配置 - 可以配置多个数据源,多种数据库类型(目前支持Mysql,MSServer数据库,可以扩展)；
-> - 模板配置 - 定义自己的模板,采用velocity模板语法.这样可以根据模板来生成不同的代码,如POJO,Dao,mybatis配置文件等；
-> - 操作简单 - 生成代码只需三步:1. 选择数据源;2. 选择表;3. 选择模板。
-> - 提供简单的客户端操作,能将代码直接生成到本地
+教程：[快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-generator/wikis/pages?sort_id=2478942&doc_id=27724)
 
-> **部署程序步骤:**
+## 使用步骤
 
-> 1. Maven构建eclipse工程,运行Maven命令:mvn eclipse:eclipse,完成后导入到eclipse中
-> 2. 导入数据库(MYSQL),SQL文件在项目根目录下,名为autoCode.sql,运行里面的内容即可
-> 3. 修改数据库连接参数,配置文件在src/main/resources/config.properties
-> 4. 启动项目,运行Maven命令:mvn jetty:run
-> 5. 浏览器输入http://localhost:8088/autoCode
+- 前往[发行版页面](https://gitee.com/durcframework/code-generator/releases)，下载最新版本zip文件
+- 解压zip，如果是Mac/Linux操作系统，可执行运行`startup.sh`，或者在命令行输入`java -jar generator-xx-SNAPSHOT.jar`（xx表示对于版本号）
+- 浏览器访问`http://localhost:6969/`
 
-登录用户名密码均为admin
-端口默认用了8088,如需修改,前往pom.xml,找到maven-jetty-plugin插件的port参数.
+默认端口是6969，更改端口号可执行：`java -jar generator-xx-SNAPSHOT.jar --server.port=端口号`
+
+## 工程说明
+
+- front：前端vue
+- generator：后端服务
+- db：数据库初始化文件
+- script：辅助脚本
+
+## 自主构建
+
+> 需要安装Maven3，Java8
+
+Mac/Linux系统可直接执行`build.sh`进行构建
+
+- 在工程根目录执行`mvn clean package`，在code-generator/generator/target下会生成一个`generator-xx-SNAPSHOT.jar`（xx表示对应本号）
+- 将`generator-1.0.0-SNAPSHOT.jar`和db下的`generator.db`放在同一个文件夹下
+- 执行`java -jar generator-xx-SNAPSHOT.jar`
+- 浏览器访问`http://localhost:6969/`
+
+## 效果图
+
+![代码生成](https://images.gitee.com/uploads/images/2020/0723/193358_ff9c9352_332975.png "gen1.png")
+
+![生成结果](https://images.gitee.com/uploads/images/2020/0723/193429_9c4057d4_332975.png "gen2.png")
+
+![生成结果](https://images.gitee.com/uploads/images/2020/0723/193443_5e5dd3cd_332975.png "gen3.png")
+
