@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.giee.codegenerator</groupId>
-    <artifactId>code-generator</artifactId>
+    <groupId>com.giee.codegen</groupId>
+    <artifactId>code-gen</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>generator</module>
+        <module>gen</module>
     </modules>
 
 </project>

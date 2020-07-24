@@ -1,7 +1,7 @@
 {
-  "name": "code-generator",
+  "name": "code-gen",
   "version": "4.1.0",
-  "description": "code-generator",
+  "description": "code-gen",
   "author": "tanghc",
   "license": "MIT",
   "scripts": {

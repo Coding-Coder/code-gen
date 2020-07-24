@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gitee.gen.mapper.DatasourceConfigMapper">
+    <resultMap id="BaseResultMap" type="com.gitee.gen.entity.DatasourceConfig">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="db_type" property="dbType" jdbcType="INTEGER" />
+        <result column="driver_class" property="driverClass" jdbcType="VARCHAR" />
+        <result column="db_name" property="dbName" jdbcType="VARCHAR" />
+        <result column="host" property="host" jdbcType="VARCHAR" />
+        <result column="port" property="port" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+         t.id
+        , t.db_type
+        , t.driver_class
+        , t.db_name
+        , t.host
+        , t.port
+        , t.username
+        , t.password
+        , t.is_deleted
+        </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns" />
+        FROM datasource_config t
+        WHERE is_deleted=0
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns" />
+        FROM datasource_config t
+        WHERE id = #{id}
+    </select>
+
+    <!-- 插入全部字段 -->
+    <insert id="insert" parameterType="com.gitee.gen.entity.DatasourceConfig"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO datasource_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            db_type,
+            driver_class,
+            db_name,
+            host,
+            port,
+            username,
+            password,
+            is_deleted,
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{dbType},
+            #{driverClass},
+            #{dbName},
+            #{host},
+            #{port},
+            #{username},
+            #{password},
+            #{isDeleted},
+        </trim>
+    </insert>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="com.gitee.gen.entity.DatasourceConfig"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO datasource_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dbType != null">
+                db_type,
+            </if>
+            <if test="driverClass != null">
+                driver_class,
+            </if>
+            <if test="dbName != null">
+                db_name,
+            </if>
+            <if test="host != null">
+                host,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="dbType != null" >
+                #{dbType},
+            </if>
+            <if test="driverClass != null" >
+                #{driverClass},
+            </if>
+            <if test="dbName != null" >
+                #{dbName},
+            </if>
+            <if test="host != null" >
+                #{host},
+            </if>
+            <if test="port != null" >
+                #{port},
+            </if>
+            <if test="username != null" >
+                #{username},
+            </if>
+            <if test="password != null" >
+                #{password},
+            </if>
+            <if test="isDeleted != null" >
+                #{isDeleted},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="com.gitee.gen.entity.DatasourceConfig">
+        UPDATE datasource_config
+        <set>
+            db_type=#{dbType},
+            driver_class=#{driverClass},
+            db_name=#{dbName},
+            host=#{host},
+            port=#{port},
+            username=#{username},
+            password=#{password},
+            is_deleted=#{isDeleted},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.DatasourceConfig">
+        UPDATE datasource_config
+        <set>
+            <if test="dbType != null" >
+                db_type=#{dbType},
+            </if>
+            <if test="driverClass != null" >
+                driver_class=#{driverClass},
+            </if>
+            <if test="dbName != null" >
+                db_name=#{dbName},
+            </if>
+            <if test="host != null" >
+                host=#{host},
+            </if>
+            <if test="port != null" >
+                port=#{port},
+            </if>
+            <if test="username != null" >
+                username=#{username},
+            </if>
+            <if test="password != null" >
+                password=#{password},
+            </if>
+            <if test="isDeleted != null" >
+                is_deleted=#{isDeleted},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="com.gitee.gen.entity.DatasourceConfig">
+		UPDATE datasource_config
+		SET is_deleted=1
+		WHERE id = #{id}
+	</delete>
+
+
+</mapper>
