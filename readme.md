@@ -32,7 +32,7 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在build文�
 - 手动构建：
 
     -  在工程根目录执行`mvn clean package`，在code-gen/gen/target下会生成一个`gen-xx-SNAPSHOT.jar`（xx表示本号）
-    - 将`gen-1.0.1-SNAPSHOT.jar`和db下的`gen.db`放在同一个文件夹下
+    - 将`gen-xx-SNAPSHOT.jar`和db下的`gen.db`放在同一个文件夹下
     - 执行`java -jar gen-xx-SNAPSHOT.jar`
     - 浏览器访问`http://localhost:6969/`
 
