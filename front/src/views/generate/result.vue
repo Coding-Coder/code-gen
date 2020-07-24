@@ -27,6 +27,11 @@
           />
         </el-aside>
         <el-main>
+          <el-button
+            v-show="content.length > 0"
+            type="text"
+            :data-clipboard-text="content"
+            class="copyBtn">复制代码</el-button>
           <codemirror
             v-model="content"
             :options="cmOptions"
@@ -90,6 +95,10 @@ export default {
       this.clientParam = JSON.parse(config)
       this.onGenerate()
     }
+    this.initCopy()
+  },
+  destroyed() {
+    this.cleanCopy()
   },
   methods: {
     onGenerate() {

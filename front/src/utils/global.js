@@ -3,6 +3,7 @@
  */
 import Vue from 'vue'
 import axios from 'axios'
+import ClipboardJS from 'clipboard'
 
 // 创建axios实例
 const client = axios.create({
@@ -97,5 +98,18 @@ Object.assign(Vue.prototype, {
   },
   headCellStyleSmall: function() {
     return { padding: '5px 0' }
-  }
+  },
+  initCopy: function() {
+    const _this = this
+    const clipboard = new ClipboardJS('.copyBtn')
+    clipboard.on('success', function() {
+      _this.tip('复制成功')
+    })
+    this.clipboard = clipboard
+  },
+  cleanCopy: function() {
+    if (this.clipboard) {
+      this.clipboard.destroy()
+    }
+  },
 })
