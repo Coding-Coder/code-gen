@@ -27,7 +27,7 @@
 
 > 需要安装Maven3，Java8
 
-Mac/Linux系统可直接执行`build.sh`进行构建
+Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在build文件夹下。
 
 - 在工程根目录执行`mvn clean package`，在code-generator/generator/target下会生成一个`generator-xx-SNAPSHOT.jar`（xx表示本号）
 - 将`generator-1.0.0-SNAPSHOT.jar`和db下的`generator.db`放在同一个文件夹下
