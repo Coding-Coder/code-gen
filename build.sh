@@ -12,6 +12,8 @@ if [ ! -d "$build_dir" ]; then
   mkdir $build_dir
 fi
 
+rm -rf build/*
+
 cp -r gen/target/*.jar build
 cp -r script/* build
 cp -r db/gen.db build/gen.db
