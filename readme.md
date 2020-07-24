@@ -11,7 +11,7 @@
 ## 使用步骤
 
 - 前往[发行版页面](https://gitee.com/durcframework/code-generator/releases)，下载最新版本zip文件
-- 解压zip，如果是Mac/Linux操作系统，可执行运行`startup.sh`，或者在命令行输入`java -jar generator-xx-SNAPSHOT.jar`（xx表示对于版本号）
+- 解压zip，如果是Mac/Linux操作系统，可执行运行`startup.sh`，或者在命令行输入`java -jar generator-xx-SNAPSHOT.jar`（xx表示版本号）
 - 浏览器访问`http://localhost:6969/`
 
 默认端口是6969，更改端口号可执行：`java -jar generator-xx-SNAPSHOT.jar --server.port=端口号`
@@ -29,7 +29,7 @@
 
 Mac/Linux系统可直接执行`build.sh`进行构建
 
-- 在工程根目录执行`mvn clean package`，在code-generator/generator/target下会生成一个`generator-xx-SNAPSHOT.jar`（xx表示对应本号）
+- 在工程根目录执行`mvn clean package`，在code-generator/generator/target下会生成一个`generator-xx-SNAPSHOT.jar`（xx表示本号）
 - 将`generator-1.0.0-SNAPSHOT.jar`和db下的`generator.db`放在同一个文件夹下
 - 执行`java -jar generator-xx-SNAPSHOT.jar`
 - 浏览器访问`http://localhost:6969/`
