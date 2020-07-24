@@ -1,11 +1,10 @@
 <template>
-  <div class="app-container">
-    <el-form ref="genForm" :model="clientParam" size="mini" label-width="200px" style="width: 900px;">
+  <div class="app-container code-gen">
+    <el-form ref="genForm" class="gen-form" :model="clientParam" size="mini" label-width="150px">
       <el-form-item label="选择数据源" prop="datasourceConfigId" :rules="{required: true, message: '请选择数据源'}">
         <el-select
           v-model="clientParam.datasourceConfigId"
           placeholder="选择数据源"
-          style="width: 500px"
           @change="onDataSourceChange"
         >
           <el-option
@@ -23,13 +22,18 @@
         </el-select>
         <el-button type="text" @click="onDataSourceAdd">新建数据源</el-button>
       </el-form-item>
-      <el-form-item v-show="showTable" required label="选择表">
+      <el-form-item v-show="showTable" label="包名（package）">
+        <el-input v-model="clientParam.packageName" placeholder="可选，如：com.gitee.xxx" show-word-limit maxlength="100" />
+      </el-form-item>
+    </el-form>
+    <el-row v-show="showTable" :gutter="20">
+      <el-col :span="12">
+        <h4>选择表</h4>
         <el-table
           :data="tableListData"
           border
           :cell-style="cellStyleSmall()"
           :header-cell-style="headCellStyleSmall()"
-          height="350px"
           @selection-change="onTableListSelect"
         >
           <el-table-column
@@ -39,13 +43,10 @@
             prop="tableName"
             label="表名"
           />
-          <el-table-column
-            prop="comment"
-            label="备注"
-          />
         </el-table>
-      </el-form-item>
-      <el-form-item v-show="showTable" required label="选择模板">
+      </el-col>
+      <el-col :span="12">
+        <h4>选择模板</h4>
         <el-table
           :data="templateListData"
           border
@@ -61,14 +62,9 @@
             label="模板名称"
           />
         </el-table>
-      </el-form-item>
-      <el-form-item v-show="showTable" label="包名（package）">
-        <el-input v-model="clientParam.packageName" placeholder="可选，如：com.gitee.xxx" show-word-limit maxlength="100" />
-      </el-form-item>
-      <el-form-item v-show="showTable">
-        <el-button type="primary" @click="onGenerate">生成代码</el-button>
-      </el-form-item>
-    </el-form>
+        <el-button v-show="showTable" type="primary" @click="onGenerate">生成代码</el-button>
+      </el-col>
+    </el-row>
 
     <el-dialog
       :title="datasourceTitle"
@@ -119,7 +115,19 @@
 
   </div>
 </template>
-
+<style lang="scss">
+  .code-gen {
+    margin: 0 auto;
+    width: 70%;
+      .el-input { width: 450px;}
+      .el-row h4 {
+        text-align: center;
+      }
+      .el-row .el-button {
+        margin-top: 20px;
+      }
+  }
+</style>
 <script>
 export default {
   data() {
