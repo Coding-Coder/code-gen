@@ -40,9 +40,11 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在build文�
 
 ## 效果图
 
-![代码生成](https://images.gitee.com/uploads/images/2020/0723/193358_ff9c9352_332975.png "gen1.png")
+![代码生成](https://images.gitee.com/uploads/images/2020/0723/200150_fd1f1a7a_332975.png "SpringBoot3.png")
 
-![生成结果](https://images.gitee.com/uploads/images/2020/0723/193429_9c4057d4_332975.png "gen2.png")
+![生成结果](https://images.gitee.com/uploads/images/2020/0724/090952_4dc5fec9_332975.png "gen4.png")
 
-![生成结果](https://images.gitee.com/uploads/images/2020/0723/193443_5e5dd3cd_332975.png "gen3.png")
+![生成结果](https://images.gitee.com/uploads/images/2020/0724/091000_9e5e0e81_332975.png "gen5.png")
+
+![生成结果](https://images.gitee.com/uploads/images/2020/0724/091008_382b9f13_332975.png "gen6.png")
 
