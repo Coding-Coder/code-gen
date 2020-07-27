@@ -9,10 +9,10 @@
 ## 使用步骤
 
 - 前往[发行版页面](https://gitee.com/durcframework/code-gen/releases)，下载最新版本zip文件
-- 解压zip，如果是Mac/Linux操作系统，可执行运行`startup.sh`，或者在命令行输入`java -jar gen-xx-SNAPSHOT.jar`（xx表示版本号）
+- 解压zip，如果是Mac/Linux操作系统，可执行运行`startup.sh`，或者在命令行输入`java -jar gen.jar`
 - 浏览器访问`http://localhost:6969/`
 
-默认端口是6969，更改端口号可执行：`java -jar gen-xx-SNAPSHOT.jar --server.port=端口号`
+默认端口是6969，更改端口号可执行：`java -jar gen.jar --server.port=端口号`
 
 ## 工程说明
 
@@ -25,13 +25,20 @@
 
 > 需要安装Maven3，Java8
 
-- 自动构建：
+- 自动构建[推荐]：
 
-Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在build文件夹下。
+Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist`文件夹下。
 
 - 手动构建：
-
-    -  在工程根目录执行`mvn clean package`，在code-gen/gen/target下会生成一个`gen-xx-SNAPSHOT.jar`（xx表示本号）
+    
+    `cd front`
+    
+    - 执行`npm run build:prod`进行打包，结果在dist下
+    - 把dist中的所有文件，放到`gen/src/main/resources/public`下
+    
+    `cd ..`
+    
+    - 执行`mvn clean package`，在`gen/target`下会生成一个`gen-xx-SNAPSHOT.jar`（xx表示本号）
     - 将`gen-xx-SNAPSHOT.jar`和db下的`gen.db`放在同一个文件夹下
     - 执行`java -jar gen-xx-SNAPSHOT.jar`
     - 浏览器访问`http://localhost:6969/`

@@ -1,7 +1,5 @@
 package com.gitee.gen.gen;
 
-import com.gitee.gen.util.SqlHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +7,11 @@ import java.util.Map;
 public abstract class TableSelector {
 
     private ColumnSelector columnSelector;
-    private GeneratorConfig dataBaseConfig;
+    private GeneratorConfig generatorConfig;
     private List<String> schTableNames;
 
-    public TableSelector(ColumnSelector columnSelector, GeneratorConfig dataBaseConfig) {
-        this.dataBaseConfig = dataBaseConfig;
+    public TableSelector(ColumnSelector columnSelector, GeneratorConfig generatorConfig) {
+        this.generatorConfig = generatorConfig;
         this.columnSelector = columnSelector;
     }
 
@@ -29,12 +27,12 @@ public abstract class TableSelector {
     protected abstract TableDefinition buildTableDefinition(Map<String, Object> tableMap);
 
     public List<TableDefinition> getTableDefinitions() {
-        String showParam = dataBaseConfig.getDbName();
+        String showParam = generatorConfig.getDbName();
         // 如果是oracle数据库则传oracle数据库用户大写
-        if (dataBaseConfig.getDriverClass().contains("oracle")) {
-            showParam = dataBaseConfig.getUsername().toUpperCase();
+        if (generatorConfig.getDriverClass().contains("oracle")) {
+            showParam = generatorConfig.getUsername().toUpperCase();
         }
-        List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL(showParam));
+        List<Map<String, Object>> resultList = SqlHelper.runSql(getGeneratorConfig(), getShowTablesSQL(showParam));
         List<TableDefinition> tablesList = new ArrayList<TableDefinition>(resultList.size());
 
         for (Map<String, Object> rowMap : resultList) {
@@ -48,12 +46,12 @@ public abstract class TableSelector {
     }
 
     public List<TableDefinition> getSimpleTableDefinitions() {
-        String showParam = dataBaseConfig.getDbName();
+        String showParam = generatorConfig.getDbName();
         // 如果是oracle数据库则传oracle数据库用户大写
-        if (dataBaseConfig.getDriverClass().contains("oracle")) {
-            showParam = dataBaseConfig.getUsername().toUpperCase();
+        if (generatorConfig.getDriverClass().contains("oracle")) {
+            showParam = generatorConfig.getUsername().toUpperCase();
         }
-        List<Map<String, Object>> resultList = SqlHelper.runSql(getDataBaseConfig(), getShowTablesSQL(showParam));
+        List<Map<String, Object>> resultList = SqlHelper.runSql(getGeneratorConfig(), getShowTablesSQL(showParam));
         List<TableDefinition> tablesList = new ArrayList<TableDefinition>(resultList.size());
 
         for (Map<String, Object> rowMap : resultList) {
@@ -63,12 +61,12 @@ public abstract class TableSelector {
         return tablesList;
     }
 
-    public GeneratorConfig getDataBaseConfig() {
-        return dataBaseConfig;
+    public GeneratorConfig getGeneratorConfig() {
+        return generatorConfig;
     }
 
-    public void setDataBaseConfig(GeneratorConfig dataBaseConfig) {
-        this.dataBaseConfig = dataBaseConfig;
+    public void setGeneratorConfig(GeneratorConfig generatorConfig) {
+        this.generatorConfig = generatorConfig;
     }
 
     public ColumnSelector getColumnSelector() {

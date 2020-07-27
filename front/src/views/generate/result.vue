@@ -3,9 +3,13 @@
     <el-backtop />
     <div v-if="loading">生成中...</div>
     <div v-else>
-      <el-button type="text" icon="el-icon-back" @click="goRoute('/generate/code')">返回</el-button>
       <el-container>
         <el-aside>
+          <el-button
+            icon="el-icon-download"
+            type="text"
+            @click="downloadAll"
+          >下载全部</el-button>
           <el-input
             v-show="treeData.length > 0"
             v-model="filterText"
@@ -26,14 +30,19 @@
             @current-change="onTreeSelect"
           />
         </el-aside>
-        <el-main>
+        <el-main v-show="fileInfo.content.length > 0">
           <el-button
-            v-show="content.length > 0"
             type="text"
-            :data-clipboard-text="content"
+            icon="el-icon-document-copy"
+            :data-clipboard-text="fileInfo.content"
             class="copyBtn">复制代码</el-button>
+          <el-button
+            icon="el-icon-download"
+            type="text"
+            @click="downloadText(fileInfo.filename, fileInfo.content)"
+          >下载当前文件</el-button>
           <codemirror
-            v-model="content"
+            v-model="fileInfo.content"
             :options="cmOptions"
           />
         </el-main>
@@ -43,6 +52,8 @@
 </template>
 
 <script>
+import JSZip from 'jszip'
+import { saveAs } from 'file-saver'
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/theme/neat.css'
 require('codemirror/mode/javascript/javascript')
@@ -73,9 +84,13 @@ export default {
       filterText: '',
       defaultProps: {
         children: 'children',
-        label: 'text'
+        label: 'filename'
       },
       content: '',
+      fileInfo: {
+        content: '',
+        filename: ''
+      },
       cmOptions: {
         value: '',
         mode: 'text/x-java',
@@ -140,7 +155,7 @@ export default {
       for (const tableName in codeMap) {
         const codeFileArr = codeMap[tableName]
         const treeElement = {
-          text: tableName,
+          filename: tableName,
           children: this.buildChildren(codeFileArr)
         }
 
@@ -153,10 +168,8 @@ export default {
       for (let i = 0, len = codeFileArr.length; i < len; i++) {
         const codeFile = codeFileArr[i]
         const child = {
-          text: codeFile.templateName,
-          attributes: {
-            content: codeFile.content
-          }
+          filename: codeFile.templateName,
+          content: codeFile.content
         }
         children.push(child)
       }
@@ -166,8 +179,8 @@ export default {
       if (data.children && data.children.length > 0) {
         return
       }
-      this.content = data.attributes.content
-      this.changeMod(data.text)
+      this.fileInfo = data
+      this.changeMod(data.filename)
     },
     changeMod(fileName) {
       const suffix = this.getSuffix(fileName)
@@ -179,6 +192,27 @@ export default {
         return 'js'
       }
       return fileName.substring(index + 1, fileName.length)
+    },
+    downloadAll() {
+      const data = this.treeData
+      const zip = new JSZip()
+      data.forEach(row => {
+        const children = row.children
+        const isFolder = children.length > 0
+        if (isFolder) {
+          // 创建文件夹
+          const folderZip = zip.folder(row.filename)
+          children.forEach(child => {
+            // 文件放入文件夹中
+            folderZip.file(child.filename, child.content)
+          })
+        }
+      })
+      // 下载
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
+        // see FileSaver.js
+        saveAs(content, `code-${new Date().getTime()}.zip`);
+      })
     }
   }
 }

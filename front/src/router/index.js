@@ -52,14 +52,14 @@ export const constantRoutes = [
   {
     path: '/generate',
     component: Layout,
-    name: 'Generate',
     meta: { title: '生成代码', icon: 'form' },
+    redirect: '/generate/config',
     children: [
       {
-        path: 'code',
-        name: 'Code',
+        path: 'config',
+        name: 'Config',
         component: () => import('@/views/generate/index'),
-        meta: { title: '生成代码' }
+        meta: { title: '生成代码' },
       },
       {
         path: 'result/:config',
@@ -73,8 +73,8 @@ export const constantRoutes = [
   {
     path: '/template',
     component: Layout,
-    name: 'Generate',
     meta: { title: '模板管理', icon: 'table' },
+    redirect: '/template/list',
     children: [
       {
         path: 'list',

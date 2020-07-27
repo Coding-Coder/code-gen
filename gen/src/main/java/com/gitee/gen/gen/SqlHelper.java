@@ -1,6 +1,5 @@
-package com.gitee.gen.util;
+package com.gitee.gen.gen;
 
-import com.gitee.gen.gen.GeneratorConfig;
 import org.apache.ibatis.datasource.pooled.PooledDataSourceFactory;
 import org.apache.ibatis.jdbc.SqlRunner;
 import org.apache.ibatis.mapping.BoundSql;
@@ -19,6 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 执行SQL语句的帮助类
@@ -32,6 +32,9 @@ public class SqlHelper {
     private static final String URL = "url";
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
+
+    private static final Map<String, DataSource> dataSourceMap = new ConcurrentHashMap<>(16);
+    private static final ThreadLocal<Connection> connectionLocal = new ThreadLocal<>();
 
     /**
      * <pre>
@@ -57,14 +60,12 @@ public class SqlHelper {
     public static List<Map<String, Object>> runSql(GeneratorConfig generatorConfig, String sql,
                                                    Map<String, Object> params) {
 
-        DataSource dataSource = buildDataSource(generatorConfig);
-
+        DataSource dataSource = DataSourceManager.getDataSource(generatorConfig);
         String runSql = buildSqlWithParams(dataSource, sql, params);
         String[] sqls = runSql.split(";");
-        logger.info("执行SQL:" + runSql);
         Connection conn = null;
         try {
-            conn = dataSource.getConnection();
+            conn = DataSourceManager.getConnection(generatorConfig);
             SqlRunner runner = buildSqlRunner(conn);
             int sqlCount = sqls.length;
             if (sqlCount == 1) {
@@ -78,15 +79,34 @@ public class SqlHelper {
         } catch (SQLException e1) {
             logger.error("生成代码错误", e1);
             throw new RuntimeException("生成代码错误");
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    logger.error("close connection error", e);
-                }
+        }
+    }
+
+
+    public static Connection getConnection(GeneratorConfig generatorConfig) {
+        Connection connection = connectionLocal.get();
+        if (connection == null) {
+            try {
+                connection = getDataSource(generatorConfig).getConnection();
+                connectionLocal.set(connection);
+            } catch (SQLException e) {
+                logger.error("获取Connection失败, jdbcUrl:{}", generatorConfig.getJdbcUrl(), e);
+                throw new RuntimeException("获取Connection失败", e);
             }
         }
+        return connection;
+    }
+
+    public static void closeConnection() {
+        Connection connection = connectionLocal.get();
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        connectionLocal.remove();
     }
 
     // 参数绑定
@@ -106,15 +126,19 @@ public class SqlHelper {
         return new SqlRunner(connection);
     }
 
-    private static DataSource buildDataSource(GeneratorConfig dataBaseConfig) {
-        Properties properties = new Properties();
-        properties.setProperty(DRIVER, dataBaseConfig.getDriverClass());
-        properties.setProperty(URL, dataBaseConfig.getJdbcUrl());
-        properties.setProperty(USERNAME, dataBaseConfig.getUsername());
-        properties.setProperty(PASSWORD, dataBaseConfig.getPassword());
-        PooledDataSourceFactory pooledDataSourceFactory = new PooledDataSourceFactory();
-        pooledDataSourceFactory.setProperties(properties);
-        return pooledDataSourceFactory.getDataSource();
+
+    private static DataSource getDataSource(GeneratorConfig generatorConfig) {
+        String jdbcUrl = generatorConfig.getJdbcUrl();
+        return dataSourceMap.computeIfAbsent(jdbcUrl, key -> {
+            Properties properties = new Properties();
+            properties.setProperty(DRIVER, generatorConfig.getDriverClass());
+            properties.setProperty(URL, jdbcUrl);
+            properties.setProperty(USERNAME, generatorConfig.getUsername());
+            properties.setProperty(PASSWORD, generatorConfig.getPassword());
+            PooledDataSourceFactory pooledDataSourceFactory = new PooledDataSourceFactory();
+            pooledDataSourceFactory.setProperties(properties);
+            return pooledDataSourceFactory.getDataSource();
+        });
     }
 
     private static Configuration buildConfiguration(DataSource dataSource) {

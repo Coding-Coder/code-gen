@@ -1,7 +1,5 @@
 package com.gitee.gen.gen;
 
-import com.gitee.gen.util.SqlHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

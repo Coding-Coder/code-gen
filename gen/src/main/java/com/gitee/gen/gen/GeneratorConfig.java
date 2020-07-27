@@ -11,7 +11,7 @@ public class GeneratorConfig {
     private static final Map<String, String> JDBC_URL_MAP = new HashMap<String, String>();
 
     static {
-        JDBC_URL_MAP.put("com.mysql.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8");
+        JDBC_URL_MAP.put("com.mysql.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true");
         JDBC_URL_MAP.put("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@%s:%s:%s");
         JDBC_URL_MAP.put("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://%s:%s;databaseName=%s");
     }
