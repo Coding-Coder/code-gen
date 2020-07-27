@@ -6,7 +6,7 @@ package com.gitee.gen.entity;
  */
 public class DatasourceConfig {
     private Integer id;
-    /** 数据库类型，0：MySql, 1:Oracle,2:sqlserver */
+    /** 数据库类型，1：MySql, 2:Oracle, 3:sqlserver */
     private Integer dbType;
     /** 数据库驱动 */
     private String driverClass;

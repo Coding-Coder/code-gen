@@ -5,7 +5,7 @@ USE `generator1`;
 
 CREATE TABLE `datasource_config` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `db_type` int(11) NOT NULL DEFAULT '0' COMMENT '数据库类型，0：MySql, 1:Oracle,2:sqlserver',
+  `db_type` int(11) NOT NULL DEFAULT '0' COMMENT '数据库类型，1：MySql, 2:Oracle, 3:sqlserver',
   `driver_class` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库驱动',
   `db_name` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库名称',
   `host` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库host',

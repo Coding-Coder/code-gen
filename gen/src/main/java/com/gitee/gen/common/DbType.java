@@ -6,8 +6,8 @@ package com.gitee.gen.common;
 public enum DbType {
 
     MYSQL(1, "com.mysql.jdbc.Driver"),
-    ORACLE(1, "oracle.jdbc.driver.OracleDriver"),
-    SQL_SERVER(1, "net.sourceforge.jtds.jdbc.Driver"),
+    ORACLE(2, "oracle.jdbc.driver.OracleDriver"),
+    SQL_SERVER(3, "net.sourceforge.jtds.jdbc.Driver"),
 
     ;
     private int type;
