@@ -1,10 +1,14 @@
 # code-gen
 
+一款代码生成工具，可自定义模板生成不同的代码。
+
 - 只需要一个Java8环境，下载后即可运行使用。
 - 步骤简单，只需配置一个数据源，然后勾选模板即可生成代码。
 - 默认提供了通用的实体类、mybatis接口、mybatis配置文件模板，可以快速开发mybatis应用。
 
 教程：[快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
+
+> 用到的技术：SpringBoot + Mybatis + Vue
 
 ## 使用步骤
 
