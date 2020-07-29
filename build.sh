@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # 版本号
-version="gen-1.1.0"
+version="gen"
 # 构建目录
 dist_dir="dist"
 # 输出目录
