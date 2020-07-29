@@ -1,5 +1,9 @@
 # changelog
 
+## 1.1.1
+
+- 优化下划线字段转驼峰字段算法 [I1PDHW](https://gitee.com/durcframework/code-gen/issues/I1PDHW)
+
 ## 1.1.0
 
 - 结果页面可下载代码
