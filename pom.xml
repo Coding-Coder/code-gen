@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.giee.codegen</groupId>
     <artifactId>code-gen</artifactId>
-    <version>1.1.1</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
