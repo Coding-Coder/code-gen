@@ -51,9 +51,4 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist`文�
 
 ![代码生成](https://images.gitee.com/uploads/images/2020/0724/180853_df66e76d_332975.png "gen7.png")
 
-![生成结果](https://images.gitee.com/uploads/images/2020/0724/090952_4dc5fec9_332975.png "gen4.png")
-
-![生成结果](https://images.gitee.com/uploads/images/2020/0724/091000_9e5e0e81_332975.png "gen5.png")
-
-![生成结果](https://images.gitee.com/uploads/images/2020/0724/091008_382b9f13_332975.png "gen6.png")
-
+![生成结果](https://images.gitee.com/uploads/images/2020/0731/085238_bf675b0d_332975.png "gen8.png")
