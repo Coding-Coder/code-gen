@@ -59,7 +59,7 @@ export const constantRoutes = [
         path: 'config',
         name: 'Config',
         component: () => import('@/views/generate/index'),
-        meta: { title: '生成代码' },
+        meta: { title: '生成代码' }
       },
       {
         path: 'result/:config',

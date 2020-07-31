@@ -45,7 +45,12 @@ public class GeneratorService {
                 TemplateConfig template = templateConfigService.getById(tcId);
                 String fileName = doGenerator(sqlContext, template.getFileName());
                 String content = doGenerator(sqlContext, template.getContent());
-                CodeFile codeFile = new CodeFile(tableName, fileName, content);
+                String folder = template.getName();
+                CodeFile codeFile = new CodeFile();
+                codeFile.setFolder(folder);
+                codeFile.setTemplateName(fileName);
+                codeFile.setTableName(tableName);
+                codeFile.setContent(content);
                 codeFileList.add(codeFile);
             }
         }

@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface TemplateConfigMapper {
 
+    TemplateConfig getByName(String name);
+
     /**
      * 查询所有记录
      *

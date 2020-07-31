@@ -1,5 +1,9 @@
 # changelog
 
+## 1.1.2
+
+- 调整生成结果树状展示
+
 ## 1.1.1
 
 - 优化下划线字段转驼峰字段算法 [I1PDHW](https://gitee.com/durcframework/code-gen/issues/I1PDHW)

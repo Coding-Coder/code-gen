@@ -1,15 +1,19 @@
 package com.gitee.gen.gen;
 
 public class CodeFile {
-	public CodeFile(String tableName, String templateName, String content) {
-		this.tableName = tableName;
-		this.templateName = templateName;
-		this.content = content;
-	}
 
+	private String folder;
 	private String tableName;
 	private String templateName;
 	private String content;
+
+	public String getFolder() {
+		return folder;
+	}
+
+	public void setFolder(String folder) {
+		this.folder = folder;
+	}
 
 	public String getTableName() {
 		return tableName;

@@ -143,19 +143,21 @@ export default {
       // value是个List
       for (let i = 0, len = rows.length; i < len; i++) {
         const row = rows[i]
-        let list = codeMap[row.tableName]
+        const folder = row.folder
+        let list = codeMap[folder]
         if (!list) {
           list = []
-          codeMap[row.tableName] = list
+          codeMap[folder] = list
         }
 
         list.push({ templateName: row.templateName, content: row.content })
       }
       // 把这个map对象转成tree格式数据
-      for (const tableName in codeMap) {
-        const codeFileArr = codeMap[tableName]
+      for (const folder in codeMap) {
+        const codeFileArr = codeMap[folder]
+        // 父节点
         const treeElement = {
-          filename: tableName,
+          filename: folder,
           children: this.buildChildren(codeFileArr)
         }
 
@@ -211,7 +213,7 @@ export default {
       // 下载
       zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
-        saveAs(content, `code-${new Date().getTime()}.zip`);
+        saveAs(content, `code-${new Date().getTime()}.zip`)
       })
     }
   }

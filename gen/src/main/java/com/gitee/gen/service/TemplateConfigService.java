@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author tanghc
@@ -25,11 +26,19 @@ public class TemplateConfigService {
     }
 
     public void insert(TemplateConfig templateConfig) {
+        TemplateConfig existObj = templateConfigMapper.getByName(templateConfig.getName());
+        if (existObj != null) {
+            throw new RuntimeException("模板名称已存在");
+        }
         templateConfig.setIsDeleted(0);
         templateConfigMapper.insert(templateConfig);
     }
 
     public void update(TemplateConfig templateConfig) {
+        TemplateConfig existObj = templateConfigMapper.getByName(templateConfig.getName());
+        if (existObj != null && !Objects.equals(templateConfig.getId(), existObj.getId())) {
+            throw new RuntimeException("模板名称已存在");
+        }
         templateConfigMapper.update(templateConfig);
     }
 

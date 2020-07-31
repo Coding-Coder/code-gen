@@ -26,6 +26,13 @@
         WHERE is_deleted=0
     </select>
 
+    <select id="getByName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns" />
+        FROM template_config t
+        WHERE name = #{name}
+    </select>
+
     <!-- 根据主键获取单条记录 -->
     <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
         SELECT
