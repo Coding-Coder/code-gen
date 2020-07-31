@@ -3,8 +3,7 @@ package com.gitee.gen.gen;
 public class CodeFile {
 
 	private String folder;
-	private String tableName;
-	private String templateName;
+	private String fileName;
 	private String content;
 
 	public String getFolder() {
@@ -15,20 +14,12 @@ public class CodeFile {
 		this.folder = folder;
 	}
 
-	public String getTableName() {
-		return tableName;
+	public String getFileName() {
+		return fileName;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
-
-	public String getTemplateName() {
-		return templateName;
-	}
-
-	public void setTemplateName(String templateName) {
-		this.templateName = templateName;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public String getContent() {

@@ -40,16 +40,14 @@ public class GeneratorService {
 
         for (SQLContext sqlContext : contextList) {
             setPackageName(sqlContext, generatorParam.getPackageName());
-            String tableName = sqlContext.getTableDefinition().getTableName();
             for (int tcId : generatorParam.getTemplateConfigIdList()) {
                 TemplateConfig template = templateConfigService.getById(tcId);
+                String folder = template.getName();
                 String fileName = doGenerator(sqlContext, template.getFileName());
                 String content = doGenerator(sqlContext, template.getContent());
-                String folder = template.getName();
                 CodeFile codeFile = new CodeFile();
                 codeFile.setFolder(folder);
-                codeFile.setTemplateName(fileName);
-                codeFile.setTableName(tableName);
+                codeFile.setFileName(fileName);
                 codeFile.setContent(content);
                 codeFileList.add(codeFile);
             }

@@ -39,7 +39,7 @@
           <el-button
             icon="el-icon-download"
             type="text"
-            @click="downloadText(fileInfo.filename, fileInfo.content)"
+            @click="downloadText(fileInfo.fileName, fileInfo.content)"
           >下载当前文件</el-button>
           <codemirror
             v-model="fileInfo.content"
@@ -84,12 +84,12 @@ export default {
       filterText: '',
       defaultProps: {
         children: 'children',
-        label: 'filename'
+        label: 'fileName'
       },
       content: '',
       fileInfo: {
         content: '',
-        filename: ''
+        fileName: ''
       },
       cmOptions: {
         value: '',
@@ -139,7 +139,7 @@ export default {
     buildTreeData(rows) {
       const treeData = []
       const codeMap = {}
-      // 把列表数据转换到map中,key为表名
+      // 把列表数据转换到map中,key为模板名
       // value是个List
       for (let i = 0, len = rows.length; i < len; i++) {
         const row = rows[i]
@@ -149,15 +149,14 @@ export default {
           list = []
           codeMap[folder] = list
         }
-
-        list.push({ templateName: row.templateName, content: row.content })
+        list.push(row)
       }
       // 把这个map对象转成tree格式数据
       for (const folder in codeMap) {
         const codeFileArr = codeMap[folder]
         // 父节点
         const treeElement = {
-          filename: folder,
+          fileName: folder,
           children: this.buildChildren(codeFileArr)
         }
 
@@ -170,7 +169,7 @@ export default {
       for (let i = 0, len = codeFileArr.length; i < len; i++) {
         const codeFile = codeFileArr[i]
         const child = {
-          filename: codeFile.templateName,
+          fileName: codeFile.fileName,
           content: codeFile.content
         }
         children.push(child)
@@ -182,7 +181,7 @@ export default {
         return
       }
       this.fileInfo = data
-      this.changeMod(data.filename)
+      this.changeMod(data.fileName)
     },
     changeMod(fileName) {
       const suffix = this.getSuffix(fileName)
@@ -203,10 +202,10 @@ export default {
         const isFolder = children.length > 0
         if (isFolder) {
           // 创建文件夹
-          const folderZip = zip.folder(row.filename)
+          const folderZip = zip.folder(row.fileName)
           children.forEach(child => {
             // 文件放入文件夹中
-            folderZip.file(child.filename, child.content)
+            folderZip.file(child.fileName, child.content)
           })
         }
       })
