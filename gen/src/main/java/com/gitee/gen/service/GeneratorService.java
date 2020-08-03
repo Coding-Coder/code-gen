@@ -76,7 +76,9 @@ public class GeneratorService {
         List<TableDefinition> tableDefinitions = tableSelector.getTableDefinitions();
 
         for (TableDefinition tableDefinition : tableDefinitions) {
-            contextList.add(new SQLContext(tableDefinition));
+            SQLContext sqlContext = new SQLContext(tableDefinition);
+            sqlContext.setDbName(generatorConfig.getDbName());
+            contextList.add(sqlContext);
         }
 
         return contextList;

@@ -14,6 +14,8 @@ public class SQLContext {
 	private TableDefinition tableDefinition;
 	/** 包名 */
 	private String packageName;
+	/** 数据库名 */
+	private String dbName;
 
 	public SQLContext(TableDefinition tableDefinition){
 		this.tableDefinition = tableDefinition;
@@ -89,4 +91,11 @@ public class SQLContext {
 		this.packageName = packageName;
 	}
 
+	public String getDbName() {
+		return dbName;
+	}
+
+	public void setDbName(String dbName) {
+		this.dbName = dbName;
+	}
 }

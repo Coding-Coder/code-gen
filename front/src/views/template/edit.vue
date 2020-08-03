@@ -99,6 +99,8 @@ export default {
       }, {
         text: '${context}',
         children: [{
+          text: '${context.dbName}：数据库名'
+        }, {
           text: '${context.packageName}：包名'
         }, {
           text: '${context.javaBeanName}：Java类名'
@@ -137,13 +139,13 @@ export default {
         }, {
           text: '${column.isIdentity}：是否自增,返回boolean'
         }, {
-          text: '${column.isPk}：是否自增主键,返回boolean'
+          text: '${column.isPk}：是否主键,返回boolean'
         }, {
           text: '${column.isIdentityPk}：是否自增主键,返回boolean'
         }, {
           text: '${column.mybatisJdbcType}：mybatis定义的jdbcType'
         }, {
-          text: '${column.comment}：表字段注释'
+          text: '${column.comment}：字段注释'
         }]
       }],
       defaultProps: {
