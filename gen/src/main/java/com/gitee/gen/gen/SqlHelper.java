@@ -41,7 +41,7 @@ public class SqlHelper {
      * String sql = "SELECT * FROM datasource_config WHERE dc_id=${id}";
      *
      * DataSourceConfig dataSourceConfig = new DataSourceConfig();
-     * dataSourceConfig.setDriverClass("com.mysql.jdbc.Driver");
+     * dataSourceConfig.setDriverClass("com.mysql.cj.jdbc.Driver");
      * dataSourceConfig.setJdbcUrl("jdbc:mysql://localhost:3306/auto_code");
      * dataSourceConfig.setUsername("root");
      * dataSourceConfig.setPassword("root");

@@ -19,6 +19,8 @@ public class MySqlTableSelector extends TableSelector {
 
 	@Override
 	protected String getShowTablesSQL(String dbName) {
+		// 兼容dbName包含'-'字段会报错的情况
+		dbName = dbName.contains("-") ? String.format("`%s`",dbName): dbName;
 		String sql = "SHOW TABLE STATUS FROM " + dbName;
 		if(this.getSchTableNames() != null && this.getSchTableNames().size() > 0) {
 			StringBuilder tables = new StringBuilder();
