@@ -11,7 +11,9 @@ public class GeneratorConfig {
     private static final Map<String, String> JDBC_URL_MAP = new HashMap<String, String>();
 
     static {
-        JDBC_URL_MAP.put("com.mysql.cj.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai");
+        // 老的需要保留
+        JDBC_URL_MAP.put("com.mysql.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai");
+        JDBC_URL_MAP.put("com.mysql.cj.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai");
         JDBC_URL_MAP.put("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@%s:%s:%s");
         JDBC_URL_MAP.put("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://%s:%s;databaseName=%s");
     }
@@ -31,6 +33,9 @@ public class GeneratorConfig {
 
     public String getJdbcUrl() {
         String url = JDBC_URL_MAP.get(driverClass);
+        if (url == null) {
+            throw new RuntimeException("不支持驱动" + driverClass + "，请在GeneratorConfig.java中配置");
+        }
         return String.format(url, host, port, dbName);
     }
 

@@ -1,5 +1,11 @@
 # changelog
 
+## 1.1.4
+
+- 修改mysql驱动为com.mysql.cj.jdbc.Driver
+- 修改mysql jdbc连接串,增加serverTimezone=Asia/Shanghai
+- 修复数据库名(dbName)包含'-'的异常.如(platform-cloud)
+
 ## 1.1.3
 
 - 新增${context.dbName}数据库名称变量

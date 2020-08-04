@@ -30,7 +30,7 @@ Object.assign(Vue.prototype, {
         that.$message.error(resp.msg)
       }
     }).catch(function(error) {
-      console.error('err' + error) // for debug
+      console.error(error)
       errorCallback && errorCallback(error)
       that.$message.error(error.message)
     })
