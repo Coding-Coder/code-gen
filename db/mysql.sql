@@ -1,6 +1,6 @@
 
-CREATE DATABASE IF NOT EXISTS `generator` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
-USE `generator`;
+CREATE DATABASE IF NOT EXISTS `gen` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+USE `gen`;
 
 
 CREATE TABLE `datasource_config` (
