@@ -9,10 +9,10 @@ import java.util.Map;
  */
 public abstract class ColumnSelector {
 
-	private GeneratorConfig dataBaseConfig;
+	private GeneratorConfig generatorConfig;
 	
-	public ColumnSelector(GeneratorConfig dataBaseConfig){
-		this.dataBaseConfig = dataBaseConfig;
+	public ColumnSelector(GeneratorConfig generatorConfig){
+		this.generatorConfig = generatorConfig;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public abstract class ColumnSelector {
 	protected abstract ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap);
 	
 	public List<ColumnDefinition> getColumnDefinitions(String tableName) {
-		List<Map<String, Object>> resultList = SqlHelper.runSql(this.getDataBaseConfig(), getColumnInfoSQL(tableName));
+		List<Map<String, Object>> resultList = SqlHelper.runSql(this.getGeneratorConfig(), getColumnInfoSQL(tableName));
 		
 		List<ColumnDefinition> columnDefinitionList = new ArrayList<ColumnDefinition>(resultList.size());
 		// 构建columnDefinition
@@ -41,12 +41,12 @@ public abstract class ColumnSelector {
 		return columnDefinitionList;
 	}
 
-	public GeneratorConfig getDataBaseConfig() {
-		return dataBaseConfig;
+	public GeneratorConfig getGeneratorConfig() {
+		return generatorConfig;
 	}
 
-	public void setDataBaseConfig(GeneratorConfig dataBaseConfig) {
-		this.dataBaseConfig = dataBaseConfig;
+	public void setGeneratorConfig(GeneratorConfig generatorConfig) {
+		this.generatorConfig = generatorConfig;
 	}
 
 }

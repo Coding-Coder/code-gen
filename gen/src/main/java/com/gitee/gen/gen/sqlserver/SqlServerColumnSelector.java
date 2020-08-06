@@ -39,8 +39,8 @@ public class SqlServerColumnSelector extends ColumnSelector {
 
 	
 
-	public SqlServerColumnSelector(GeneratorConfig dataBaseConfig) {
-		super(dataBaseConfig);
+	public SqlServerColumnSelector(GeneratorConfig generatorConfig) {
+		super(generatorConfig);
 	}
 
 	/*	SELECT

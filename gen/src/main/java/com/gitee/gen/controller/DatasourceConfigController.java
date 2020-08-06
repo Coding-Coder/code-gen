@@ -1,10 +1,10 @@
 package com.gitee.gen.controller;
 
 import com.gitee.gen.common.Action;
-import com.gitee.gen.common.DbType;
 import com.gitee.gen.common.Result;
 import com.gitee.gen.entity.DatasourceConfig;
 import com.gitee.gen.gen.DBConnect;
+import com.gitee.gen.gen.DbType;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.SQLService;
 import com.gitee.gen.gen.SQLServiceFactory;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author tanghc
@@ -30,7 +32,6 @@ public class DatasourceConfigController {
 
     @RequestMapping("/add")
     public Result add(@RequestBody DatasourceConfig datasourceConfig) {
-        this.initDriverClass(datasourceConfig);
         datasourceConfigService.insert(datasourceConfig);
         return Action.ok();
     }
@@ -43,7 +44,6 @@ public class DatasourceConfigController {
 
     @RequestMapping("/update")
     public Result update(@RequestBody DatasourceConfig datasourceConfig) {
-        this.initDriverClass(datasourceConfig);
         datasourceConfigService.update(datasourceConfig);
         return Action.ok();
     }
@@ -66,7 +66,6 @@ public class DatasourceConfigController {
 
     @RequestMapping("/test")
     public Result test(@RequestBody DatasourceConfig datasourceConfig) {
-        this.initDriverClass(datasourceConfig);
         String error = DBConnect.testConnection(GeneratorConfig.build(datasourceConfig));
         if (error != null) {
             return Action.err(error);
@@ -74,13 +73,39 @@ public class DatasourceConfigController {
         return Action.ok();
     }
 
-    private void initDriverClass(DatasourceConfig datasourceConfig) {
-        Integer dbType = datasourceConfig.getDbType();
-        for (DbType value : DbType.values()) {
-            if (value.getType() == dbType) {
-                datasourceConfig.setDriverClass(value.getDriverClass());
-                break;
-            }
+    @RequestMapping("/dbtype")
+    public Result dbType(@RequestBody DatasourceConfig datasourceConfig) {
+        List<DbTypeShow> dbTypeShowList = Stream.of(DbType.values())
+                .map(dbType -> new DbTypeShow(dbType.getDisplayName(), dbType.getType()))
+                .collect(Collectors.toList());
+        return Action.ok(dbTypeShowList);
+    }
+
+    private static class DbTypeShow {
+        private String label;
+        private Integer dbType;
+
+        public DbTypeShow(String label, Integer dbType) {
+            this.label = label;
+            this.dbType = dbType;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public void setLabel(String label) {
+            this.label = label;
+        }
+
+        public Integer getDbType() {
+            return dbType;
+        }
+
+        public void setDbType(Integer dbType) {
+            this.dbType = dbType;
         }
     }
+
+
 }

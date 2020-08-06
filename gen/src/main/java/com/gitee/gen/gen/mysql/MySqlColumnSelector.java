@@ -14,8 +14,8 @@ import java.util.Set;
  */
 public class MySqlColumnSelector extends ColumnSelector {
 	
-	public MySqlColumnSelector(GeneratorConfig dataBaseConfig) {
-		super(dataBaseConfig);
+	public MySqlColumnSelector(GeneratorConfig generatorConfig) {
+		super(generatorConfig);
 	}
 
 	/**

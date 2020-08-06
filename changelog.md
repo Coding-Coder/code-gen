@@ -1,5 +1,9 @@
 # changelog
 
+## 1.2.0
+
+- 支持PostgreSQL
+
 ## 1.1.4
 
 - 修改mysql驱动为com.mysql.cj.jdbc.Driver

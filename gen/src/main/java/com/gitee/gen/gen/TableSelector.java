@@ -1,8 +1,13 @@
 package com.gitee.gen.gen;
 
+import org.springframework.util.CollectionUtils;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public abstract class TableSelector {
 
@@ -59,6 +64,16 @@ public abstract class TableSelector {
         }
 
         return tablesList;
+    }
+
+    public List<String> wrapTableNames() {
+        List<String> schTableNames = this.getSchTableNames();
+        if (CollectionUtils.isEmpty(schTableNames)) {
+            return Collections.emptyList();
+        }
+        return schTableNames.stream()
+                .map(tableName -> String.format("'%s'", tableName))
+                .collect(Collectors.toList());
     }
 
     public GeneratorConfig getGeneratorConfig() {

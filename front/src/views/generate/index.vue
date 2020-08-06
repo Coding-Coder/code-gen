@@ -154,11 +154,7 @@ export default {
         password: '',
         dbName: ''
       },
-      dbTypeConfig: [
-        { label: 'MySql', dbType: 1 },
-        { label: 'Oracle', dbType: 2 },
-        { label: 'SqlServer', dbType: 3 }
-      ],
+      dbTypeConfig: [],
       datasourceRule: {
         host: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -181,6 +177,7 @@ export default {
   created() {
     this.loadDataSource()
     this.loadTemplate()
+    this.loadDbType()
   },
   methods: {
     loadDataSource() {
@@ -191,6 +188,11 @@ export default {
     loadTemplate() {
       this.post('/template/list', {}, resp => {
         this.templateListData = resp.data
+      })
+    },
+    loadDbType() {
+      this.post('/datasource/dbtype', {}, resp => {
+        this.dbTypeConfig = resp.data
       })
     },
     onDataSourceAdd() {

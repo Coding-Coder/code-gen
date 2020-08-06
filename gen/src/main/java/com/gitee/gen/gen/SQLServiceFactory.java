@@ -2,6 +2,7 @@ package com.gitee.gen.gen;
 
 import com.gitee.gen.gen.mysql.MySqlService;
 import com.gitee.gen.gen.oracle.OracleService;
+import com.gitee.gen.gen.postgresql.PostgreSqlService;
 import com.gitee.gen.gen.sqlserver.SqlServerService;
 
 import java.util.HashMap;
@@ -9,42 +10,22 @@ import java.util.Map;
 
 public class SQLServiceFactory {
 
-    private static final Map<String, SQLService> SERVICE_MAP = new HashMap<String, SQLService>(
-            20);
 
-    public static SQLService build(GeneratorConfig dataBaseConfig) {
-        String driverClass = dataBaseConfig.getDriverClass();
-        SQLService service = SERVICE_MAP.get(driverClass);
-        if (service == null) {
-            service = findSqlService(driverClass);
-            if (service != null) {
-                SERVICE_MAP.put(driverClass, service);
-            } else {
-                throw new RuntimeException("本系统暂不支持该数据源("
-                        + dataBaseConfig.getDriverClass() + ")");
-            }
-        }
-        return service;
+    private static final Map<Integer, SQLService> SERVICE_CONFIG = new HashMap<>(16);
+
+    static {
+        SERVICE_CONFIG.put(DbType.MYSQL.getType(), new MySqlService());
+        SERVICE_CONFIG.put(DbType.ORACLE.getType(), new OracleService());
+        SERVICE_CONFIG.put(DbType.SQL_SERVER.getType(), new SqlServerService());
+        SERVICE_CONFIG.put(DbType.POSTGRE_SQL.getType(), new PostgreSqlService());
     }
 
-    private static SQLService findSqlService(String driverClass) {
-        if (driverClass.contains("mysql")) {
-            return new MySqlService();
+    public static SQLService build(GeneratorConfig generatorConfig) {
+        SQLService service = SERVICE_CONFIG.get(generatorConfig.getDbType());
+        if (service == null) {
+            throw new RuntimeException("本系统暂不支持该数据源(" + generatorConfig.getDriverClass() + ")");
         }
-
-        if (driverClass.contains("jtds")) {
-            return new SqlServerService();
-        }
-
-        if (driverClass.contains("oracle")) {
-            return new OracleService();
-        }
-        if (driverClass.contains("sqlserver")) {
-            return new SqlServerService();
-        }
-        // ... 添加其他数据库
-
-        return null;
+        return service;
     }
 
 }

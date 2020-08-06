@@ -1,6 +1,8 @@
 package com.gitee.gen.entity;
 
 
+import com.gitee.gen.gen.DbType;
+
 /**
  * 数据源配置表
  */
@@ -44,7 +46,11 @@ public class DatasourceConfig {
     }
 
     public String getDriverClass() {
-        return this.driverClass;
+        DbType dbType = DbType.of(this.dbType);
+        if (dbType == null) {
+            return "unknown";
+        }
+        return dbType.getDriverClass();
     }
 
     public void setDbName(String dbName) {

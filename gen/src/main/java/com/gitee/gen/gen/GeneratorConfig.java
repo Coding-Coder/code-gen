@@ -3,26 +3,18 @@ package com.gitee.gen.gen;
 import com.gitee.gen.entity.DatasourceConfig;
 import org.springframework.beans.BeanUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class GeneratorConfig {
 
-    private static final Map<String, String> JDBC_URL_MAP = new HashMap<String, String>();
-
-    static {
-        // 老的需要保留
-        JDBC_URL_MAP.put("com.mysql.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai");
-        JDBC_URL_MAP.put("com.mysql.cj.jdbc.Driver", "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai");
-        JDBC_URL_MAP.put("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:@%s:%s:%s");
-        JDBC_URL_MAP.put("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://%s:%s;databaseName=%s");
-    }
-
+    private Integer dbType;
+    /** 数据库名称 */
     private String dbName;
-    private String driverClass;
+    /** 数据库host */
     private String host;
-    private int port;
+    /** 数据库端口 */
+    private Integer port;
+    /** 数据库用户名 */
     private String username;
+    /** 数据库密码 */
     private String password;
 
     public static GeneratorConfig build(DatasourceConfig datasourceConfig) {
@@ -31,12 +23,21 @@ public class GeneratorConfig {
         return generatorConfig;
     }
 
-    public String getJdbcUrl() {
-        String url = JDBC_URL_MAP.get(driverClass);
-        if (url == null) {
-            throw new RuntimeException("不支持驱动" + driverClass + "，请在GeneratorConfig.java中配置");
+    public String getDriverClass() {
+        DbType dbType = DbType.of(this.dbType);
+        if (dbType == null) {
+            throw new RuntimeException("不支持数据库类型" + this.dbType + "，请在DbType.java中配置");
         }
-        return String.format(url, host, port, dbName);
+        return dbType.getDriverClass();
+    }
+
+    public String getJdbcUrl() {
+        DbType dbType = DbType.of(this.dbType);
+        if (dbType == null) {
+            throw new RuntimeException("不支持数据库类型" + this.dbType + "，请在DbType.java中配置");
+        }
+        String jdbcUrl = dbType.getJdbcUrl();
+        return String.format(jdbcUrl, host, port, dbName);
     }
 
     public String getDbName() {
@@ -47,12 +48,12 @@ public class GeneratorConfig {
         this.dbName = dbName;
     }
 
-    public String getDriverClass() {
-        return driverClass;
+    public Integer getDbType() {
+        return dbType;
     }
 
-    public void setDriverClass(String driverClass) {
-        this.driverClass = driverClass;
+    public void setDbType(Integer dbType) {
+        this.dbType = dbType;
     }
 
     public String getHost() {

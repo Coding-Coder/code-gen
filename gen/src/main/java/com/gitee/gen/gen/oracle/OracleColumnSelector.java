@@ -13,8 +13,8 @@ import java.util.Set;
  */
 public class OracleColumnSelector extends ColumnSelector {
 	
-	public OracleColumnSelector(GeneratorConfig dataBaseConfig) {
-		super(dataBaseConfig);
+	public OracleColumnSelector(GeneratorConfig generatorConfig) {
+		super(generatorConfig);
 	}
 
 	/**
