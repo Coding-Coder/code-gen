@@ -8,6 +8,8 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 import java.util.Set;
 
+import static com.gitee.gen.util.FieldUtil.convertString;
+
 /**
  * @author tanghc
  */
@@ -59,18 +61,18 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
 
         ColumnDefinition columnDefinition = new ColumnDefinition();
 
-        columnDefinition.setColumnName(String.valueOf(rowMap.get("COLNAME")));
+        columnDefinition.setColumnName(convertString(rowMap.get("COLNAME")));
 
-        boolean isIdentity = "1".equals(String.valueOf(rowMap.get("IS_IDENTITY")));
+        boolean isIdentity = "1".equals(convertString(rowMap.get("IS_IDENTITY")));
         columnDefinition.setIsIdentity(isIdentity);
 
         boolean isPk = (Boolean) rowMap.get("IS_PK");
         columnDefinition.setIsPk(isPk);
 
-        String type = String.valueOf(rowMap.get("TYPE"));
+        String type = convertString(rowMap.get("TYPE"));
         columnDefinition.setType(buildType(type));
 
-        columnDefinition.setComment(String.valueOf(rowMap.get("CMT")));
+        columnDefinition.setComment(convertString(rowMap.get("CMT")));
 
         return columnDefinition;
     }
@@ -83,6 +85,13 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
             if (type.contains("timestamp")) {
                 return "TIMESTAMP";
             }
+            if (type.contains("double")) {
+                return "double";
+            }
+            if (type.contains("real")) {
+                return "float";
+            }
+            return type;
         }
         return "VARCHAR";
     }

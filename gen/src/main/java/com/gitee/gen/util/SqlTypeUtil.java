@@ -7,14 +7,15 @@ import java.util.Map;
  * 字段类型转换
  */
 public class SqlTypeUtil {
-	private static Map<String, String> javaTypeMap = new HashMap<String, String>();
-	private static Map<String, String> javaBoxTypeMap = new HashMap<String, String>();
-	private static Map<String, String> mybatisTypeMap = new HashMap<String, String>();
+	private static final Map<String, String> javaTypeMap = new HashMap<>();
+	private static final Map<String, String> javaBoxTypeMap = new HashMap<>();
+	private static final Map<String, String> mybatisTypeMap = new HashMap<>();
 
 	static {
 		javaTypeMap.put("bigint", "long");
 		javaTypeMap.put("binary", "byte[]");
 		javaTypeMap.put("bit", "boolean");
+		javaTypeMap.put("boolean", "boolean");
 		javaTypeMap.put("blob", "byte[]");
 		javaTypeMap.put("char", "String");
 		javaTypeMap.put("date", "Date");
@@ -23,6 +24,7 @@ public class SqlTypeUtil {
 		javaTypeMap.put("double", "double");
 		javaTypeMap.put("float", "float");
 		javaTypeMap.put("int", "int");
+		javaTypeMap.put("integer", "int");
 		javaTypeMap.put("image", "byte[]");
 		javaTypeMap.put("money", "BigDecimal");
 		javaTypeMap.put("nchar", "String");
@@ -40,11 +42,12 @@ public class SqlTypeUtil {
 		javaTypeMap.put("uniqueidentifier", "String");
 		javaTypeMap.put("varbinary", "byte[]");
 		javaTypeMap.put("varchar", "String");
-		
-		
+
+
 		javaBoxTypeMap.put("bigint", "Long");
 		javaBoxTypeMap.put("binary", "Byte[]");
 		javaBoxTypeMap.put("bit", "Boolean");
+		javaBoxTypeMap.put("boolean", "Boolean");
 		javaBoxTypeMap.put("blob", "Byte[]");
 		javaBoxTypeMap.put("char", "String");
 		javaBoxTypeMap.put("date", "Date");
@@ -53,6 +56,7 @@ public class SqlTypeUtil {
 		javaBoxTypeMap.put("double", "Double");
 		javaBoxTypeMap.put("float", "Float");
 		javaBoxTypeMap.put("int", "Integer");
+		javaBoxTypeMap.put("integer", "Integer");
 		javaBoxTypeMap.put("image", "Byte[]");
 		javaBoxTypeMap.put("money", "BigDecimal");
 		javaBoxTypeMap.put("nchar", "String");
@@ -70,11 +74,12 @@ public class SqlTypeUtil {
 		javaBoxTypeMap.put("uniqueidentifier", "String");
 		javaBoxTypeMap.put("varbinary", "Byte[]");
 		javaBoxTypeMap.put("varchar", "String");
-		
-		
+
+
 		mybatisTypeMap.put("bigint", "LONG");
 		mybatisTypeMap.put("binary", "BLOB");
 		mybatisTypeMap.put("bit", "BOOLEAN");
+		mybatisTypeMap.put("boolean", "BOOLEAN");
 		mybatisTypeMap.put("blob", "BLOB");
 		mybatisTypeMap.put("char", "CHAR");
 		mybatisTypeMap.put("date", "TIMESTAMP");
@@ -83,6 +88,7 @@ public class SqlTypeUtil {
 		mybatisTypeMap.put("double", "DOUBLE");
 		mybatisTypeMap.put("float", "FLOAT");
 		mybatisTypeMap.put("int", "INTEGER");
+		mybatisTypeMap.put("integer", "INTEGER");
 		mybatisTypeMap.put("image", "BLOB");
 		mybatisTypeMap.put("money", "DECIMAL");
 		mybatisTypeMap.put("nchar", "NCHAR");
@@ -104,7 +110,7 @@ public class SqlTypeUtil {
 	
 	/**
 	 * 将sql字段类型转换为java字段类型
-	 * @param sqlType
+	 * @param sqlType 数据库字段类型
 	 * @return 找不到类型默认返回String
 	 */
 	public static String convertToJavaType(String sqlType){
@@ -114,7 +120,7 @@ public class SqlTypeUtil {
 	
 	/**
 	 * 将sql字段类型转换为java装箱字段类型
-	 * @param sqlType
+	 * @param sqlType 数据库字段类型
 	 * @return 找不到类型默认返回String
 	 */
 	public static String convertToJavaBoxType(String sqlType){
@@ -124,7 +130,7 @@ public class SqlTypeUtil {
 	
 	/**
 	 * 将sql字段类型转换为mybatis的jdbcType
-	 * @param sqlType
+	 * @param sqlType 数据库字段类型
 	 * @return 找不到类型默认返回VARCHAR
 	 */
 	public static String convertToMyBatisJdbcType(String sqlType){

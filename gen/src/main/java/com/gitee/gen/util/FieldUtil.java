@@ -79,8 +79,8 @@ public class FieldUtil {
                 }
             }
         } else {
-            for (int i = 0; i < chars.length; i++) {
-                if (chars[i] == searchChar) {
+            for (char aChar : chars) {
+                if (aChar == searchChar) {
                     count++;
                 } else {
                     break;
@@ -90,31 +90,38 @@ public class FieldUtil {
         return count;
     }
 
+    public static String convertString(Object object) {
+        if (object == null) {
+            return "";
+        }
+        return String.valueOf(object);
+    }
+
     /**
      * 过滤"."
      *
-     * @param field
-     * @return
+     * @param field 字段
+     * @return 返回新字段
      */
     public static String dotFilter(String field) {
         if (StringUtils.hasText(field)) {
             if (field.contains(".")) {
                 String[] words = field.split("\\.");
-                String ret = "";
+                StringBuilder ret = new StringBuilder();
                 for (String str : words) {
-                    ret += upperFirstLetter(str);
+                    ret.append(upperFirstLetter(str));
                 }
-                return ret;
+                return ret.toString();
             }
         }
         return field;
     }
 
     /**
-     * 将第一个字母转换成大写
+     * 将第一个字母转换成大写。 name -> Name
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 返回新字段
      */
     public static String upperFirstLetter(String str) {
         if (StringUtils.hasText(str)) {
@@ -125,24 +132,18 @@ public class FieldUtil {
     }
 
     /**
-     * 将第一个字母转换成小写
+     * 将第一个字母转换成小写。Name -> name
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 返回新内容
      */
     public static String lowerFirstLetter(String str) {
         if (StringUtils.hasText(str)) {
             String firstLower = str.substring(0, 1).toLowerCase();
-            str = firstLower + str.substring(1, str.length());
+            str = firstLower + str.substring(1);
         }
         return str;
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(underlineFilter("table_name"));
-        System.out.println(underlineFilter("tableName"));
-        System.out.println(underlineFilter("username"));
-    }
 
 }

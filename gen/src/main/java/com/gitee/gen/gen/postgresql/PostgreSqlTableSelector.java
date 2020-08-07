@@ -8,6 +8,8 @@ import com.gitee.gen.gen.TableSelector;
 import java.util.List;
 import java.util.Map;
 
+import static com.gitee.gen.util.FieldUtil.convertString;
+
 /**
  * @author tanghc
  */
@@ -18,7 +20,7 @@ public class PostgreSqlTableSelector extends TableSelector {
 
     private static String SHOW_TABLE_SQL =
             "SELECT relname, " +
-                "CAST ( obj_description ( relfilenode, 'pg_class' ) AS VARCHAR ) AS cmt " +
+                "obj_description(oid) AS cmt " +
             "FROM pg_class C " +
             "WHERE relkind='r' AND relname NOT LIKE 'pg_%%' AND relname NOT LIKE 'sql_%%' AND relchecks=0 " +
             "%s " +
@@ -37,8 +39,8 @@ public class PostgreSqlTableSelector extends TableSelector {
     @Override
     protected TableDefinition buildTableDefinition(Map<String, Object> tableMap) {
         TableDefinition tableDefinition = new TableDefinition();
-        tableDefinition.setTableName((String)tableMap.get("RELNAME"));
-        tableDefinition.setComment((String)tableMap.get("CMT"));
+        tableDefinition.setTableName(convertString(tableMap.get("RELNAME")));
+        tableDefinition.setComment(convertString(tableMap.get("CMT")));
         return tableDefinition;
     }
 }
