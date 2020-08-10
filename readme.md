@@ -6,8 +6,6 @@
 - 步骤简单，只需配置一个数据源，然后勾选模板即可生成代码。
 - 默认提供了通用的实体类、mybatis接口、mybatis配置文件模板，可以快速开发mybatis应用。
 
-教程：[快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
-
 > 用到的技术：SpringBoot + Mybatis + Vue
 
 ## 使用步骤
@@ -17,6 +15,8 @@
 - 浏览器访问`http://localhost:6969/`
 
 默认端口是6969，更改端口号可执行：`java -jar gen.jar --server.port=端口号`
+
+教程：[快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
 
 ## 工程说明
 
