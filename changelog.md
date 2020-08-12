@@ -4,7 +4,7 @@
 
 - 修复保存模板时的错误
 - 模板编辑器新增行号
-- 新增admin-vue-CURD模板 [doc](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2688205&doc_id=27724)
+- 新增admin-vue-CRUD模板 [doc](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2688205&doc_id=27724)
 
 ## 1.2.0
 
