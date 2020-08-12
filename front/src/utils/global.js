@@ -14,7 +14,7 @@ const client = axios.create({
 Object.assign(Vue.prototype, {
   /**
    * 请求接口
-   * @param uri uri，如：goods.get,goods.get/1.0
+   * @param uri uri
    * @param data 请求数据
    * @param callback 成功时回调
    * @param errorCallback 错误时回调

@@ -91,6 +91,7 @@ export default {
         value: '',
         mode: 'text/velocity',
         theme: 'neat',
+        lineNumbers: true,
         readOnly: false
       },
       // tree
@@ -125,6 +126,8 @@ export default {
       }, {
         text: '#foreach($column in $columns)',
         children: [{
+          text: '$velocityCount：foreach循环下标，从1开始'
+        }, {
           text: '${column.columnName}：表中字段名'
         }, {
           text: '${column.type}：字段的数据库类型'
@@ -168,7 +171,10 @@ export default {
         if (valid) {
           const opt = this.formData.id ? 'update' : 'add'
           const uri = `/template/${opt}`
-          this.post(uri, this.formData, function() {
+          this.post(uri, this.formData, resp => {
+            if (opt === 'add') {
+              this.formData.id = resp.data.id
+            }
             this.tip('保存成功')
           })
         }
