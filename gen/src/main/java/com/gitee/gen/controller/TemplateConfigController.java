@@ -23,7 +23,7 @@ public class TemplateConfigController {
     @RequestMapping("/add")
     public Result add(@RequestBody TemplateConfig templateConfig) {
         templateConfigService.insert(templateConfig);
-        return Action.ok();
+        return Action.ok(templateConfig);
     }
 
     @RequestMapping("/get/{id}")

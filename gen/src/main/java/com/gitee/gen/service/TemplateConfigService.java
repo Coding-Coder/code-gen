@@ -39,7 +39,7 @@ public class TemplateConfigService {
         if (existObj != null && !Objects.equals(templateConfig.getId(), existObj.getId())) {
             throw new RuntimeException("模板名称已存在");
         }
-        templateConfigMapper.update(templateConfig);
+        templateConfigMapper.updateIgnoreNull(templateConfig);
     }
 
     public void delete(TemplateConfig templateConfig) {

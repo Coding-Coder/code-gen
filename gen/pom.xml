@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.gitee.codegen</groupId>
     <artifactId>gen</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <description>一款代码生成器</description>
 
     <properties>
