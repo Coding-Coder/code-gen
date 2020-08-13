@@ -1,24 +1,8 @@
 <template>
   <div class="app-container">
     <el-backtop />
-    <el-container>
-      <el-aside width="360px">
-        <h3>Velocity变量</h3>
-        <div v-for="item in treeData" :key="item.text" class="velocity-var">
-          <div v-if="!item.children">
-            <li>
-              {{ item.text }}
-            </li>
-          </div>
-          <div v-else>
-            <h4>{{ item.text }}</h4>
-            <li v-for="child in item.children" :key="child.text">
-              {{ child.text }}
-            </li>
-          </div>
-        </div>
-      </el-aside>
-      <el-main>
+    <el-row :gutter="20">
+      <el-col :span="16">
         <el-form
           ref="dialogForm"
           :rules="formRules"
@@ -35,6 +19,7 @@
           <el-form-item prop="content" label="模板内容">
             <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
             <codemirror
+              ref="editor"
               v-model="formData.content"
               :options="cmOptions"
             />
@@ -42,8 +27,27 @@
         </el-form>
         <el-button type="primary" @click="onSave">保 存</el-button>
         <el-button @click="goRoute('/template/list')">返 回</el-button>
-      </el-main>
-    </el-container>
+      </el-col>
+      <el-col :span="8">
+        <h3>Velocity变量</h3>
+        <p class="velocity-tip">
+          点击变量直接插入
+        </p>
+        <div v-for="item in treeData" :key="item.expression" class="velocity-var">
+          <div v-if="!item.children">
+            <li>
+                <a @click="onExpressionClick(item.expression)">{{ item.expression }}</a>：{{ item.text }}
+            </li>
+          </div>
+          <div v-else>
+            <h4>{{ item.expression }}</h4>
+            <li v-for="child in item.children" :key="child.expression">
+                <a @click="onExpressionClick(child.expression)">{{ child.expression }}</a>：{{ child.text }}
+            </li>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -53,11 +57,22 @@
   .el-form-item__content {
    line-height: 20px;
   }
+  .velocity-tip {
+    color: #606266;
+    font-size: 13px;
+  }
   .velocity-var {}
   .velocity-var li {
     font-size: 14px;
     color: #606266;
-    line-height: 25px;
+    line-height: 26px;
+  }
+  .velocity-var a {
+    color: #409EFF;
+    font-weight: 500;
+  }
+  .velocity-var a:hover {
+    color: rgba(64, 158, 255, 0.75);
   }
 </style>
 
@@ -94,61 +109,88 @@ export default {
         lineNumbers: true,
         readOnly: false
       },
+      isVelocityBarFixed: false,
       // tree
       treeData: [{
-        text: '${pk}：主键对象,同${column}'
+        expression: '${pk}',
+        text: '主键对象,同${column}'
       }, {
-        text: '${context}',
+        expression: '${context}',
+        text: '',
         children: [{
-          text: '${context.dbName}：数据库名'
+          expression: '${context.dbName}',
+          text: '数据库名'
         }, {
-          text: '${context.packageName}：包名'
+          expression: '${context.packageName}',
+          text: '包名'
         }, {
-          text: '${context.javaBeanName}：Java类名'
+          expression: '${context.javaBeanName}',
+          text: 'Java类名'
         }, {
-          text: '${context.javaBeanNameLF}：Java类名且首字母小写'
+          expression: '${context.javaBeanNameLF}',
+          text: 'Java类名且首字母小写'
         }, {
-          text: '${context.pkName}：表主键名'
+          expression: '${context.pkName}',
+          text: '表主键名'
         }, {
-          text: '${context.javaPkName}：表主键对应的java字段名'
+          expression: '${context.javaPkName}',
+          text: '表主键对应的java字段名'
         }, {
-          text: '${context.javaPkType}：主键的java类型'
+          expression: '${context.javaPkType}',
+          text: '主键的java类型'
         }, {
-          text: '${context.mybatisPkType}：主键对应的mybatis类型'
+          expression: '${context.mybatisPkType}',
+          text: '主键对应的mybatis类型'
         }]
       }, {
-        text: '${table}',
+        expression: '${table}',
+        text: '',
         children: [{
-          text: '${table.tableName}：数据库表名'
+          expression: '${table.tableName}',
+          text: '数据库表名'
         }, {
-          text: '${table.comment}：表注释'
+          expression: '${table.comment}',
+          text: '表注释'
         }]
       }, {
-        text: '#foreach($column in $columns)',
+        expression: '#foreach($column in $columns) #end',
+        text: '',
         children: [{
-          text: '$velocityCount：foreach循环下标，从1开始'
+          expression: '${velocityCount}',
+          text: 'foreach循环下标，从1开始'
         }, {
-          text: '${column.columnName}：表中字段名'
+          expression: '${column.columnName}',
+          text: '表中字段名'
         }, {
-          text: '${column.type}：字段的数据库类型'
+          expression: '${column.type}',
+          text: '字段的数据库类型'
         }, {
-          text: '${column.javaFieldName}：java字段名'
+          expression: '${column.javaFieldName}',
+          text: 'java字段名'
         }, {
-          text: '${column.javaFieldNameUF}：java字段名首字母大写'
+          expression: '${column.javaFieldNameUF}',
+          text: 'java字段名首字母大写'
         }, {
-          text: '${column.javaType}：字段的java类型'
+          expression: '${column.javaType}',
+          text: '字段的java类型'
         }, {
-          text: '${column.javaTypeBox}：字段的java装箱类型,如Integer'
+          expression: '${column.javaTypeBox}',
+          text: '字段的java装箱类型,如Integer'
         }, {
-          text: '${column.isIdentity}：是否自增,返回boolean'
+          expression: '${column.isIdentity}',
+          text: '是否自增,返回boolean'
         }, {
-          text: '${column.isPk}：是否主键,返回boolean'
+          expression: '${column.isPk}',
+          text: '是否主键,返回boolean'
         }, {
-          text: '${column.isIdentityPk}：是否自增主键,返回boolean'
+          expression: '${column.isIdentityPk}',
+          text: '是否自增主键,返回boolean'
         }, {
-          text: '${column.mybatisJdbcType}：mybatis定义的jdbcType'
+          expression: '${column.mybatisJdbcType}',
+          text: 'mybatis定义的jdbcType'
         }, {
-          text: '${column.comment}：字段注释'
+          expression: '${column.comment}',
+          text: '字段注释'
         }]
       }],
       defaultProps: {
@@ -166,7 +208,14 @@ export default {
     }
   },
   methods: {
-    onSave: function() {
+    onExpressionClick(exp) {
+      const codemirror = this.$refs.editor.codemirror
+      // 插入表达式
+      codemirror.replaceSelection(exp)
+      // 重新获得光标
+      codemirror.focus()
+    },
+    onSave() {
       this.$refs.dialogForm.validate((valid) => {
         if (valid) {
           const opt = this.formData.id ? 'update' : 'add'
