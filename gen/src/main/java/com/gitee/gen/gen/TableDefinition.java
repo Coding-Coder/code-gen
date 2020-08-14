@@ -13,97 +13,139 @@ import java.util.List;
  */
 public class TableDefinition {
 
-	private String tableName; // 表名
-	private String comment; // 注释
-	@JsonIgnore
-	private List<ColumnDefinition> columnDefinitions = Collections.emptyList(); // 字段定义
+    /**
+     * 表名
+     */
+    private String tableName;
 
-	public TableDefinition() {
-	}
+    /**
+     * 表注释
+     */
+    private String comment;
 
-	public TableDefinition(String tableName) {
-		this.tableName = tableName;
-	}
+    /** Java相关字段 */
+    private transient List<ColumnDefinition> columnDefinitions = Collections.emptyList();
 
-	/**
-	 * 是否含有时间字段
-	 * @return
-	 */
-	public boolean getHasDateField() {
-		List<ColumnDefinition> columns = getColumnDefinitions();
-		for (ColumnDefinition definition : columns) {
-			if(Date.class.getSimpleName().equals(definition.getJavaType())) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /** C#相关字段 */
+    private transient List<CsharpColumnDefinition> csharpColumnDefinitions = Collections.emptyList();
 
-	public boolean getHasLocalDateField() {
-		List<ColumnDefinition> columns = getColumnDefinitions();
-		for (ColumnDefinition definition : columns) {
-			if(LocalDate.class.getSimpleName().equals(definition.getJavaType())) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public TableDefinition() {
+    }
 
-	public boolean getHasLocalDateTimeField() {
-		List<ColumnDefinition> columns = getColumnDefinitions();
-		for (ColumnDefinition definition : columns) {
-			if(LocalDateTime.class.getSimpleName().equals(definition.getJavaType())) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public TableDefinition(String tableName) {
+        this.tableName = tableName;
+    }
 
-	/**
-	 * 是否含有BigDecimal字段
-	 * @return
-	 */
-	public boolean getHasBigDecimalField() {
-		List<ColumnDefinition> columns = getColumnDefinitions();
-		for (ColumnDefinition definition : columns) {
-			if("BigDecimal".equals(definition.getJavaType())) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * 是否有时间字段
+     * @return true：有
+     */
+    public boolean getHasDateColumn() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if (TypeEnum.DATETIME.getType().equalsIgnoreCase(definition.getType())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public ColumnDefinition getPkColumn() {
-		for (ColumnDefinition column : columnDefinitions) {
-			if (column.getIsPk()) {
-				return column;
-			}
-		}
-		return null;
-	}
+    /**
+     * 是否含有时间字段
+     *
+     * @return
+     */
+    public boolean getHasDateField() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if (Date.class.getSimpleName().equals(((JavaColumnDefinition) definition).getJavaType())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public String getTableName() {
-		return tableName;
-	}
+    public boolean getHasLocalDateField() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if (LocalDate.class.getSimpleName().equals(((JavaColumnDefinition) definition).getJavaType())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
-	}
+    public boolean getHasLocalDateTimeField() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if (LocalDateTime.class.getSimpleName().equals(((JavaColumnDefinition) definition).getJavaType())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    /**
+     * 是否含有BigDecimal字段
+     *
+     * @return
+     */
+    public boolean getHasBigDecimalField() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if ("BigDecimal".equals(((JavaColumnDefinition) definition).getJavaType())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    /**
+     * 获取主键信息
+     *
+     * @return 返回主键信息，如果没有则抛出异常
+     */
+    @JsonIgnore
+    public ColumnDefinition getPkColumn() {
+        ColumnDefinition pk = null;
+        for (ColumnDefinition column : columnDefinitions) {
+            if (column.getColumnName().equalsIgnoreCase("id")) {
+                pk = column;
+            }
+            if (column.getIsPk()) {
+                return column;
+            }
+        }
+        if (pk != null) {
+            return pk;
+        }
+        throw new RuntimeException(tableName + "表未设置主键");
+    }
 
-	public List<ColumnDefinition> getColumnDefinitions() {
-		return columnDefinitions;
-	}
+    public String getTableName() {
+        return tableName;
+    }
 
-	public void setColumnDefinitions(List<ColumnDefinition> columnDefinitions) {
-		this.columnDefinitions = columnDefinitions;
-	}
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public List<ColumnDefinition> getColumnDefinitions() {
+        return columnDefinitions;
+    }
+
+    public void setColumnDefinitions(List<ColumnDefinition> columnDefinitions) {
+        this.columnDefinitions = columnDefinitions;
+    }
+
+    public List<CsharpColumnDefinition> getCsharpColumnDefinitions() {
+        return csharpColumnDefinitions;
+    }
+
+    public void setCsharpColumnDefinitions(List<CsharpColumnDefinition> csharpColumnDefinitions) {
+        this.csharpColumnDefinitions = csharpColumnDefinitions;
+    }
 }

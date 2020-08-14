@@ -3,7 +3,6 @@ package com.gitee.gen.gen.postgresql;
 import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
-import org.springframework.util.StringUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +13,8 @@ import static com.gitee.gen.util.FieldUtil.convertString;
  * @author tanghc
  */
 public class PostgreSqlColumnSelector extends ColumnSelector {
+
+    private static final PostgreSqlTypeFormatter SQL_TYPE_FORMATTER = new PostgreSqlTypeFormatter();
 
     public PostgreSqlColumnSelector(GeneratorConfig dataBaseConfig) {
         super(dataBaseConfig);
@@ -70,29 +71,11 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
         columnDefinition.setIsPk(isPk);
 
         String type = convertString(rowMap.get("TYPE"));
-        columnDefinition.setType(buildType(type));
+        columnDefinition.setType(SQL_TYPE_FORMATTER.format(type));
 
         columnDefinition.setComment(convertString(rowMap.get("CMT")));
 
         return columnDefinition;
     }
 
-    private String buildType(String type){
-        if (StringUtils.hasText(type)) {
-            if ("character varying".equals(type)) {
-                return "VARCHAR";
-            }
-            if (type.contains("timestamp")) {
-                return "TIMESTAMP";
-            }
-            if (type.contains("double")) {
-                return "double";
-            }
-            if (type.contains("real")) {
-                return "float";
-            }
-            return type;
-        }
-        return "VARCHAR";
-    }
 }

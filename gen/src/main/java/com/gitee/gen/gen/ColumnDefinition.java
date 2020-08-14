@@ -1,113 +1,107 @@
 package com.gitee.gen.gen;
 
-import com.gitee.gen.util.FieldUtil;
-import com.gitee.gen.util.SqlTypeUtil;
+import com.gitee.gen.gen.converter.ColumnTypeConverter;
 
 /**
  * 表字段信息
  */
-public class ColumnDefinition  {
+public class ColumnDefinition {
 
-	private String columnName; // 数据库字段名
-	private String type; // 数据库类型
-	private boolean isIdentity; // 是否自增
-	private boolean isPk; // 是否主键
-	private String comment; // 字段注释
+    /**
+     * 数据库字段名
+     */
+    private String columnName;
+    /**
+     * 数据库类型
+     */
+    private String type;
+    /**
+     * 是否自增
+     */
+    private Boolean isIdentity;
+    /**
+     * 是否主键
+     */
+    private Boolean isPk;
+    /**
+     * 字段注释
+     */
+    private String comment;
 
-	/**
-	 * 是否是自增主键
-	 * 
-	 * @return
-	 */
-	public boolean getIsIdentityPk() {
-		return isPk && isIdentity;
-	}
-	
-	/**
-	 * 返回java字段名,并且第一个字母大写
-	 * 
-	 * @return
-	 */
-	public String getJavaFieldNameUF() {
-		return FieldUtil.upperFirstLetter(getJavaFieldName());
-	}
-	
-	/**
-	 * 返回java字段
-	 * @return
-	 */
-	public String getJavaFieldName() {
-		return FieldUtil.underlineFilter(columnName);
-	}
-	
-	/**
-	 * 获得基本类型,int,float
-	 * @return
-	 */
-	
-	public String getJavaType() {
-		String typeLower = type.toLowerCase();
-		return SqlTypeUtil.convertToJavaType(typeLower);
-	}
-	
-	/**
-	 * 获得装箱类型,Integer,Float
-	 * @return
-	 */
-	
-	public String getJavaTypeBox(){
-		String typeLower = type.toLowerCase();
-		return SqlTypeUtil.convertToJavaBoxType(typeLower);
-	}
-	
-	public String getMybatisJdbcType() {
-		String typeLower = type.toLowerCase();
-		return SqlTypeUtil.convertToMyBatisJdbcType(typeLower);
-	}
+    /**
+     * 获得基本类型,int,float
+     *
+     * @return 返回基本类型
+     */
 
-	public String getColumnName() {
-		return columnName;
-	}
+    public String getFieldType() {
+        return getColumnTypeConverter().convertType(type);
+    }
 
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
-	}
+    /**
+     * 获得装箱类型,Integer,Float
+     *
+     * @return 返回装箱类型
+     */
 
-	public String getType() {
-		return type;
-	}
+    public String getFieldTypeBox() {
+        return getColumnTypeConverter().convertTypeBox(getType());
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    /**
+     * 是否是自增主键
+     *
+     * @return true, 是自增主键
+     */
+    public boolean getIsIdentityPk() {
+        return getIsPk() && getIsIdentity();
+    }
 
-	public boolean getIsIdentity() {
-		return isIdentity;
-	}
+    public String getColumnName() {
+        return columnName;
+    }
 
-	public void setIsIdentity(boolean isIdentity) {
-		this.isIdentity = isIdentity;
-	}
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
 
-	public boolean getIsPk() {
-		return isPk;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setIsPk(boolean isPk) {
-		this.isPk = isPk;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public Boolean getIsIdentity() {
+        return isIdentity;
+    }
 
-	public void setComment(String comment) {
-		if(comment == null) {
-			comment = "";
-		}
-		this.comment = comment;
-	}
-	
-	
+    public void setIsIdentity(Boolean isIdentity) {
+        this.isIdentity = isIdentity;
+    }
 
+    public Boolean getIsPk() {
+        return isPk;
+    }
+
+    public void setIsPk(Boolean isPk) {
+        this.isPk = isPk;
+    }
+
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        if (comment == null) {
+            comment = "";
+        }
+        this.comment = comment;
+    }
+
+    public ColumnTypeConverter getColumnTypeConverter() {
+        throw new UnsupportedOperationException("未覆盖com.gitee.gen.gen.ColumnDefinition.getColumnTypeConverter方法");
+    }
 }

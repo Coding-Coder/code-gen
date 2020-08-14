@@ -47,6 +47,7 @@ public class SqlTypeUtil {
 		javaBoxTypeMap.put("bigint", "Long");
 		javaBoxTypeMap.put("binary", "Byte[]");
 		javaBoxTypeMap.put("bit", "Boolean");
+		javaBoxTypeMap.put("bool", "Boolean");
 		javaBoxTypeMap.put("boolean", "Boolean");
 		javaBoxTypeMap.put("blob", "Byte[]");
 		javaBoxTypeMap.put("char", "String");

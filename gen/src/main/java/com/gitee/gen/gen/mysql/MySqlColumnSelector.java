@@ -1,9 +1,9 @@
 package com.gitee.gen.gen.mysql;
 
-import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
-import org.springframework.util.StringUtils;
+import com.gitee.gen.gen.GeneratorConfig;
+import com.gitee.gen.gen.TypeFormatter;
 
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +13,9 @@ import java.util.Set;
  *
  */
 public class MySqlColumnSelector extends ColumnSelector {
-	
+
+	private static final TypeFormatter TYPE_FORMATTER = new MySqlTypeFormatter();
+
 	public MySqlColumnSelector(GeneratorConfig generatorConfig) {
 		super(generatorConfig);
 	}
@@ -48,23 +50,11 @@ public class MySqlColumnSelector extends ColumnSelector {
 		columnDefinition.setIsPk(isPk);
 		
 		String type = (String)rowMap.get("TYPE");
-		columnDefinition.setType(buildType(type));
+		columnDefinition.setType(TYPE_FORMATTER.format(type));
 		
 		columnDefinition.setComment((String)rowMap.get("COMMENT"));
 		
 		return columnDefinition;
 	}
-	
-	// 将varchar(50)转换成VARCHAR
-	private String buildType(String type){
-		if (StringUtils.hasText(type)) {
-			int index = type.indexOf("(");
-			if (index > 0) {
-				return type.substring(0, index).toUpperCase();
-			}
-			return type;
-		}
-		return "VARCHAR";
-	}
-	
+
 }

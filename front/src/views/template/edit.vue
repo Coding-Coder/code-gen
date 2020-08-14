@@ -33,6 +33,9 @@
         <p class="velocity-tip">
           点击变量直接插入
         </p>
+        <el-tabs v-model="activeName" type="card" @tab-click="onTabClick">
+          <el-tab-pane v-for="item in velocityConfig" :key="item.name" :label="item.label" :name="item.name" :content="item" />
+        </el-tabs>
         <div v-for="item in treeData" :key="item.expression" class="velocity-var">
           <div v-if="!item.children">
             <li>
@@ -111,88 +114,9 @@ export default {
       },
       isVelocityBarFixed: false,
       // tree
-      treeData: [{
-        expression: '${pk}',
-        text: '主键对象,同${column}'
-      }, {
-        expression: '${context}',
-        text: '',
-        children: [{
-          expression: '${context.dbName}',
-          text: '数据库名'
-        }, {
-          expression: '${context.packageName}',
-          text: '包名'
-        }, {
-          expression: '${context.javaBeanName}',
-          text: 'Java类名'
-        }, {
-          expression: '${context.javaBeanNameLF}',
-          text: 'Java类名且首字母小写'
-        }, {
-          expression: '${context.pkName}',
-          text: '表主键名'
-        }, {
-          expression: '${context.javaPkName}',
-          text: '表主键对应的java字段名'
-        }, {
-          expression: '${context.javaPkType}',
-          text: '主键的java类型'
-        }, {
-          expression: '${context.mybatisPkType}',
-          text: '主键对应的mybatis类型'
-        }]
-      }, {
-        expression: '${table}',
-        text: '',
-        children: [{
-          expression: '${table.tableName}',
-          text: '数据库表名'
-        }, {
-          expression: '${table.comment}',
-          text: '表注释'
-        }]
-      }, {
-        expression: '#foreach($column in $columns) #end',
-        text: '',
-        children: [{
-          expression: '${velocityCount}',
-          text: 'foreach循环下标，从1开始'
-        }, {
-          expression: '${column.columnName}',
-          text: '表中字段名'
-        }, {
-          expression: '${column.type}',
-          text: '字段的数据库类型'
-        }, {
-          expression: '${column.javaFieldName}',
-          text: 'java字段名'
-        }, {
-          expression: '${column.javaFieldNameUF}',
-          text: 'java字段名首字母大写'
-        }, {
-          expression: '${column.javaType}',
-          text: '字段的java类型'
-        }, {
-          expression: '${column.javaTypeBox}',
-          text: '字段的java装箱类型,如Integer'
-        }, {
-          expression: '${column.isIdentity}',
-          text: '是否自增,返回boolean'
-        }, {
-          expression: '${column.isPk}',
-          text: '是否主键,返回boolean'
-        }, {
-          expression: '${column.isIdentityPk}',
-          text: '是否自增主键,返回boolean'
-        }, {
-          expression: '${column.mybatisJdbcType}',
-          text: 'mybatis定义的jdbcType'
-        }, {
-          expression: '${column.comment}',
-          text: '字段注释'
-        }]
-      }],
+      activeName: 'java',
+      treeData: [],
+      velocityConfig: [],
       defaultProps: {
         children: 'children',
         label: 'text'
@@ -206,8 +130,26 @@ export default {
         this.formData = resp.data
       })
     }
+    this.loadVelocityVar()
   },
   methods: {
+    loadVelocityVar() {
+      this.getFile(`velocity/java.json?q=${new Date().getTime()}`, content => {
+        this.velocityConfig.push({
+          name: 'java',
+          label: 'Java变量',
+          data: content.data
+        })
+        this.treeData = content.data
+      })
+      this.getFile(`velocity/csharp.json?q=${new Date().getTime()}`, content => {
+        this.velocityConfig.push({
+          name: 'csharp',
+          label: 'C#变量',
+          data: content.data
+        })
+      })
+    },
     onExpressionClick(exp) {
       const codemirror = this.$refs.editor.codemirror
       // 插入表达式
@@ -228,6 +170,10 @@ export default {
           })
         }
       })
+    },
+    onTabClick(tab) {
+      const item = tab.$attrs.content
+      this.treeData = item.data
     }
   }
 }

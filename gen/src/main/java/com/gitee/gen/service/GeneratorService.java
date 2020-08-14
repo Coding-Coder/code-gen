@@ -100,6 +100,7 @@ public class GeneratorService {
         context.put("table", sqlContext.getTableDefinition());
         context.put("pk", sqlContext.getTableDefinition().getPkColumn());
         context.put("columns", sqlContext.getTableDefinition().getColumnDefinitions());
+        context.put("csharpColumns", sqlContext.getTableDefinition().getCsharpColumnDefinitions());
 
         return VelocityUtil.generate(context, template);
     }

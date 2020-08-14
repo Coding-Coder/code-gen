@@ -1,12 +1,13 @@
 package com.gitee.gen.gen;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public abstract class TableSelector {
@@ -43,11 +44,23 @@ public abstract class TableSelector {
         for (Map<String, Object> rowMap : resultList) {
             TableDefinition tableDefinition = this.buildTableDefinition(rowMap);
             String tableName = tableDefinition.getTableName();
-            tableDefinition.setColumnDefinitions(columnSelector.getColumnDefinitions(tableName));
+            List<ColumnDefinition> columnDefinitions = columnSelector.getColumnDefinitions(tableName);
+            tableDefinition.setColumnDefinitions(buildRealColumnDefinitions(columnDefinitions, JavaColumnDefinition::new));
+            tableDefinition.setCsharpColumnDefinitions(buildRealColumnDefinitions(columnDefinitions, CsharpColumnDefinition::new));
             tablesList.add(tableDefinition);
         }
 
         return tablesList;
+    }
+
+    private <T> List<T> buildRealColumnDefinitions(List<ColumnDefinition> columnDefinitions, Supplier<T> supplier) {
+        return columnDefinitions.stream()
+                .map(columnDefinition -> {
+                    T t = supplier.get();
+                    BeanUtils.copyProperties(columnDefinition, t);
+                    return t;
+                })
+                .collect(Collectors.toList());
     }
 
     public List<TableDefinition> getSimpleTableDefinitions() {

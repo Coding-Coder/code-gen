@@ -1,0 +1,114 @@
+{
+  "data": [
+    {
+      "expression": "${pk}",
+      "text": "主键对象,同${column}"
+    },
+    {
+      "expression": "${context}",
+      "text": "",
+      "children": [
+        {
+          "expression": "${context.dbName}",
+          "text": "数据库名"
+        },
+        {
+          "expression": "${context.packageName}",
+          "text": "包名"
+        },
+        {
+          "expression": "${context.javaBeanName}",
+          "text": "Java类名"
+        },
+        {
+          "expression": "${context.javaBeanNameLF}",
+          "text": "Java类名且首字母小写"
+        },
+        {
+          "expression": "${context.pkName}",
+          "text": "表主键名"
+        },
+        {
+          "expression": "${context.javaPkName}",
+          "text": "表主键对应的java字段名"
+        },
+        {
+          "expression": "${context.javaPkType}",
+          "text": "主键的java类型"
+        },
+        {
+          "expression": "${context.mybatisPkType}",
+          "text": "主键对应的mybatis类型"
+        }
+      ]
+    },
+    {
+      "expression": "${table}",
+      "text": "",
+      "children": [
+        {
+          "expression": "${table.tableName}",
+          "text": "数据库表名"
+        },
+        {
+          "expression": "${table.comment}",
+          "text": "表注释"
+        }
+      ]
+    },
+    {
+      "expression": "#foreach($column in $columns) #end",
+      "text": "",
+      "children": [
+        {
+          "expression": "${velocityCount}",
+          "text": "foreach循环下标，从1开始"
+        },
+        {
+          "expression": "${column.columnName}",
+          "text": "表中字段名"
+        },
+        {
+          "expression": "${column.type}",
+          "text": "字段的数据库类型"
+        },
+        {
+          "expression": "${column.javaFieldName}",
+          "text": "java字段名"
+        },
+        {
+          "expression": "${column.javaFieldNameUF}",
+          "text": "java字段名首字母大写"
+        },
+        {
+          "expression": "${column.javaType}",
+          "text": "字段的java类型"
+        },
+        {
+          "expression": "${column.javaTypeBox}",
+          "text": "字段的java装箱类型,如Integer"
+        },
+        {
+          "expression": "${column.isIdentity}",
+          "text": "是否自增,返回boolean"
+        },
+        {
+          "expression": "${column.isPk}",
+          "text": "是否主键,返回boolean"
+        },
+        {
+          "expression": "${column.isIdentityPk}",
+          "text": "是否自增主键,返回boolean"
+        },
+        {
+          "expression": "${column.mybatisJdbcType}",
+          "text": "mybatis定义的jdbcType"
+        },
+        {
+          "expression": "${column.comment}",
+          "text": "字段注释"
+        }
+      ]
+    }
+  ]
+}

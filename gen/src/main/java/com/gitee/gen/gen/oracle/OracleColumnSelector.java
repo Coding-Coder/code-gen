@@ -3,7 +3,7 @@ package com.gitee.gen.gen.oracle;
 import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
-import org.springframework.util.StringUtils;
+import com.gitee.gen.gen.TypeFormatter;
 
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +12,9 @@ import java.util.Set;
  * oracle表信息查询
  */
 public class OracleColumnSelector extends ColumnSelector {
-	
+
+	private static final TypeFormatter TYPE_FORMATTER = new OracleTypeFormatter();
+
 	public OracleColumnSelector(GeneratorConfig generatorConfig) {
 		super(generatorConfig);
 	}
@@ -66,9 +68,6 @@ public class OracleColumnSelector extends ColumnSelector {
 		return sb.toString();
 	}
 	
-	/*
-	 * {FIELD=username, EXTRA=, COMMENT=用户名, COLLATION=utf8_general_ci, PRIVILEGES=select,insert,update,references, KEY=PRI, NULL=NO, DEFAULT=null, TYPE=varchar(20)}
-	 */
 	@Override
 	protected ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap){
 		Set<String> columnSet = rowMap.keySet();
@@ -87,26 +86,12 @@ public class OracleColumnSelector extends ColumnSelector {
 		columnDefinition.setIsPk(isPk);
 		
 		String type = (String)rowMap.get("TYPE");
-		columnDefinition.setType(buildType(type));
+		columnDefinition.setType(TYPE_FORMATTER.format(type));
 		
 		columnDefinition.setComment((String)rowMap.get("COMMENTS"));
 		
 		return columnDefinition;
 	}
 	
-	// 将varchar(50) || 将varchar2 转换成VARCHAR
-	private String buildType(String type){
-		if (StringUtils.hasText(type)) {
-			int index1 = type.indexOf("(");
-			int index2 = type.indexOf("2");
-			if (index1>0) {
-				return type.substring(0, index1).toUpperCase();
-			}else if(index2>0){
-				return type.substring(0, index2).toUpperCase();
-			}
-			return type;
-		}
-		return "VARCHAR";
-	}
-	
+
 }

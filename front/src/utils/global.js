@@ -112,6 +112,17 @@ Object.assign(Vue.prototype, {
       this.clipboard.destroy()
     }
   },
+  /**
+   *  文件必须放在public下面
+   * @param path 相对于public文件夹路径，如文件在public/static/sign.md，填：static/sign.md
+   * @param callback 回调函数，函数参数是文件内容
+   */
+  getFile: function(path, callback) {
+    axios.get(path)
+      .then(function(response) {
+        callback.call(this, response.data)
+      })
+  },
   downloadText(filename, text) {
     const element = document.createElement('a')
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
