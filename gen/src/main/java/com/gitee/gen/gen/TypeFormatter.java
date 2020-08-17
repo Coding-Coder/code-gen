@@ -5,8 +5,8 @@ import org.apache.commons.lang.StringUtils;
 import java.util.List;
 
 /**
- * 将数据库类型格式化成统一的类型
- *
+ * 将各数据库类型格式化成统一的类型
+ * @see TypeEnum
  * @author tanghc
  */
 public interface TypeFormatter {

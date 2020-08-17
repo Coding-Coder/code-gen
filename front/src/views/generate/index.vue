@@ -15,6 +15,9 @@
           >
             <span style="float: left">{{ `${item.dbName}（${item.host}）` }} </span>
             <span style="float: right; color: #8492a6; font-size: 13px">
+              <el-tooltip placement="top" content="Duplicate">
+                <el-link type="primary" icon="el-icon-document-copy" style="margin-right: 20px;" @click.stop="onDataSourceDuplicate(item)"></el-link>
+              </el-tooltip>
               <el-link type="primary" icon="el-icon-edit" style="margin-right: 20px;" @click.stop="onDataSourceUpdate(item)"></el-link>
               <el-link type="danger" icon="el-icon-delete" @click.stop="onDataSourceDelete(item)"></el-link>
             </span>
@@ -29,11 +32,19 @@
     <el-row v-show="showTable" :gutter="20">
       <el-col :span="12">
         <h4>选择表</h4>
+        <el-input
+          v-model="tableSearch"
+          prefix-icon="el-icon-search"
+          size="mini"
+          placeholder="过滤表"
+          style="margin-bottom: 10px;width: 100%;"
+        />
         <el-table
           :data="tableListData"
           border
           :cell-style="cellStyleSmall()"
           :header-cell-style="headCellStyleSmall()"
+          :row-class-name="tableRowClassName"
           @selection-change="onTableListSelect"
         >
           <el-table-column
@@ -127,6 +138,9 @@
         margin-top: 20px;
       }
   }
+  .el-table .hidden-row {
+    display: none;
+  }
 </style>
 <script>
 export default {
@@ -139,6 +153,7 @@ export default {
         templateConfigIdList: [],
         packageName: ''
       },
+      tableSearch: '',
       datasourceConfigList: [],
       tableListData: [],
       templateListData: [],
@@ -180,6 +195,15 @@ export default {
     this.loadDbType()
   },
   methods: {
+    tableRowClassName: function ({row, index}) {
+      if (this.tableSearch.length === 0) {
+        return ''
+      }
+      if (!(row.tableName && row.tableName.indexOf(this.tableSearch) > -1)) {
+        return 'hidden-row';
+      }
+      return ''
+    },
     loadDataSource() {
       this.post('/datasource/list', {}, resp => {
         this.datasourceConfigList = resp.data
@@ -216,6 +240,12 @@ export default {
     onDataSourceUpdate(item) {
       this.datasourceTitle = '修改连接'
       Object.assign(this.datasourceFormData, item)
+      this.datasourceDlgShow = true
+    },
+    onDataSourceDuplicate(item) {
+      this.datasourceTitle = `${item.host} Copy`
+      Object.assign(this.datasourceFormData, item)
+      this.datasourceFormData.id = 0
       this.datasourceDlgShow = true
     },
     onDataSourceDelete(row) {

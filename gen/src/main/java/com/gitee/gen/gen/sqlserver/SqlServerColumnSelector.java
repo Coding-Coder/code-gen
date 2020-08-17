@@ -1,13 +1,15 @@
 package com.gitee.gen.gen.sqlserver;
 
 import com.gitee.gen.gen.ColumnDefinition;
-import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.ColumnSelector;
+import com.gitee.gen.gen.GeneratorConfig;
 
 import java.util.Map;
 import java.util.Set;
 
 public class SqlServerColumnSelector extends ColumnSelector {
+
+	private static final SqlServerTypeFormatter TYPE_FORMATTER = new SqlServerTypeFormatter();
 	
 	private static String TABKE_DETAIL_SQL = new StringBuilder()
 		.append("SELECT")
@@ -94,7 +96,8 @@ public class SqlServerColumnSelector extends ColumnSelector {
 		columnDefinition.setIsIdentity((Boolean)rowMap.get("IS_IDENTITY"));
 		boolean isPk = (Integer)rowMap.get("IS_PK") == 1;
 		columnDefinition.setIsPk(isPk);
-		columnDefinition.setType((String)rowMap.get("TYPE"));
+		String type = (String) rowMap.get("TYPE");
+		columnDefinition.setType(TYPE_FORMATTER.format(type));
 		
 		columnDefinition.setComment((String)rowMap.get("COMMENT"));
 		

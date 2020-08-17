@@ -1,6 +1,8 @@
 package com.gitee.gen.gen.converter;
 
 /**
+ * 将数据库类型转换成各语言对应的类型
+ * @see com.gitee.gen.gen.TypeEnum
  * @author tanghc
  */
 public interface ColumnTypeConverter {

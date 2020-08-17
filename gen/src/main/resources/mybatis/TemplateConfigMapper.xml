@@ -2,11 +2,11 @@
 <!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gitee.gen.mapper.TemplateConfigMapper">
     <resultMap id="BaseResultMap" type="com.gitee.gen.entity.TemplateConfig">
-        <result column="id" property="id" jdbcType="INTEGER" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="file_name" property="fileName" jdbcType="VARCHAR" />
-        <result column="content" property="content" jdbcType="VARCHAR" />
-        <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="file_name" property="fileName"/>
+        <result column="content" property="content"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
     <!-- 表字段 -->
@@ -21,14 +21,14 @@
     <!-- 查询全部 -->
     <select id="listAll" resultMap="BaseResultMap">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM template_config t
         WHERE is_deleted=0
     </select>
 
     <select id="getByName" resultMap="BaseResultMap">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM template_config t
         WHERE name = #{name}
     </select>
@@ -36,7 +36,7 @@
     <!-- 根据主键获取单条记录 -->
     <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM template_config t
         WHERE id = #{id}
     </select>
@@ -81,16 +81,16 @@
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
-            <if test="name != null" >
+            <if test="name != null">
                 #{name},
             </if>
-            <if test="fileName != null" >
+            <if test="fileName != null">
                 #{fileName},
             </if>
-            <if test="content != null" >
+            <if test="content != null">
                 #{content},
             </if>
-            <if test="isDeleted != null" >
+            <if test="isDeleted != null">
                 #{isDeleted},
             </if>
         </trim>
@@ -113,16 +113,16 @@
     <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.TemplateConfig">
         UPDATE template_config
         <set>
-            <if test="name != null" >
+            <if test="name != null">
                 name=#{name},
             </if>
-            <if test="fileName != null" >
+            <if test="fileName != null">
                 file_name=#{fileName},
             </if>
-            <if test="content != null" >
+            <if test="content != null">
                 content=#{content},
             </if>
-            <if test="isDeleted != null" >
+            <if test="isDeleted != null">
                 is_deleted=#{isDeleted},
             </if>
         </set>

@@ -1,6 +1,8 @@
 package com.gitee.gen.gen;
 
 /**
+ * 统一类型枚举
+ *
  * @author tanghc
  */
 public enum TypeEnum {

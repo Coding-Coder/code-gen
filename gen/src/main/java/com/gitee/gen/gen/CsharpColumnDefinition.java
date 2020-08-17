@@ -5,6 +5,7 @@ import com.gitee.gen.gen.converter.CsharpColumnTypeConverter;
 import com.gitee.gen.util.FieldUtil;
 
 /**
+ * 提供C# Velocity变量
  * @author tanghc
  */
 public class CsharpColumnDefinition extends ColumnDefinition {

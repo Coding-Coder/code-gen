@@ -237,7 +237,30 @@ export default {
     }
   }
 }
-</script>',0);
+</script>',0),
+(5, 'Model-C#', '${context.className}.cs', 'using Newtonsoft.Json;
+
+namespace ${context.packageName}
+{
+#if( "${table.comment}" != "" )
+ 	/// <summary>
+    /// ${table.comment}
+    /// </summary>
+#end
+    public class ${context.className}
+    {
+#foreach($column in $csharpColumns)
+#if( "${column.comment}" != "" )
+        /// <summary>
+        /// ${column.comment}
+        /// </summary>
+#end
+        [JsonProperty("${column.field}")]
+		public ${column.fieldType} ${column.property} { get; set; }
+
+#end
+    }
+}');
 
 
 

@@ -64,10 +64,12 @@ require('codemirror/mode/xml/xml')
 const mode_map = {
   'js': 'text/javascript',
   'java': 'text/x-java',
+  'cs': 'text/x-csharp',
   'jsp': 'application/x-jsp',
   'html': 'text/html',
+  'vue': 'application/x-ejs',
   'aspx': 'application/x-aspx',
-  'xml': 'xml'
+  'xml': 'application/xml'
 }
 export default {
   components: { codemirror },
