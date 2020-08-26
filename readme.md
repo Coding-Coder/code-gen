@@ -11,10 +11,13 @@
 ## 使用步骤
 
 - 前往[发行版页面](https://gitee.com/durcframework/code-gen/releases)，下载最新版本zip文件
-- 解压zip，如果是Mac/Linux操作系统，可执行运行`startup.sh`，或者在命令行输入`java -jar gen.jar`
+- 解压zip，如果是Mac/Linux操作系统，运行`startup.sh`文件启动，Windows操作系统运行cmd输入`java -jar gen.jar`启动
 - 浏览器访问`http://localhost:6969/`
 
-默认端口是6969，更改端口号可执行：`java -jar gen.jar --server.port=端口号`
+默认端口是6969，更改端口号按如下方式：
+
+- Mac/Linux操作系统：打开`startup.sh`文件，修改`--server.port`参数值
+- Windows操作系统：可执行：`java -jar gen.jar --server.port=端口号`
 
 教程：[快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
 
