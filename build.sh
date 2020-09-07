@@ -1,21 +1,17 @@
 #!/bin/sh
 
 # 版本号
-version="gen"
+app_name="gen"
 # 构建目录
 dist_dir="dist"
 # 输出目录
-target_dir="$dist_dir/$version"
+target_dir="$dist_dir/$app_name"
 
 echo "开始构建..."
 
 cd front
 
-rm -rf dist/*
-npm run build:prod
-echo "复制dist文件内容到gen/src/main/resources/public"
-rm -rf ../gen/src/main/resources/public/*
-cp -r dist/* ../gen/src/main/resources/public
+sh build.sh
 
 cd ..
 
@@ -34,6 +30,6 @@ cp -r db/gen.db $target_dir/gen.db
 echo "打成zip包"
 
 cd $dist_dir
-zip -r -q "$version.zip" $version
+zip -r -q "$app_name.zip" $app_name
 
 echo "构建完毕"
