@@ -35,6 +35,7 @@
         <el-input
           v-model="tableSearch"
           prefix-icon="el-icon-search"
+          clearable
           size="mini"
           placeholder="过滤表"
           style="margin-bottom: 10px;width: 100%;"

@@ -25,7 +25,6 @@ mkdir -p $target_dir
 
 cp -r gen/target/*.jar $target_dir/gen.jar
 cp -r script/* $target_dir
-cp -r db/gen.db $target_dir/gen.db
 
 echo "打成zip包"
 
