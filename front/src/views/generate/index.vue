@@ -196,10 +196,12 @@ export default {
   },
   methods: {
     tableRowClassName: function ({row, index}) {
+      row.hidden = false
       if (this.tableSearch.length === 0) {
         return ''
       }
       if (!(row.tableName && row.tableName.indexOf(this.tableSearch) > -1)) {
+        row.hidden = true
         return 'hidden-row';
       }
       return ''
@@ -225,7 +227,9 @@ export default {
       this.datasourceDlgShow = true
     },
     onTableListSelect(selectedRows) {
-      this.clientParam.tableNames = selectedRows.map(row => row.tableName)
+      this.clientParam.tableNames = selectedRows
+        .filter(row => row.hidden === undefined || row.hidden === false)
+        .map(row => row.tableName)
     },
     onTemplateListSelect(selectedRows) {
       this.clientParam.templateConfigIdList = selectedRows.map(row => row.id)
