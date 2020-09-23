@@ -5,17 +5,7 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <!--<el-dropdown class="avatar-container" trigger="click">-->
-        <!--<div class="avatar-wrapper">-->
-          <!--<img src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'" class="user-avatar">-->
-          <!--<i class="user-avatar el-icon-s-custom"></i>-->
-        <!--</div>-->
-        <!--<el-dropdown-menu slot="dropdown" class="user-dropdown">-->
-          <!--<el-dropdown-item>-->
-            <!--<span style="display:block;" @click="logout">退出</span>-->
-          <!--</el-dropdown-item>-->
-        <!--</el-dropdown-menu>-->
-      <!--</el-dropdown>-->
+      <el-link type="primary" :underline="false" href="https://gitee.com/durcframework/code-gen" target="_blank">Git</el-link>
     </div>
   </div>
 </template>
@@ -77,6 +67,7 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    padding-right: 10px;
 
     &:focus {
       outline: none;
