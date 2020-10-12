@@ -19,7 +19,11 @@
 - Mac/Linux操作系统：打开`startup.sh`文件，修改`--server.port`参数值
 - Windows操作系统：可执行：`java -jar gen.jar --server.port=端口号`
 
-教程：[快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
+
+## 其它
+
+- [快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
+- [更多模板](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2979234&doc_id=27724)
 
 ## 工程说明
 
