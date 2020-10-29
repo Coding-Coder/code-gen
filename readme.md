@@ -23,7 +23,7 @@
 ## 其它
 
 - [快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
-- [更多模板](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2979234&doc_id=27724)
+- [Service模板](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2979226&doc_id=27724), [Controller模板](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2979232&doc_id=27724)
 
 ## 工程说明
 
