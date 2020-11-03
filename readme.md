@@ -27,9 +27,11 @@
 
 下载完毕后，执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
 
+浏览器访问`http://ip:6969/`
+
 - 方式二：本地构建镜像
 
-clone代码，然后执行`docker-run.sh`脚本，成功后访问：http://ip:6969
+clone代码，然后执行`docker-run.sh`脚本，成功后访问：`http://ip:6969`
 
 ## 其它
 
