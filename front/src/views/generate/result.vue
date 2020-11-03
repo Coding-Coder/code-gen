@@ -136,7 +136,7 @@ export default {
     // 树搜索
     filterNode(value, data) {
       if (!value) return true
-      return data.text.indexOf(value) !== -1
+      return data.fileName.toLowerCase().indexOf(value.toLowerCase()) !== -1
     },
     buildTreeData(rows) {
       const treeData = []
