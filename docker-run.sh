@@ -13,6 +13,6 @@ image_id=`docker images gen --format "{{.ID}}" | awk '{print $1}'`
 
 echo "运行gen镜像，镜像ID：$image_id"
 
-docker run --name gen -p 6970:6970 -d $image_id
+docker run --name gen -p 6969:6969 -d $image_id
 
 echo "启动完毕，访问:http://ip:6969"
