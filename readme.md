@@ -19,6 +19,17 @@
 - Mac/Linux操作系统：打开`startup.sh`文件，修改`--server.port`参数值
 - Windows操作系统：可执行：`java -jar gen.jar --server.port=端口号`
 
+### docker运行
+
+- 方式一：下载公共镜像
+
+`docker pull tanghc2020/tanghc2020:gen-1.3.2`
+
+下载完毕后，执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
+
+- 方式二：本地构建镜像
+
+clone代码，然后执行`docker-run.sh`脚本，成功后访问：http://ip:6969
 
 ## 其它
 
