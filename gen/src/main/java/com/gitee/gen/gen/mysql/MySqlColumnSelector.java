@@ -16,6 +16,8 @@ public class MySqlColumnSelector extends ColumnSelector {
 
 	private static final TypeFormatter TYPE_FORMATTER = new MySqlTypeFormatter();
 
+	private static final String SHOW_SQL = "SHOW FULL COLUMNS FROM `%s`";
+
 	public MySqlColumnSelector(GeneratorConfig generatorConfig) {
 		super(generatorConfig);
 	}
@@ -25,7 +27,7 @@ public class MySqlColumnSelector extends ColumnSelector {
 	 */
 	@Override
 	protected String getColumnInfoSQL(String tableName) {
-		return "SHOW FULL COLUMNS FROM " + tableName;
+		return String.format(SHOW_SQL, tableName);
 	}
 	
 	/*

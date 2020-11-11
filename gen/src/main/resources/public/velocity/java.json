@@ -2,7 +2,45 @@
   "data": [
     {
       "expression": "${pk}",
-      "text": "主键对象,同${column}"
+      "text": "",
+      "children": [
+        {
+          "expression": "${pk.columnName}",
+          "text": "主键表字段名"
+        },
+        {
+          "expression": "${pk.type}",
+          "text": "主键数据库类型"
+        },
+        {
+          "expression": "${pk.javaFieldName}",
+          "text": "主键java字段名"
+        },
+        {
+          "expression": "${pk.javaFieldNameUF}",
+          "text": "主键java字段名首字母大写"
+        },
+        {
+          "expression": "${pk.javaType}",
+          "text": "主键字段的java类型"
+        },
+        {
+          "expression": "${pk.javaTypeBox}",
+          "text": "主键字段的java装箱类型,如Integer"
+        },
+        {
+          "expression": "${pk.isIdentity}",
+          "text": "是否自增,返回boolean"
+        },
+        {
+          "expression": "${pk.mybatisJdbcType}",
+          "text": "mybatis定义的jdbcType"
+        },
+        {
+          "expression": "${pk.comment}",
+          "text": "主键字段注释"
+        }
+      ]
     },
     {
       "expression": "${context}",
