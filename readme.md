@@ -23,7 +23,7 @@
 
 - 方式一：下载公共镜像
 
-`docker pull tanghc2020/tanghc2020:gen-1.3.2`
+`docker pull tanghc2020/gen:latest`
 
 下载完毕后，执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
 
@@ -31,7 +31,9 @@
 
 - 方式二：本地构建镜像
 
-clone代码，然后执行`docker-run.sh`脚本，成功后访问：`http://ip:6969`
+clone代码，然后执行`docker-build.sh`脚本
+
+执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
 
 ## 其它
 
