@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # 打包并运行docker镜像
 
