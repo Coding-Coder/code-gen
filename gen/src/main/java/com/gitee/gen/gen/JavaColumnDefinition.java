@@ -21,7 +21,7 @@ public class JavaColumnDefinition extends ColumnDefinition {
         TYPE_MYBATIS_MAP.put(TypeEnum.TINYINT.getType(), "TINYINT");
         TYPE_MYBATIS_MAP.put(TypeEnum.SMALLINT.getType(), "INTEGER");
         TYPE_MYBATIS_MAP.put(TypeEnum.INT.getType(), "INTEGER");
-        TYPE_MYBATIS_MAP.put(TypeEnum.BIGINT.getType(), "LONG");
+        TYPE_MYBATIS_MAP.put(TypeEnum.BIGINT.getType(), "BIGINT");
         TYPE_MYBATIS_MAP.put(TypeEnum.FLOAT.getType(), "FLOAT");
         TYPE_MYBATIS_MAP.put(TypeEnum.DOUBLE.getType(), "DOUBLE");
         TYPE_MYBATIS_MAP.put(TypeEnum.DECIMAL.getType(), "DECIMAL");
