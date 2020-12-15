@@ -26,10 +26,10 @@ public class TemplateConfigService {
     }
 
     public void insert(TemplateConfig templateConfig) {
-        TemplateConfig existObj = templateConfigMapper.getByName(templateConfig.getName());
-        if (existObj != null) {
-            throw new RuntimeException("模板名称已存在");
-        }
+//        TemplateConfig existObj = templateConfigMapper.getByName(templateConfig.getName());
+//        if (existObj != null) {
+//            throw new RuntimeException("模板名称已存在");
+//        }
         templateConfig.setIsDeleted(0);
         templateConfigMapper.insert(templateConfig);
     }
@@ -46,4 +46,7 @@ public class TemplateConfigService {
         templateConfigMapper.delete(templateConfig);
     }
 
+    public List<TemplateConfig> listByGroupId(String groupId) {
+        return templateConfigMapper.listByGroupId(groupId);
+    }
 }

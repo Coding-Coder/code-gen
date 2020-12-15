@@ -26,7 +26,10 @@
         <el-button type="text" @click="onDataSourceAdd">新建数据源</el-button>
       </el-form-item>
       <el-form-item v-show="showTable" label="包名（package）">
-        <el-input v-model="clientParam.packageName" placeholder="可选，如：com.gitee.xxx" show-word-limit maxlength="100" />
+        <el-input v-model="clientParam.packageName" placeholder="可选，如：cn.studyjava.xxx" show-word-limit maxlength="100" />
+      </el-form-item>
+      <el-form-item v-show="showTable" label="删除前缀">
+        <el-input v-model="clientParam.delPrefix" placeholder="可选，如：sys_user对应Java类为User(多前缀逗号隔开)" show-word-limit maxlength="100" />
       </el-form-item>
     </el-form>
     <el-row v-show="showTable" :gutter="20">
@@ -57,13 +60,29 @@
           />
         </el-table>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="12" id="templateSelect">
         <h4>选择模板</h4>
+        <el-select
+          v-model="clientParam.groupName"
+          placeholder="选择模板所在组"
+          size="mini"
+          @change="onDataGroupChange"
+          style="margin-bottom: 10px; width: 100%;"
+        >
+          <el-option
+            v-for="item in groupData"
+            :key="item.id"
+            :label="`${item.groupName}`"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
         <el-table
           :data="templateListData"
           border
           :cell-style="cellStyleSmall()"
           :header-cell-style="headCellStyleSmall()"
+          :row-class-name="templateTableRowClassName"
           @selection-change="onTemplateListSelect"
         >
           <el-table-column
@@ -72,7 +91,12 @@
           <el-table-column
             prop="name"
             label="模板名称"
-          />
+          >
+            <span slot-scope="scope">
+<!--              {{scope.row.groupName}}-{{scope.row.name}}-->
+              {{scope.row.name}}
+            </span>
+          </el-table-column>
         </el-table>
         <el-button v-show="showTable" type="primary" @click="onGenerate">生成代码</el-button>
       </el-col>
@@ -118,6 +142,29 @@
         <el-form-item label="Password" prop="password">
           <el-input v-model="datasourceFormData.password" type="password" placeholder="密码" show-word-limit maxlength="100" />
         </el-form-item>
+        <el-form-item label="包名" prop="packageName">
+          <el-input v-model="datasourceFormData.packageName" placeholder="包名（package）" show-word-limit maxlength="100" />
+        </el-form-item>
+        <el-form-item label="删除前缀" prop="delPrefix">
+          <el-input v-model="datasourceFormData.delPrefix" placeholder="删除前缀（表名sys_user删除前缀sys_对应bean为User）多前缀逗号隔开" show-word-limit maxlength="200" />
+        </el-form-item>
+        <el-form-item label="代码生成器模板" prop="delPrefix">
+          <el-select
+            v-model="datasourceFormData.groupName"
+            placeholder="选择模板所在组"
+            size="mini"
+            @change="onDataGroupChange"
+            style="margin-bottom: 10px; width: 100%;"
+          >
+            <el-option
+              v-for="item in groupData"
+              :key="item.id"
+              :label="`${item.groupName}`"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button type="success" @click="onDatasourceTest">测试连接</el-button>
           <el-button type="primary" @click="onDatasourceSave">保存</el-button>
@@ -142,17 +189,25 @@
   .el-table .hidden-row {
     display: none;
   }
+  #templateSelect {
+    .el-input { width: 100%;}
+  }
 </style>
 <script>
 export default {
   data() {
     return {
-      showTable: false,
+      groupId: '',
+      groupData: {},
+      showTable: true,
       clientParam: {
         datasourceConfigId: '',
         tableNames: [],
         templateConfigIdList: [],
-        packageName: ''
+        packageName: null,
+        delPrefix: null,
+        groupId: '',
+        groupName: ''
       },
       tableSearch: '',
       datasourceConfigList: [],
@@ -168,7 +223,11 @@ export default {
         port: '',
         username: '',
         password: '',
-        dbName: ''
+        dbName: '',
+        packageName: '',
+        delPrefix: '',
+        groupId: '',
+        groupName: ''
       },
       dbTypeConfig: [],
       datasourceRule: {
@@ -194,18 +253,39 @@ export default {
     this.loadDataSource()
     this.loadTemplate()
     this.loadDbType()
+    this.loadGroups()
   },
   methods: {
     tableRowClassName: function ({row, index}) {
+      // console.log("tablerow="+row.tableName+","+index)
       row.hidden = false
       if (this.tableSearch.length === 0) {
         return ''
       }
+      // console.log("tablerow="+row.tableName +","+ row.tableName.indexOf(this.tableName)+","+(!(row.tableName && row.tableName.indexOf(this.tableSearch) > -1)))
       if (!(row.tableName && row.tableName.toLowerCase().indexOf(this.tableSearch.toLowerCase()) > -1)) {
         row.hidden = true
         return 'hidden-row';
       }
       return ''
+    },
+    templateTableRowClassName: function ({row, index}) {
+      // console.log("temprow="+row.id+",rowGroupId="+row.groupId+", this.groupId="+ this.groupId)
+      row.hidden = false
+      if (this.groupId == '' || this.groupId <= 0) {
+        return ''
+      }
+      // console.log("temprow="+row.groupId +","+(row.groupId && row.groupId == this.groupId))
+      if (row.groupId && row.groupId == this.groupId) {
+        return ''
+      }
+      row.hidden = true
+      return 'hidden-row';
+    },
+    loadGroups() {
+      this.post(`/group/list/`, {}, function(resp) {
+        this.groupData = resp.data
+      })
     },
     loadDataSource() {
       this.post('/datasource/list', {}, resp => {
@@ -224,6 +304,7 @@ export default {
     },
     onDataSourceAdd() {
       this.datasourceTitle = '新建连接'
+      Object.keys(this.datasourceFormData).forEach(key=>{this.datasourceFormData[key]=''})
       this.datasourceFormData.id = 0
       this.datasourceDlgShow = true
     },
@@ -233,10 +314,28 @@ export default {
         .map(row => row.tableName)
     },
     onTemplateListSelect(selectedRows) {
-      this.clientParam.templateConfigIdList = selectedRows.map(row => row.id)
+      this.clientParam.templateConfigIdList = selectedRows
+        .filter(row => row.hidden === undefined || row.hidden === false)
+        .map(row => row.id)
     },
     onDataSourceChange(datasourceConfigId) {
       this.clientParam.datasourceConfigId = datasourceConfigId
+      this.datasourceConfigList.find((item)=>{
+        if(item.id === datasourceConfigId){
+          this.clientParam.packageName = item.packageName;
+          this.clientParam.delPrefix = item.delPrefix;
+          this.groupId = item.groupId;
+          this.groupData.find((gitem)=>{
+            // console.log("gid="+gitem.id+",datasourceConfigGroupId="+item.groupId+","+(gitem.id == item.groupId))
+            if(gitem.id == item.groupId){
+              this.clientParam.groupName = gitem.groupName
+            }
+          });
+
+          console.log("this.clientParam.groupName="+this.clientParam.groupName)
+        }
+      });
+
       this.post(`/datasource/table/${datasourceConfigId}`, {}, resp => {
         this.showTable = true
         this.tableListData = resp.data
@@ -245,6 +344,12 @@ export default {
     onDataSourceUpdate(item) {
       this.datasourceTitle = '修改连接'
       Object.assign(this.datasourceFormData, item)
+      this.groupData.find((gitem)=>{
+        // console.log("gid="+gitem.id+",datasourceConfigGroupId="+item.groupId+","+(gitem.id == this.datasourceFormData.groupId))
+        if(gitem.id == item.groupId){
+          this.datasourceFormData.groupName = gitem.groupName
+        }
+      });
       this.datasourceDlgShow = true
     },
     onDataSourceDuplicate(item) {
@@ -288,6 +393,13 @@ export default {
           })
         }
       })
+    },
+    onDataGroupChange(groupId){
+      // console.log(groupId)
+      if(groupId != ''){
+        this.groupId = groupId
+        this.datasourceFormData.groupId = groupId
+      }
     },
     onDatasourceSave() {
       this.$refs.datasourceForm.validate((valid) => {

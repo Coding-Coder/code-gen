@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/layout'
+
+Vue.use(Router)
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -67,6 +66,20 @@ export const constantRoutes = [
         component: () => import('@/views/generate/result'),
         meta: { title: '生成结果' },
         hidden: true
+      }
+    ]
+  },
+  {
+    path: '/group',
+    component: Layout,
+    meta: { title: '模板组管理', icon: 'table' },
+    redirect: '/group/list',
+    children: [
+      {
+        path: 'list',
+        name: 'List',
+        component: () => import('@/views/group/index'),
+        meta: { title: '模板组管理' }
       }
     ]
   },

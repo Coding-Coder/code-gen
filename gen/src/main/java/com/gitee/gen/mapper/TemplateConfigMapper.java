@@ -1,9 +1,9 @@
 package com.gitee.gen.mapper;
 
-import java.util.List;
-
 import com.gitee.gen.entity.TemplateConfig;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface TemplateConfigMapper {
@@ -66,4 +66,9 @@ public interface TemplateConfigMapper {
      */
     int delete(TemplateConfig templateConfig);
 
+    List<TemplateConfig> listByGroupId(String groupId);
+
+    int updateGroupNameByGroupId(Integer groupId, String groupName);
+
+    int deleteByGroupId(Integer id);
 }

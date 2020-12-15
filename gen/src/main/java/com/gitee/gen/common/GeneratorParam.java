@@ -14,6 +14,8 @@ public class GeneratorParam {
 
 	private String packageName;
 
+	private String delPrefix;
+
 	private String charset = "UTF-8";
 
 	public int getDatasourceConfigId() {
@@ -46,6 +48,14 @@ public class GeneratorParam {
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+
+	public String getDelPrefix() {
+		return delPrefix;
+	}
+
+	public void setDelPrefix(String delPrefix) {
+		this.delPrefix = delPrefix;
 	}
 
 	public String getCharset() {

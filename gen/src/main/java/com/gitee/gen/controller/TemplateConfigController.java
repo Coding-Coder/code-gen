@@ -4,11 +4,14 @@ import com.gitee.gen.common.Action;
 import com.gitee.gen.common.Result;
 import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.service.TemplateConfigService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author tanghc
@@ -32,8 +35,14 @@ public class TemplateConfigController {
     }
 
     @RequestMapping("/list")
-    public Result list() {
-        return Action.ok(templateConfigService.listAll());
+    public Result list(String groupId) {
+        List<TemplateConfig> templateConfigs = null;
+        if(StringUtils.isEmpty(groupId)){
+            templateConfigs = templateConfigService.listAll();
+        }else {
+            templateConfigs = templateConfigService.listByGroupId(groupId);
+        }
+        return Action.ok(templateConfigs);
     }
 
     @RequestMapping("/update")

@@ -40,6 +40,7 @@ public class GeneratorService {
 
         for (SQLContext sqlContext : contextList) {
             setPackageName(sqlContext, generatorParam.getPackageName());
+            setDelPrefix(sqlContext, generatorParam.getDelPrefix());
             for (int tcId : generatorParam.getTemplateConfigIdList()) {
                 TemplateConfig template = templateConfigService.getById(tcId);
                 String folder = template.getName();
@@ -87,6 +88,12 @@ public class GeneratorService {
     private void setPackageName(SQLContext sqlContext, String packageName) {
         if (StringUtils.hasText(packageName)) {
             sqlContext.setPackageName(packageName);
+        }
+    }
+
+    private void setDelPrefix(SQLContext sqlContext, String delPrefix) {
+        if (StringUtils.hasText(delPrefix)) {
+            sqlContext.setDelPrefix(delPrefix);
         }
     }
 

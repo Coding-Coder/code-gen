@@ -1,6 +1,7 @@
 package com.gitee.gen.gen;
 
 import com.gitee.gen.util.FieldUtil;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * SQL上下文,这里可以取到表,字段信息<br>
@@ -17,6 +18,12 @@ public class SQLContext {
      * 包名
      */
     private String packageName;
+
+    /**
+     * 删除的前缀
+     */
+    private String delPrefix;
+
     /**
      * 数据库名
      */
@@ -54,6 +61,13 @@ public class SQLContext {
      */
     public String getJavaBeanNameLF() {
         String tableName = tableDefinition.getTableName();
+        if(delPrefix != null){
+            String[] split = delPrefix.split(",");
+            for (String prefix : split){
+                tableName = tableName.startsWith(prefix) && !StringUtils.isEmpty(prefix) ? tableName.replace(prefix, "") : tableName;
+            }
+        }
+
         tableName = FieldUtil.underlineFilter(tableName);
         tableName = FieldUtil.dotFilter(tableName);
         return FieldUtil.lowerFirstLetter(tableName);
@@ -97,6 +111,14 @@ public class SQLContext {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public String getDelPrefix() {
+        return delPrefix;
+    }
+
+    public void setDelPrefix(String delPrefix) {
+        this.delPrefix = delPrefix;
     }
 
     public String getDbName() {

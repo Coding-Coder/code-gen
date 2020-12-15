@@ -2,16 +2,20 @@
 <!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gitee.gen.mapper.TemplateConfigMapper">
     <resultMap id="BaseResultMap" type="com.gitee.gen.entity.TemplateConfig">
-        <result column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="file_name" property="fileName"/>
-        <result column="content" property="content"/>
-        <result column="is_deleted" property="isDeleted"/>
+        <result column="id" property="id" />
+        <result column="group_id" property="groupId" />
+        <result column="group_name" property="groupName" />
+        <result column="name" property="name" />
+        <result column="file_name" property="fileName" />
+        <result column="content" property="content" />
+        <result column="is_deleted" property="isDeleted" />
     </resultMap>
 
     <!-- 表字段 -->
     <sql id="baseColumns">
          t.id
+        , t.group_id
+        , t.group_name
         , t.name
         , t.file_name
         , t.content
@@ -21,9 +25,9 @@
     <!-- 查询全部 -->
     <select id="listAll" resultMap="BaseResultMap">
         SELECT
-        <include refid="baseColumns"/>
+        <include refid="baseColumns" />
         FROM template_config t
-        WHERE is_deleted=0
+        WHERE t.is_deleted = 0
     </select>
 
     <select id="getByName" resultMap="BaseResultMap">
@@ -34,9 +38,9 @@
     </select>
 
     <!-- 根据主键获取单条记录 -->
-    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT
-        <include refid="baseColumns"/>
+        <include refid="baseColumns" />
         FROM template_config t
         WHERE id = #{id}
     </select>
@@ -47,12 +51,16 @@
     >
         INSERT INTO template_config
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            group_id,
+            group_name,
             name,
             file_name,
             content,
             is_deleted,
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{groupId},
+            #{groupName},
             #{name},
             #{fileName},
             #{content},
@@ -67,6 +75,12 @@
         INSERT INTO template_config
         <trim prefix="(" suffix=")" suffixOverrides=",">
 
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="groupName != null">
+                group_name,
+            </if>
             <if test="name != null">
                 name,
             </if>
@@ -81,16 +95,22 @@
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
-            <if test="name != null">
+            <if test="groupId != null" >
+                #{groupId},
+            </if>
+            <if test="groupName != null" >
+                #{groupName},
+            </if>
+            <if test="name != null" >
                 #{name},
             </if>
-            <if test="fileName != null">
+            <if test="fileName != null" >
                 #{fileName},
             </if>
-            <if test="content != null">
+            <if test="content != null" >
                 #{content},
             </if>
-            <if test="isDeleted != null">
+            <if test="isDeleted != null" >
                 #{isDeleted},
             </if>
         </trim>
@@ -100,6 +120,8 @@
     <update id="update" parameterType="com.gitee.gen.entity.TemplateConfig">
         UPDATE template_config
         <set>
+            group_id=#{groupId},
+            group_name=#{groupName},
             name=#{name},
             file_name=#{fileName},
             content=#{content},
@@ -113,16 +135,22 @@
     <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.TemplateConfig">
         UPDATE template_config
         <set>
-            <if test="name != null">
+            <if test="groupId != null" >
+                group_id=#{groupId},
+            </if>
+            <if test="groupName != null" >
+                group_name=#{groupName},
+            </if>
+            <if test="name != null" >
                 name=#{name},
             </if>
-            <if test="fileName != null">
+            <if test="fileName != null" >
                 file_name=#{fileName},
             </if>
-            <if test="content != null">
+            <if test="content != null" >
                 content=#{content},
             </if>
-            <if test="isDeleted != null">
+            <if test="isDeleted != null" >
                 is_deleted=#{isDeleted},
             </if>
         </set>
@@ -137,5 +165,23 @@
 		WHERE id = #{id}
 	</delete>
 
+    <select id="listByGroupId" parameterType="java.lang.String" resultType="com.gitee.gen.entity.TemplateConfig">
+        SELECT
+        <include refid="baseColumns" />
+        FROM template_config t
+        WHERE group_id = #{groupId}
+    </select>
+
+    <update id="updateGroupNameByGroupId">
+        UPDATE template_config
+        SET group_name = #{groupName}
+        WHERE group_id = #{groupId}
+    </update>
+
+    <update id="deleteByGroupId">
+        UPDATE template_config
+        SET is_deleted=1
+        WHERE group_id = #{groupId}
+    </update>
 
 </mapper>

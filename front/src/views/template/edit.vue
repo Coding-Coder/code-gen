@@ -10,6 +10,22 @@
           size="mini"
           label-position="top"
         >
+          <el-form-item prop="groupId" label="组名称">
+            <el-select
+              v-model="formData.groupId"
+              placeholder="选择模板所在组"
+              @change="onDataGroupChange"
+            >
+              <el-option
+                v-for="item in groupData"
+                :key="item.id"
+                :label="`${item.groupName}`"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item prop="name" label="模板名称">
             <el-input v-model="formData.name" show-word-limit maxlength="64" />
           </el-form-item>
@@ -88,13 +104,19 @@ export default {
   components: { codemirror },
   data() {
     return {
+      groupData: {},
       formData: {
         id: 0,
+        groupId: '',
+        groupName: '',
         name: '',
         fileName: '',
         content: ''
       },
       formRules: {
+        groupId: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
         name: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
@@ -131,6 +153,7 @@ export default {
       })
     }
     this.loadVelocityVar()
+    this.loadGroups()
   },
   methods: {
     loadVelocityVar() {
@@ -149,6 +172,21 @@ export default {
           data: content.data
         })
       })
+    },
+    loadGroups() {
+      this.post(`/group/list/`, {}, function(resp) {
+        this.groupData = resp.data
+      })
+    },
+    onDataGroupChange(groupId){
+      console.log(groupId)
+      this.formData.groupId = groupId;
+      this.groupData.find((item)=>{
+        if(item.id === groupId){
+          this.formData.groupName = item.groupName
+        }
+      });
+      console.log(this.formData.groupName)
     },
     onExpressionClick(exp) {
       const codemirror = this.$refs.editor.codemirror

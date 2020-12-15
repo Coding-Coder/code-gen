@@ -12,7 +12,7 @@
 
 - 前往[发行版页面](https://gitee.com/durcframework/code-gen/releases)，下载最新版本zip文件
 - 解压zip，如果是Mac/Linux操作系统，运行`startup.sh`文件启动，Windows操作系统运行cmd输入`java -jar gen.jar`启动
-- 浏览器访问`http://localhost:6969/`
+- 浏览器访问`http://localhost:9999/`
 
 默认端口是6969，更改端口号按如下方式：
 
@@ -25,7 +25,7 @@
 
 `docker pull tanghc2020/gen:latest`
 
-下载完毕后，执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
+下载完毕后，执行`docker run --name gen -p 9999:9999 -d <镜像ID>`
 
 浏览器访问`http://ip:6969/`
 
@@ -33,7 +33,7 @@
 
 clone代码，然后执行`docker-build.sh`脚本
 
-执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
+执行`docker run --name gen -p 9999:9999 -d <镜像ID>`
 
 ## 其它
 
@@ -67,7 +67,7 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist`文�
     - 执行`mvn clean package`，在`gen/target`下会生成一个`gen-xx-SNAPSHOT.jar`（xx表示本号）
     - 将`gen-xx-SNAPSHOT.jar`和db下的`gen.db`放在同一个文件夹下
     - 执行`java -jar gen-xx-SNAPSHOT.jar`
-    - 浏览器访问`http://localhost:6969/`
+    - 浏览器访问`http://localhost:9999/`
 
 ## 效果图
 

@@ -2,15 +2,18 @@
 <!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gitee.gen.mapper.DatasourceConfigMapper">
     <resultMap id="BaseResultMap" type="com.gitee.gen.entity.DatasourceConfig">
-        <result column="id" property="id"/>
-        <result column="db_type" property="dbType"/>
-        <result column="driver_class" property="driverClass"/>
-        <result column="db_name" property="dbName"/>
-        <result column="host" property="host"/>
-        <result column="port" property="port"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="is_deleted" property="isDeleted"/>
+        <result column="id" property="id" />
+        <result column="db_type" property="dbType" />
+        <result column="driver_class" property="driverClass" />
+        <result column="db_name" property="dbName" />
+        <result column="host" property="host" />
+        <result column="port" property="port" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="package_name" property="packageName" />
+        <result column="del_prefix" property="delPrefix" />
+        <result column="group_id" property="groupId" />
     </resultMap>
 
     <!-- 表字段 -->
@@ -24,20 +27,22 @@
         , t.username
         , t.password
         , t.is_deleted
+        , t.package_name
+        , t.del_prefix
+        , t.group_id
         </sql>
 
     <!-- 查询全部 -->
     <select id="listAll" resultMap="BaseResultMap">
         SELECT
-        <include refid="baseColumns"/>
+        <include refid="baseColumns" />
         FROM datasource_config t
-        WHERE is_deleted=0
     </select>
 
     <!-- 根据主键获取单条记录 -->
-    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT
-        <include refid="baseColumns"/>
+        <include refid="baseColumns" />
         FROM datasource_config t
         WHERE id = #{id}
     </select>
@@ -56,6 +61,9 @@
             username,
             password,
             is_deleted,
+            package_name,
+            del_prefix,
+            group_id,
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{dbType},
@@ -66,6 +74,9 @@
             #{username},
             #{password},
             #{isDeleted},
+            #{packageName},
+            #{delPrefix},
+            #{groupId},
         </trim>
     </insert>
 
@@ -100,31 +111,49 @@
             <if test="isDeleted != null">
                 is_deleted,
             </if>
+            <if test="packageName != null">
+                package_name,
+            </if>
+            <if test="delPrefix != null">
+                del_prefix,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
-            <if test="dbType != null">
+            <if test="dbType != null" >
                 #{dbType},
             </if>
-            <if test="driverClass != null">
+            <if test="driverClass != null" >
                 #{driverClass},
             </if>
-            <if test="dbName != null">
+            <if test="dbName != null" >
                 #{dbName},
             </if>
-            <if test="host != null">
+            <if test="host != null" >
                 #{host},
             </if>
-            <if test="port != null">
+            <if test="port != null" >
                 #{port},
             </if>
-            <if test="username != null">
+            <if test="username != null" >
                 #{username},
             </if>
-            <if test="password != null">
+            <if test="password != null" >
                 #{password},
             </if>
-            <if test="isDeleted != null">
+            <if test="isDeleted != null" >
                 #{isDeleted},
+            </if>
+            <if test="packageName != null" >
+                #{packageName},
+            </if>
+            <if test="delPrefix != null" >
+                #{delPrefix},
+            </if>
+            <if test="groupId != null" >
+                #{groupId},
             </if>
         </trim>
     </insert>
@@ -141,6 +170,9 @@
             username=#{username},
             password=#{password},
             is_deleted=#{isDeleted},
+            package_name=#{packageName},
+            del_prefix=#{delPrefix},
+            group_id=#{groupId},
         </set>
         WHERE id = #{id}
     </update>
@@ -150,29 +182,38 @@
     <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.DatasourceConfig">
         UPDATE datasource_config
         <set>
-            <if test="dbType != null">
+            <if test="dbType != null" >
                 db_type=#{dbType},
             </if>
-            <if test="driverClass != null">
+            <if test="driverClass != null" >
                 driver_class=#{driverClass},
             </if>
-            <if test="dbName != null">
+            <if test="dbName != null" >
                 db_name=#{dbName},
             </if>
-            <if test="host != null">
+            <if test="host != null" >
                 host=#{host},
             </if>
-            <if test="port != null">
+            <if test="port != null" >
                 port=#{port},
             </if>
-            <if test="username != null">
+            <if test="username != null" >
                 username=#{username},
             </if>
-            <if test="password != null">
+            <if test="password != null" >
                 password=#{password},
             </if>
-            <if test="isDeleted != null">
+            <if test="isDeleted != null" >
                 is_deleted=#{isDeleted},
+            </if>
+            <if test="packageName != null" >
+                package_name=#{packageName},
+            </if>
+            <if test="delPrefix != null" >
+                del_prefix=#{delPrefix},
+            </if>
+            <if test="groupId != null" >
+                group_id=#{groupId},
             </if>
         </set>
         WHERE id = #{id}

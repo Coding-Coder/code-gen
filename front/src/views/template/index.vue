@@ -7,6 +7,11 @@
       highlight-current-row
     >
       <el-table-column
+        prop="groupName"
+        label="组名称"
+        width="200"
+      />
+      <el-table-column
         prop="name"
         label="模板名称"
         width="200"
@@ -40,7 +45,11 @@ export default {
   },
   methods: {
     loadTable: function() {
-      this.post('/template/list', {}, function(resp) {
+      this.groupId = this.$route.query.groupId;
+      if (typeof this.groupId === 'undefined') {
+        this.groupId = '';
+      }
+      this.post(`/template/list?groupId=${this.groupId}`, {}, function(resp) {
         this.tableData = resp.data
       })
     },

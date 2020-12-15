@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gitee.gen.mapper.TemplateGroupMapper">
+    <resultMap id="BaseResultMap" type="com.gitee.gen.entity.TemplateGroup">
+        <result column="id" property="id" />
+        <result column="group_name" property="groupName" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+         t.id
+        , t.group_name
+        , t.is_deleted
+        </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns" />
+        FROM template_group t
+        WHERE t.is_deleted = 0
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="baseColumns" />
+        FROM template_group t
+        WHERE id = #{id}
+    </select>
+
+    <!-- 插入全部字段 -->
+    <insert id="insert" parameterType="com.gitee.gen.entity.TemplateGroup"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO template_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            group_name,
+            is_deleted,
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{groupName},
+            #{isDeleted},
+        </trim>
+    </insert>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="com.gitee.gen.entity.TemplateGroup"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO template_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="groupName != null" >
+                #{groupName},
+            </if>
+            <if test="isDeleted != null" >
+                #{isDeleted},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="com.gitee.gen.entity.TemplateGroup">
+        UPDATE template_group
+        <set>
+            group_name=#{groupName},
+            is_deleted=#{isDeleted},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.TemplateGroup">
+        UPDATE template_group
+        <set>
+            <if test="groupName != null" >
+                group_name=#{groupName},
+            </if>
+            <if test="isDeleted != null" >
+                is_deleted=#{isDeleted},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="com.gitee.gen.entity.TemplateGroup">
+		UPDATE template_group
+		SET is_deleted = 1
+		WHERE id = #{id}
+	</delete>
+
+
+</mapper>
