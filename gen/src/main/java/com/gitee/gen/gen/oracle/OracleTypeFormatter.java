@@ -32,7 +32,7 @@ public class OracleTypeFormatter implements TypeFormatter {
 
     @Override
     public boolean isInt(String columnType) {
-        return contains(Arrays.asList("int", "integer"), columnType);
+        return contains(Arrays.asList("int", "integer", "number"), columnType);
     }
 
     @Override
