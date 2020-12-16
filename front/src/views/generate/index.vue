@@ -201,7 +201,7 @@ export default {
       if (this.tableSearch.length === 0) {
         return ''
       }
-      if (!(row.tableName && row.tableName.indexOf(this.tableSearch) > -1)) {
+      if (!(row.tableName && row.tableName.toLowerCase().indexOf(this.tableSearch.toLowerCase()) > -1)) {
         row.hidden = true
         return 'hidden-row';
       }

@@ -1,5 +1,10 @@
 # changelog
 
+## 1.3.5
+
+- 修复mybatis的jdbcType隐射BIGINT错误
+- 修复oracle隐射number类型错误
+
 ## 1.3.4
 
 - 修复Mysql表名为关键字生成报错问题
