@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gitee.gen.mapper.UpgradeMapper">
+
+    <update id="runSql">
+        ${sql}
+    </update>
+
+    <update id="addColumn">
+        ALTER TABLE ${tableName} ADD ${columnName} ${type}
+    </update>
+
+    <update id="addColumnMysql">
+        ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${type}
+    </update>
+
+    <select id="listColumnInfo" resultType="com.gitee.gen.entity.ColumnInfo">
+        PRAGMA table_info('${tableName}')
+    </select>
+
+    <select id="listColumnInfoMysql" resultType="com.gitee.gen.entity.ColumnInfo">
+        select COLUMN_NAME as 'name', DATA_TYPE as 'type'
+        from information_schema.COLUMNS
+        where table_name = '${tableName}'
+    </select>
+
+
+    <select id="listTableName" resultType="String">
+        SELECT name FROM sqlite_master WHERE type='table'
+    </select>
+
+    <select id="listTableNameMysql" resultType="String">
+        select table_name from information_schema.tables
+        where table_schema='gen'
+    </select>
+
+</mapper>

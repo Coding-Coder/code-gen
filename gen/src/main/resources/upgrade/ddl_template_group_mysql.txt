@@ -1,0 +1,6 @@
+CREATE TABLE `template_group` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(100) DEFAULT NULL COMMENT '模板组名称',
+  `is_deleted` int(11) DEFAULT 0 COMMENT '是否删除，1：已删除，0：未删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模板组表';

@@ -1,36 +1,28 @@
 package com.gitee.gen;
 
+import com.gitee.gen.service.UpgradeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.FileCopyUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 @ServletComponentScan
 @SpringBootApplication
-public class GenApplication {
+public class GenApplication implements ApplicationRunner {
+
+    @Autowired
+    private UpgradeService upgradeService;
 
     public static void main(String[] args) {
-        initDatabase();
+        UpgradeService.initDatabase();
         SpringApplication.run(GenApplication.class, args);
     }
 
-    public static void initDatabase() {
-        String filename = "gen.db";
-        String filepath = System.getProperty("user.dir") + "/" + filename;
-        File dbFile = new File(filepath);
-        if (!dbFile.exists()) {
-            ClassPathResource resource = new ClassPathResource(filename);
-            try {
-                FileCopyUtils.copy(resource.getInputStream(), new FileOutputStream(dbFile));
-            } catch (IOException e) {
-                throw new RuntimeException("初始化数据库失败", e);
-            }
-        }
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        upgradeService.upgrade();
     }
 
 }
