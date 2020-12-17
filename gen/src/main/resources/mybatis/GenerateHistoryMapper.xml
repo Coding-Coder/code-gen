@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gitee.gen.mapper.GenerateHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.gitee.gen.entity.GenerateHistory">
+        <result column="id" property="id" />
+        <result column="config_content" property="configContent" />
+        <result column="md5_value" property="md5Value" />
+        <result column="generate_time" property="generateTime" />
+    </resultMap>
+
+    <!-- 表字段 -->
+    <sql id="baseColumns">
+         t.id
+        , t.config_content
+        , t.md5_value
+        , t.generate_time
+        </sql>
+
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns" />
+        FROM generate_history t
+        ORDER BY id desc
+    </select>
+
+    <!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
+        SELECT
+        <include refid="baseColumns" />
+        FROM generate_history t
+        WHERE id = #{id}
+    </select>
+
+    <!-- 插入全部字段 -->
+    <insert id="insert" parameterType="com.gitee.gen.entity.GenerateHistory"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO generate_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            config_content,
+            md5_value,
+            generate_time,
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{configContent},
+            #{md5Value},
+            #{generateTime},
+        </trim>
+    </insert>
+
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="com.gitee.gen.entity.GenerateHistory"
+            keyProperty="id" keyColumn="id" useGeneratedKeys="true"
+    >
+        INSERT INTO generate_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="configContent != null">
+                config_content,
+            </if>
+            <if test="md5Value != null">
+                md5_value,
+            </if>
+            <if test="generateTime != null">
+                generate_time,
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="configContent != null" >
+                #{configContent},
+            </if>
+            <if test="md5Value != null" >
+                #{md5Value},
+            </if>
+            <if test="generateTime != null" >
+                #{generateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新,更新全部字段 -->
+    <update id="update" parameterType="com.gitee.gen.entity.GenerateHistory">
+        UPDATE generate_history
+        <set>
+            config_content=#{configContent},
+            md5_value=#{md5Value},
+            generate_time=#{generateTime},
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.GenerateHistory">
+        UPDATE generate_history
+        <set>
+            <if test="configContent != null" >
+                config_content=#{configContent},
+            </if>
+            <if test="md5Value != null" >
+                md5_value=#{md5Value},
+            </if>
+            <if test="generateTime != null" >
+                generate_time=#{generateTime},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <!-- 根据主键删除记录 -->
+    <delete id="delete" parameterType="com.gitee.gen.entity.GenerateHistory">
+		UPDATE generate_history
+		SET is_deleted=1
+		WHERE id = #{id}
+	</delete>
+
+    <select id="getByMd5" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns" />
+        FROM generate_history t
+        WHERE md5_value = #{md5}
+        LIMIT 1
+    </select>
+
+</mapper>

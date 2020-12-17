@@ -1,0 +1,7 @@
+CREATE TABLE `generate_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `config_content` text,
+  `md5_value` varchar(64) DEFAULT NULL,
+  `generate_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

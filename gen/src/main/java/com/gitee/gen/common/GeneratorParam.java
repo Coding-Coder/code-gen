@@ -66,4 +66,15 @@ public class GeneratorParam {
 		this.charset = charset;
 	}
 
+	@Override
+	public String toString() {
+		return "GeneratorParam{" +
+				"datasourceConfigId=" + datasourceConfigId +
+				", tableNames=" + tableNames +
+				", templateConfigIdList=" + templateConfigIdList +
+				", packageName='" + packageName + '\'' +
+				", delPrefix='" + delPrefix + '\'' +
+				", charset='" + charset + '\'' +
+				'}';
+	}
 }

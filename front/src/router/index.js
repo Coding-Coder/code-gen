@@ -72,7 +72,7 @@ export const constantRoutes = [
   {
     path: '/group',
     component: Layout,
-    meta: { title: '模板组管理', icon: 'table' },
+    meta: { title: '模板组管理', icon: 'example' },
     redirect: '/group/list',
     children: [
       {

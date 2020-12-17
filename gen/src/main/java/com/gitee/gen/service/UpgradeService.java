@@ -24,6 +24,7 @@ public class UpgradeService {
     public static final String TABLE_DATASOURCE_CONFIG = "datasource_config";
     public static final String TABLE_TEMPLATE_CONFIG = "template_config";
     public static final String TABLE_TEMPLATE_GROUP = "template_group";
+    public static final String TABLE_GENERATE_HISTORY = "generate_history";
 
     @Autowired
     private UpgradeMapper upgradeMapper;
@@ -56,18 +57,19 @@ public class UpgradeService {
      * 升级v1.4.0
      */
     private void upgradeV1_4_0() {
+        this.createTable(TABLE_GENERATE_HISTORY);
         boolean isCreate = this.createTable(TABLE_TEMPLATE_GROUP);
         if (isCreate) {
             runSql("INSERT INTO `template_group` (`id`, `group_name`, `is_deleted`) VALUES (1,'default',0)");
         }
 
         this.addColumn(TABLE_DATASOURCE_CONFIG, "package_name", "varchar(100)");
-        this.addColumn(TABLE_DATASOURCE_CONFIG, "del_prefix", "varchar(100)");
+        this.addColumn(TABLE_DATASOURCE_CONFIG, "del_prefix", "varchar(200)");
         this.addColumn(TABLE_DATASOURCE_CONFIG, "group_id", "int");
 
         this.addColumn(TABLE_TEMPLATE_CONFIG, "group_id", "int");
         this.addColumn(TABLE_TEMPLATE_CONFIG, "group_name", "varchar(100)");
-        runSql("update template_config set group_id=1,group_name='default' where group_id = NULL");
+        runSql("update template_config set group_id=1,group_name='default' where group_id IS NULL");
     }
 
     private void runSql(String sql) {

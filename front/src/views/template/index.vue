@@ -66,7 +66,7 @@ export default {
       })
     },
     onAdd: function() {
-      this.goRoute('edit/0')
+      this.goRoute(`edit/0?groupId=${this.groupId}`)
     }
   }
 }

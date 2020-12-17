@@ -4,7 +4,9 @@ import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.mapper.TemplateConfigMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +18,13 @@ public class TemplateConfigService {
 
     @Autowired
     private TemplateConfigMapper templateConfigMapper;
+
+    public List<TemplateConfig> listTemplate(List<Integer> idList) {
+        if (CollectionUtils.isEmpty(idList)) {
+            return Collections.emptyList();
+        }
+        return templateConfigMapper.listTemplate(idList);
+    }
 
     public TemplateConfig getById(int id) {
         return templateConfigMapper.getById(id);

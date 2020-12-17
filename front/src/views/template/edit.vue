@@ -14,14 +14,14 @@
             <el-select
               v-model="formData.groupId"
               placeholder="选择模板所在组"
-              @change="onDataGroupChange"
             >
               <el-option
                 v-for="item in groupData"
                 :key="item.id"
-                :label="`${item.groupName}`"
+                :label="item.groupName"
                 :value="item.id"
               >
+                {{ item.groupName }}
               </el-option>
             </el-select>
           </el-form-item>
@@ -153,7 +153,7 @@ export default {
       })
     }
     this.loadVelocityVar()
-    this.loadGroups()
+    this.loadGroups(this.$route.query.groupId)
   },
   methods: {
     loadVelocityVar() {
@@ -173,20 +173,16 @@ export default {
         })
       })
     },
-    loadGroups() {
+    loadGroups(groupId) {
       this.post(`/group/list/`, {}, function(resp) {
         this.groupData = resp.data
-      })
-    },
-    onDataGroupChange(groupId){
-      console.log(groupId)
-      this.formData.groupId = groupId;
-      this.groupData.find((item)=>{
-        if(item.id === groupId){
-          this.formData.groupName = item.groupName
+        if (!groupId && this.groupData.length > 0) {
+          groupId = this.groupData[0].id
         }
-      });
-      console.log(this.formData.groupName)
+        if (groupId) {
+          this.formData.groupId = parseInt(groupId);
+        }
+      })
     },
     onExpressionClick(exp) {
       const codemirror = this.$refs.editor.codemirror

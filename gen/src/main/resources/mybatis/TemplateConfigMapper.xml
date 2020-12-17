@@ -184,4 +184,14 @@
         WHERE group_id = #{groupId}
     </update>
 
+    <select id="listTemplate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns" />
+        FROM template_config t
+        WHERE id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

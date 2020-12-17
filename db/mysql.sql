@@ -6,13 +6,16 @@ USE `gen`;
 CREATE TABLE `datasource_config` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `db_type` int(11) NOT NULL DEFAULT '0' COMMENT '数据库类型，1：MySql, 2:Oracle, 3:sqlserver',
-  `driver_class` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库驱动',
+  `driver_class` varchar(64) DEFAULT '' COMMENT '数据库驱动',
   `db_name` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库名称',
   `host` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库host',
   `port` int(11) NOT NULL DEFAULT '0' COMMENT '数据库端口',
   `username` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库用户名',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '数据库密码',
   `is_deleted` int(11) NOT NULL DEFAULT '0' COMMENT '是否已删除，1：已删除，0：未删除',
+  `package_name` varchar(100) DEFAULT NULL,
+  `del_prefix` varchar(200) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据源配置表';
 

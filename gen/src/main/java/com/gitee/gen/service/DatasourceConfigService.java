@@ -1,6 +1,7 @@
 package com.gitee.gen.service;
 
 import com.gitee.gen.entity.DatasourceConfig;
+import com.gitee.gen.gen.DbType;
 import com.gitee.gen.mapper.DatasourceConfigMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class DatasourceConfigService {
 
     public void insert(DatasourceConfig templateConfig) {
         templateConfig.setIsDeleted(0);
+        DbType dbType = DbType.of(templateConfig.getDbType());
+        if (dbType != null) {
+            templateConfig.setDriverClass(dbType.getDriverClass());
+        }
         datasourceConfigMapper.insert(templateConfig);
     }
 

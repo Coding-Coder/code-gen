@@ -17,6 +17,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 生成代码逻辑
@@ -26,6 +28,11 @@ public class GeneratorService {
 
     @Autowired
     private TemplateConfigService templateConfigService;
+
+    @Autowired
+    private GenerateHistoryService generateHistoryService;
+
+    static ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     /**
      * 生成代码内容,map的
@@ -53,6 +60,10 @@ public class GeneratorService {
                 codeFileList.add(codeFile);
             }
         }
+
+        executorService.execute(() -> {
+            generateHistoryService.saveHistory(generatorParam);
+        });
 
         return codeFileList;
     }

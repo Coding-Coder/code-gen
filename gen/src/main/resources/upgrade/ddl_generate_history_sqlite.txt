@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS generate_history (
+  id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  config_content text NOT NULL,
+  md5_value varchar(64) DEFAULT NULL,
+  generate_time datetime NOT NULL
+)
