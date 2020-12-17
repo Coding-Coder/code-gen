@@ -2,6 +2,8 @@ package com.gitee.gen.util;
 
 import org.springframework.util.StringUtils;
 
+import java.util.Objects;
+
 public class FieldUtil {
 
     public static final String UNDER_LINE = "_";
@@ -36,6 +38,9 @@ public class FieldUtil {
             // 去除首尾'_'
             field = StringUtils.trimLeadingCharacter(field, underLine);
             field = StringUtils.trimTrailingCharacter(field, underLine);
+            if (isSingleAllUpper(field)) {
+                return field.toLowerCase();
+            }
             if (field.contains(UNDER_LINE)) {
                 field = field.toLowerCase();
             }
@@ -43,6 +48,18 @@ public class FieldUtil {
             return join(arr, underLineCountLeading, underLineCountTailing);
         }
         return "";
+    }
+
+    /**
+     * 是不是全部大写的单词，如：NAME, ADDRESS
+     * @param name 单词
+     * @return true：是
+     */
+    private static boolean isSingleAllUpper(String name) {
+        if (name.contains(UNDER_LINE)) {
+            return false;
+        }
+        return Objects.equals(name, name.toUpperCase());
     }
 
     private static String join(String[] arr, int underLineCountLeading, int underLineCountTailing) {

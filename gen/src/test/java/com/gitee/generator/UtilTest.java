@@ -4,7 +4,6 @@ import com.gitee.gen.util.FieldUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,7 +18,11 @@ public class UtilTest {
         map.put("user_age", "userAge");
         map.put("user_address_detail", "userAddressDetail");
         map.put("user__age", "userAge");
+        map.put("userName", "userName");
+        map.put("UserName", "UserName");
         map.put("name", "name");
+        map.put("NAME", "name");
+        map.put("USER_NAME", "userName");
         map.put("_name", "_name");
         map.put("_name_", "_name_");
         map.put("_user_age", "_userAge");
@@ -32,7 +35,7 @@ public class UtilTest {
         map.forEach((key, value) -> {
             String val = FieldUtil.underlineFilter(key);
             System.out.println(key + " -> " + val);
-            Assert.isTrue(value.equals(val), "not eq");
+            Assert.isTrue(value.equals(val), "error:[" + key + " -> " + val + "]");
         });
     }
 
