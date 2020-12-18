@@ -179,7 +179,7 @@ export default {
         if (!groupId && this.groupData.length > 0) {
           groupId = this.groupData[0].id
         }
-        if (groupId) {
+        if (groupId && !this.formData.groupId) {
           this.formData.groupId = parseInt(groupId);
         }
       })
