@@ -31,12 +31,13 @@
         :rules="formRules"
         size="mini"
         label-width="120px"
+        @submit.native.prevent
       >
         <el-form-item prop="name" label="模板组名称">
           <el-input v-model="formData.groupName" show-word-limit maxlength="100" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSave">保 存</el-button>
+          <el-button type="primary" native-type="submit" @click="onSave">保 存</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>

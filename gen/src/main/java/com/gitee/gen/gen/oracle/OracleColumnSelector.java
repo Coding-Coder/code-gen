@@ -41,29 +41,6 @@ public class OracleColumnSelector extends ColumnSelector {
 		super(generatorConfig);
 	}
 
-	/**
-	 * 查询 字段名 类型 编码 是否为空 是否主键 默认值 权限 注释
-	 * select
-	 * utc.column_name as 字段名,utc.data_type 数据类型,utc.data_length 最大长度,
-	 * CASE utc.nullable WHEN 'N' THEN '否' ELSE '是' END 可空,
-	 * utc.data_default 默认值,ucc.comments 注释,UTC.table_name 表名,
-	 * CASE UTC.COLUMN_NAME
-	 * WHEN (select
-	 * col.column_name
-	 * from
-	 * user_constraints con,user_cons_columns col
-	 * where
-	 * con.constraint_name=col.constraint_name and con.constraint_type='P'
-	 * and col.table_name='DEMO')   THEN '是' ELSE '否' END AS 主键
-	 * from
-	 * user_tab_columns utc,user_col_comments ucc
-	 * where
-	 * utc.table_name = ucc.table_name
-	 * and utc.column_name = ucc.column_name
-	 * and utc.table_name = 'DEMO'
-	 * order by
-	 * column_id;
-	 */
 	@Override
 	protected String getColumnInfoSQL(String tableName) {
 		return String.format(COLUMN_SQL, tableName, tableName);

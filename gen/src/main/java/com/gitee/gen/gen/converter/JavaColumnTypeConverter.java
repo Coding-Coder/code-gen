@@ -21,7 +21,7 @@ public class JavaColumnTypeConverter implements ColumnTypeConverter {
         TYPE_MAP.put(TypeEnum.BIGINT.getType(), "long");
         TYPE_MAP.put(TypeEnum.FLOAT.getType(), "float");
         TYPE_MAP.put(TypeEnum.DOUBLE.getType(), "double");
-        TYPE_MAP.put(TypeEnum.DECIMAL.getType(), "decimal");
+        TYPE_MAP.put(TypeEnum.DECIMAL.getType(), "BigDecimal");
         TYPE_MAP.put(TypeEnum.VARCHAR.getType(), "string");
         TYPE_MAP.put(TypeEnum.DATETIME.getType(), "Date");
         TYPE_MAP.put(TypeEnum.BLOB.getType(), "byte[]");

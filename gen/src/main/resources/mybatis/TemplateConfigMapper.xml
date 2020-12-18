@@ -34,7 +34,8 @@
         SELECT
         <include refid="baseColumns"/>
         FROM template_config t
-        WHERE name = #{name}
+        WHERE name = #{name} AND group_id=#{groupId}
+        LIMIT 1
     </select>
 
     <!-- 根据主键获取单条记录 -->

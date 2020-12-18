@@ -10,10 +10,10 @@
           <el-option
             v-for="item in datasourceConfigList"
             :key="item.id"
-            :label="`${item.dbName}（${item.host}）`"
+            :label="getDatasourceLabel(item)"
             :value="item.id"
           >
-            <span style="float: left">{{ `${item.dbName}（${item.host}）` }} </span>
+            <span style="float: left">{{ getDatasourceLabel(item) }}</span>
             <span style="float: right; color: #8492a6; font-size: 13px">
               <el-tooltip placement="top" content="Duplicate">
                 <el-link type="primary" icon="el-icon-document-copy" style="margin-right: 20px;" @click.stop="onDataSourceDuplicate(item)"></el-link>
@@ -297,6 +297,9 @@ export default {
       }
       row.hidden = true
       return 'hidden-row';
+    },
+    getDatasourceLabel(item) {
+      return `${item.dbName} (${item.host}) - ${item.username}`
     },
     loadGroups() {
       this.post(`/group/list/`, {}, function(resp) {

@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface TemplateConfigMapper {
 
-    TemplateConfig getByName(String name);
+    TemplateConfig getByName(@Param("name") String name, @Param("groupId") Integer groupId);
 
     /**
      * 查询所有记录

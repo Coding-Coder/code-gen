@@ -68,8 +68,7 @@ public class TemplateGroupController {
      */
     @RequestMapping("update")
     public Result update(@RequestBody TemplateGroup templateGroup) {
-//        templateGroupService.updateIgnoreNull(templateGroup);
-        templateGroupService.updateGroup(templateGroup);
+        templateGroupService.updateIgnoreNull(templateGroup);
         return Action.ok();
     }
 

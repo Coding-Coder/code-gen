@@ -93,13 +93,11 @@ public class TemplateGroupService {
         return templateGroupMapper.delete(templateGroup);
     }
 
-    public int updateGroup(TemplateGroup templateGroup) {
-        int count = updateIgnoreNull(templateGroup);
-        templateConfigMapper.updateGroupNameByGroupId(templateGroup.getId(), templateGroup.getGroupName());
-        return count;
-    }
-
     public int deleteGroup(TemplateGroup templateGroup) {
+        List<TemplateGroup> templateGroups = this.listAll();
+        if (templateGroups.size() == 1) {
+            throw new RuntimeException("无法删除，必须要有一个模板组");
+        }
         int delete = templateGroupMapper.delete(templateGroup);
         templateConfigMapper.deleteByGroupId(templateGroup.getId());
         return delete;
