@@ -49,7 +49,7 @@ public class DataSourceManager {
     }
 
     public static DataSource getDataSource(GeneratorConfig generatorConfig) {
-        String jdbcUrl = generatorConfig.getJdbcUrl();
+        String jdbcUrl = generatorConfig.getJdbcUrl() + ":" + generatorConfig.getUsername(); ;
         DataSource dataSource = DATA_SOURCE_MAP.computeIfAbsent(jdbcUrl, key -> {
             Properties properties = new Properties();
             properties.put("driverClassName", generatorConfig.getDriverClass());
