@@ -104,7 +104,7 @@ export default {
   components: { codemirror },
   data() {
     return {
-      groupData: {},
+      groupData: [],
       formData: {
         id: 0,
         groupId: '',

@@ -3,7 +3,9 @@ package com.gitee.gen.controller;
 import com.gitee.gen.common.Action;
 import com.gitee.gen.common.Result;
 import com.gitee.gen.entity.TemplateConfig;
+import com.gitee.gen.entity.TemplateGroup;
 import com.gitee.gen.service.TemplateConfigService;
+import com.gitee.gen.service.TemplateGroupService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author tanghc
@@ -22,6 +26,9 @@ public class TemplateConfigController {
 
     @Autowired
     private TemplateConfigService templateConfigService;
+
+    @Autowired
+    private TemplateGroupService templateGroupService;
 
     @RequestMapping("/add")
     public Result add(@RequestBody TemplateConfig templateConfig) {
@@ -41,6 +48,16 @@ public class TemplateConfigController {
             templateConfigs = templateConfigService.listAll();
         }else {
             templateConfigs = templateConfigService.listByGroupId(groupId);
+        }
+        Map<Integer, String> idMap = templateGroupService.listAll()
+                .stream()
+                .collect(Collectors.toMap(TemplateGroup::getId, TemplateGroup::getGroupName));
+        for (TemplateConfig templateConfig : templateConfigs) {
+            Integer gid = templateConfig.getGroupId();
+            if (gid != null) {
+                String groupName = idMap.getOrDefault(gid, "");
+                templateConfig.setGroupName(groupName);
+            }
         }
         return Action.ok(templateConfigs);
     }

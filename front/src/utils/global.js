@@ -84,6 +84,15 @@ Object.assign(Vue.prototype, {
     const frm = this.$refs[formName]
     frm && frm.resetFields()
   },
+  setAttr: function(key, val) {
+    if (val === undefined) {
+      val = ''
+    }
+    localStorage.setItem(key, val + '')
+  },
+  getAttr: function(key) {
+    return localStorage.getItem(key)
+  },
   logout: function() {
     const fullPath = this.$route.fullPath
     if (fullPath.indexOf('login?redirect') === -1) {
@@ -133,6 +142,6 @@ Object.assign(Vue.prototype, {
 
     element.click()
 
-    document.body.removeChild(element);
+    document.body.removeChild(element)
   }
 })

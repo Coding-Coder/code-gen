@@ -29,7 +29,7 @@ public class DatasourceConfig {
     /** 删除的前缀*/
     private String delPrefix;
     /** 代码生成器模板组id*/
-    private String groupId;
+    private Integer groupId;
 
     public Integer getId() {
         return id;
@@ -119,11 +119,11 @@ public class DatasourceConfig {
         this.delPrefix = delPrefix;
     }
 
-    public String getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(Integer groupId) {
         this.groupId = groupId;
     }
 

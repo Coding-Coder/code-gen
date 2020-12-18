@@ -37,6 +37,7 @@
         SELECT
         <include refid="baseColumns" />
         FROM datasource_config t
+        where is_deleted=0
     </select>
 
     <!-- 根据主键获取单条记录 -->
