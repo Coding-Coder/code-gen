@@ -3,6 +3,10 @@
     <el-backtop />
     <el-row :gutter="20">
       <el-col :span="16">
+        <el-button-group :class="{ 'hasFix': needFix }" style="margin-bottom: 10px;z-index: 999">
+          <el-button type="primary" @click="onSave">保 存</el-button>
+          <el-button @click="goRoute('/template/list')">返 回</el-button>
+        </el-button-group>
         <el-form
           ref="dialogForm"
           :rules="formRules"
@@ -41,28 +45,26 @@
             />
           </el-form-item>
         </el-form>
-        <el-button type="primary" @click="onSave">保 存</el-button>
-        <el-button @click="goRoute('/template/list')">返 回</el-button>
       </el-col>
       <el-col :span="8">
-        <h3>Velocity变量</h3>
-        <p class="velocity-tip">
-          点击变量直接插入
-        </p>
-        <el-tabs v-model="activeName" type="card" @tab-click="onTabClick">
-          <el-tab-pane v-for="item in velocityConfig" :key="item.name" :label="item.label" :name="item.name" :content="item" />
-        </el-tabs>
-        <div v-for="item in treeData" :key="item.expression" class="velocity-var">
-          <div v-if="!item.children">
-            <li>
-                <a @click="onExpressionClick(item.expression)">{{ item.expression }}</a>：{{ item.text }}
-            </li>
-          </div>
-          <div v-else>
-            <h4>{{ item.expression }}</h4>
-            <li v-for="child in item.children" :key="child.expression">
-                <a @click="onExpressionClick(child.expression)">{{ child.expression }}</a>：{{ child.text }}
-            </li>
+        <div :class="{ 'hasFix': needFix }">
+          <h3>
+            Velocity变量
+            <span class="velocity-tip">
+              点击变量直接插入
+            </span>
+          </h3>
+          <el-tabs v-model="activeName" type="card" @tab-click="onTabClick">
+            <el-tab-pane v-for="item in velocityConfig" :key="item.name" :label="item.label" :name="item.name" :content="item" />
+          </el-tabs>
+          <div class="velocity-var">
+            <el-collapse v-model="collapseActiveName" accordion>
+              <el-collapse-item v-for="(item, index) in treeData" :key="item.expression" :title="item.expression" :name="`${index}`">
+                <li v-for="child in item.children" :key="child.expression">
+                  <a @click="onExpressionClick(child.expression)">{{ child.expression }}</a>：{{ child.text }}
+                </li>
+              </el-collapse-item>
+            </el-collapse>
           </div>
         </div>
       </el-col>
@@ -79,8 +81,10 @@
   .velocity-tip {
     color: #606266;
     font-size: 13px;
+    font-weight: normal;
   }
-  .velocity-var {}
+  .velocity-var {
+  }
   .velocity-var li {
     font-size: 14px;
     color: #606266;
@@ -92,6 +96,10 @@
   }
   .velocity-var a:hover {
     color: rgba(64, 158, 255, 0.75);
+  }
+  .hasFix {
+    position: fixed;
+    top: 0;
   }
 </style>
 
@@ -137,12 +145,14 @@ export default {
       isVelocityBarFixed: false,
       // tree
       activeName: 'java',
+      collapseActiveName: '0',
       treeData: [],
       velocityConfig: [],
       defaultProps: {
         children: 'children',
         label: 'text'
-      }
+      },
+      needFix: false
     }
   },
   created() {
@@ -155,7 +165,16 @@ export default {
     this.loadVelocityVar()
     this.loadGroups(this.$route.query.groupId)
   },
+  mounted() {
+    window.addEventListener('scroll', this.handlerScroll)
+  },
   methods: {
+    handlerScroll() {
+      const scrollTop = window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop
+      this.needFix = scrollTop > 80
+    },
     loadVelocityVar() {
       this.getFile(`velocity/java.json?q=${new Date().getTime()}`, content => {
         this.velocityConfig.push({
