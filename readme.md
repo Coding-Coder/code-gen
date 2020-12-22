@@ -39,6 +39,7 @@ clone代码，然后执行`docker-build.sh`脚本
 
 - [快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
 - [更多模板](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2979234&doc_id=27724)
+- [代码生成器原理](https://gitee.com/durcframework/code-gen/wikis/%E4%BB%A3%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8%E5%8E%9F%E7%90%86?sort_id=3287812)
 
 ## 工程说明
 
