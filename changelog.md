@@ -2,7 +2,7 @@
 
 ## 1.4.4
 
-- jtds替换成sqljdbc4
+- jtds驱动替换成sqljdbc4
 
 ## 1.4.3
 
