@@ -17,8 +17,8 @@ public enum DbType {
 
     SQL_SERVER(3,
             "SQL Server",
-            "net.sourceforge.jtds.jdbc.Driver",
-            "jdbc:jtds:sqlserver://%s:%s;databaseName=%s"),
+            "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+            "jdbc:sqlserver://%s:%s;DatabaseName=%s"),
 
     POSTGRE_SQL(4,
             "PostgreSQL",
