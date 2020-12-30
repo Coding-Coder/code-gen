@@ -63,6 +63,18 @@
           "text": "Java类名且首字母小写"
         },
         {
+          "expression": "${context.datetime}",
+          "text": "日期时间，年月日时分秒"
+        },
+        {
+          "expression": "${context.date}",
+          "text": "日期，年月日"
+        },
+        {
+          "expression": "${context.time}",
+          "text": "时间，时分秒"
+        },
+        {
           "expression": "${context.pkName}",
           "text": "表主键名"
         },

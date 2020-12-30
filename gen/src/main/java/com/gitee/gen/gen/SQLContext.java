@@ -3,11 +3,20 @@ package com.gitee.gen.gen;
 import com.gitee.gen.util.FieldUtil;
 import org.apache.commons.lang.StringUtils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * SQL上下文,这里可以取到表,字段信息<br>
  * 最终会把SQL上下文信息放到velocity中
  */
 public class SQLContext {
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    private final LocalDateTime localDateTime = LocalDateTime.now();
 
     /**
      * 表结构定义
@@ -34,6 +43,18 @@ public class SQLContext {
         // 默认为全字母小写的类名
         this.packageName = getJavaBeanName().toLowerCase();
         this.javaPkColumn = (JavaColumnDefinition) this.tableDefinition.getPkColumn();
+    }
+
+    public String getDatetime() {
+        return localDateTime.format(DATE_TIME_FORMATTER);
+    }
+
+    public String getDate() {
+        return localDateTime.format(DATE_FORMATTER);
+    }
+
+    public String getTime() {
+        return localDateTime.format(TIME_FORMATTER);
     }
 
     /**

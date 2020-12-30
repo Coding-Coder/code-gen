@@ -1,5 +1,15 @@
 # changelog
 
+## 1.4.6
+
+- 模板新增时间变量
+
+```
+${context.datetime}：日期时间，年月日时分秒
+${context.date}：日期，年月日
+${context.time}：时间，时分秒
+```
+
 ## 1.4.5
 
 - 可以格式化xml代码（application.properties中设置`gen.format-xml=true`）
