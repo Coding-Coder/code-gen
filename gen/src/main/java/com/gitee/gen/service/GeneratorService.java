@@ -9,14 +9,17 @@ import com.gitee.gen.gen.SQLService;
 import com.gitee.gen.gen.SQLServiceFactory;
 import com.gitee.gen.gen.TableDefinition;
 import com.gitee.gen.gen.TableSelector;
+import com.gitee.gen.util.FormatUtil;
 import com.gitee.gen.util.VelocityUtil;
 import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,13 +29,17 @@ import java.util.concurrent.Executors;
 @Service
 public class GeneratorService {
 
+    static ExecutorService executorService = Executors.newFixedThreadPool(2);
+
     @Autowired
     private TemplateConfigService templateConfigService;
 
     @Autowired
     private GenerateHistoryService generateHistoryService;
 
-    static ExecutorService executorService = Executors.newFixedThreadPool(2);
+    @Value("${gen.format-xml:false}")
+    private String formatXml;
+
 
     /**
      * 生成代码内容,map的
@@ -53,6 +60,7 @@ public class GeneratorService {
                 String folder = template.getName();
                 String fileName = doGenerator(sqlContext, template.getFileName());
                 String content = doGenerator(sqlContext, template.getContent());
+                content = this.formatCode(fileName, content);
                 CodeFile codeFile = new CodeFile();
                 codeFile.setFolder(folder);
                 codeFile.setFileName(fileName);
@@ -66,6 +74,14 @@ public class GeneratorService {
         });
 
         return codeFileList;
+    }
+
+    // 格式化代码
+    private String formatCode(String fileName, String content) {
+        if (Objects.equals("true", formatXml) && fileName.endsWith(".xml")) {
+            return FormatUtil.formatXml(content);
+        }
+        return content;
     }
 
 

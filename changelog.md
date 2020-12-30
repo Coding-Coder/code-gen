@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.5
+
+- 可以格式化xml代码（application.properties中添加`gen.format-xml=true`）
+
 ## 1.4.4
 
 - jtds驱动替换成sqljdbc4
