@@ -2,7 +2,7 @@
 
 ## 1.4.5
 
-- 可以格式化xml代码（application.properties中添加`gen.format-xml=true`）
+- 可以格式化xml代码（application.properties中设置`gen.format-xml=true`）
 
 ## 1.4.4
 
