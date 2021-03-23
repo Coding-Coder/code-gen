@@ -1,5 +1,10 @@
 # changelog
 
+## 1.4.7
+
+- 修复PostgreSQL生成多个相同字段问题
+- 优化PostgreSQL精度类型
+
 ## 1.4.6
 
 - 模板新增时间变量
