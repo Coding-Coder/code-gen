@@ -1,9 +1,13 @@
 # changelog
 
+
 ## 1.4.7
 
 - 修复PostgreSQL生成多个相同字段问题
 - 优化PostgreSQL精度类型
+- 优化Mysql表查询 [#I3C57N](https://gitee.com/durcframework/code-gen/issues/I3C57N)
+- 修复可以看到删除掉的模板 [#I3AX6E](https://gitee.com/durcframework/code-gen/issues/I3AX6E)
+
 
 ## 1.4.6
 
