@@ -3,6 +3,7 @@ package com.gitee.gen.gen.postgresql;
 import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
             " INNER JOIN information_schema.COLUMNS C ON C.TABLE_NAME = pg_class.relname   " +
             " AND C.COLUMN_NAME = pg_attribute.attname   " +
             "WHERE  " +
-            " pg_class.relname = '%s'   " +
+            " pg_class.relname = '%s' and pg_constraint.contype = 'p' " +
             " AND pg_attribute.attnum > 0";
 
     @Override
@@ -71,6 +72,18 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
         columnDefinition.setIsPk(isPk);
 
         String type = convertString(rowMap.get("TYPE"));
+
+        // 如果是number
+        if (StringUtils.containsIgnoreCase(type, "numeric")) {
+            // 有精度则为decimal，否则是int
+            Object scaleCol = rowMap.get("SCALE");
+            if (scaleCol == null) {
+                scaleCol = 0;
+            }
+            String scale = String.valueOf(scaleCol);
+            type = "0".equals(scale) ? "integer" : "decimal";
+        }
+
         columnDefinition.setType(SQL_TYPE_FORMATTER.format(type));
 
         columnDefinition.setComment(convertString(rowMap.get("CMT")));
