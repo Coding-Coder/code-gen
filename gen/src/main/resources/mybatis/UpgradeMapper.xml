@@ -30,8 +30,7 @@
     </select>
 
     <select id="listTableNameMysql" resultType="String">
-        select table_name from information_schema.tables
-        where table_schema='gen'
+        SHOW TABLES
     </select>
 
 </mapper>
