@@ -35,6 +35,7 @@
         <include refid="baseColumns"/>
         FROM template_config t
         WHERE name = #{name} AND group_id=#{groupId}
+        AND is_deleted=0
         LIMIT 1
     </select>
 
@@ -170,7 +171,7 @@
         SELECT
         <include refid="baseColumns" />
         FROM template_config t
-        WHERE group_id = #{groupId}
+        WHERE group_id = #{groupId} and is_deleted=0
     </select>
 
     <update id="updateGroupNameByGroupId">
