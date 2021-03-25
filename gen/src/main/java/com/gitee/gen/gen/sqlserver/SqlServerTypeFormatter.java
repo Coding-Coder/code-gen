@@ -69,4 +69,9 @@ public class SqlServerTypeFormatter implements TypeFormatter {
     public boolean isBlob(String columnType) {
         return contains(Arrays.asList("blob", "binary", "varbinary"), columnType);
     }
+
+    @Override
+    public boolean isJsonb(String columnType) {
+        return false;
+    }
 }

@@ -39,6 +39,9 @@ public interface TypeFormatter {
         if (isDecimal(columnType)) {
             return TypeEnum.DECIMAL.getType();
         }
+        if(isJsonb(columnType)){
+            return TypeEnum.JSONB.getType();
+        }
         if (isVarchar(columnType)) {
             return TypeEnum.VARCHAR.getType();
         }
@@ -48,6 +51,7 @@ public interface TypeFormatter {
         if (isBlob(columnType)) {
             return TypeEnum.BLOB.getType();
         }
+
         return TypeEnum.VARCHAR.getType();
     }
 
@@ -72,4 +76,5 @@ public interface TypeFormatter {
     boolean isVarchar(String columnType);
     boolean isDatetime(String columnType);
     boolean isBlob(String columnType);
+    boolean isJsonb(String columnType);
 }
