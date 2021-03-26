@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.9
+
+- 新增`${context.delPrefix}变量（删除前缀）`
+
 ## 1.4.8
 
 - 支持PostgreSQL的jsonb类型
