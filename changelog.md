@@ -1,5 +1,8 @@
 # changelog
 
+## 1.4.8
+
+- 支持PostgreSQL的jsonb类型
 
 ## 1.4.7
 
