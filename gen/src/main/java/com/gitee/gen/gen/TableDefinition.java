@@ -97,7 +97,7 @@ public class TableDefinition {
 
     public boolean getHasJsonbField() {
         for (ColumnDefinition definition : columnDefinitions) {
-            if ("Map<String, Object>".equals(((JavaColumnDefinition) definition).getJavaType())) {
+            if ("jsonb".equals(definition.getType())) {
                 return true;
             }
         }
