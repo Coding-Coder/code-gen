@@ -59,6 +59,10 @@
           "text": "namespace"
         },
         {
+          "expression": "${context.delPrefix}",
+          "text": "删除前缀"
+        },
+        {
           "expression": "${context.pkName}",
           "text": "表主键名"
         },
