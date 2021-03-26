@@ -69,4 +69,9 @@ public class OracleTypeFormatter implements TypeFormatter {
     public boolean isBlob(String columnType) {
         return contains(Collections.singletonList("blob"), columnType);
     }
+
+    @Override
+    public boolean isJsonb(String columnType) {
+        return false;
+    }
 }

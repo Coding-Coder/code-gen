@@ -31,6 +31,7 @@ public enum TypeEnum {
 
     BLOB("blob"),
 
+    JSONB("jsonb")
 
     ;
     private final String type;

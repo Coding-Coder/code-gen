@@ -95,6 +95,15 @@ public class TableDefinition {
         return false;
     }
 
+    public boolean getHasJsonbField() {
+        for (ColumnDefinition definition : columnDefinitions) {
+            if ("jsonb".equals(definition.getType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 获取主键信息
      *

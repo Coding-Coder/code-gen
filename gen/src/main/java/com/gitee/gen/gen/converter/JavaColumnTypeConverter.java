@@ -25,6 +25,7 @@ public class JavaColumnTypeConverter implements ColumnTypeConverter {
         TYPE_MAP.put(TypeEnum.VARCHAR.getType(), "string");
         TYPE_MAP.put(TypeEnum.DATETIME.getType(), "Date");
         TYPE_MAP.put(TypeEnum.BLOB.getType(), "byte[]");
+        TYPE_MAP.put(TypeEnum.JSONB.getType(), "Map<String, Object>");
 
         TYPE_BOX_MAP.put(TypeEnum.BIT.getType(), "Boolean");
         TYPE_BOX_MAP.put(TypeEnum.BOOLEAN.getType(), "Boolean");
@@ -38,11 +39,13 @@ public class JavaColumnTypeConverter implements ColumnTypeConverter {
         TYPE_BOX_MAP.put(TypeEnum.VARCHAR.getType(), "String");
         TYPE_BOX_MAP.put(TypeEnum.DATETIME.getType(), "Date");
         TYPE_BOX_MAP.put(TypeEnum.BLOB.getType(), "Byte[]");
+        TYPE_BOX_MAP.put(TypeEnum.JSONB.getType(), "Map<String, Object>");
     }
 
     @Override
     public String convertType(String type) {
-        return TYPE_MAP.getOrDefault(type, "String");
+        String string = TYPE_MAP.getOrDefault(type, "String");
+        return string;
     }
 
     @Override
