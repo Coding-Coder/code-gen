@@ -55,6 +55,10 @@
           "text": "包名"
         },
         {
+          "expression": "${context.delPrefix}",
+          "text": "删除前缀"
+        },
+        {
           "expression": "${context.javaBeanName}",
           "text": "Java类名"
         },
