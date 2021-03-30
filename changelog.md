@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.10
+
+- 修复PostgreSQL数值类型映射问题
+
 ## 1.4.9
 
 - 新增`${context.delPrefix}变量（删除前缀）`
