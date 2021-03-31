@@ -30,6 +30,14 @@ public interface TemplateGroupMapper {
     TemplateGroup getById(Integer id);
 
     /**
+     * 根据name查询
+     *
+     * @param name name
+     * @return 返回记录，没有返回null
+     */
+    TemplateGroup getByName(String name);
+
+    /**
      * 新增，插入所有字段
      *
      * @param templateGroup 新增的记录

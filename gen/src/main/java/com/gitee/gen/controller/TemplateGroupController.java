@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author : zsljava
@@ -56,6 +57,10 @@ public class TemplateGroupController {
      */
     @RequestMapping("add")
     public Result insert(@RequestBody TemplateGroup templateGroup) {
+        TemplateGroup group = templateGroupService.getByName(templateGroup.getGroupName());
+        if (group != null) {
+            throw new RuntimeException(templateGroup.getGroupName() + " 已存在");
+        }
         templateGroupService.insertIgnoreNull(templateGroup);
         return Action.ok(templateGroup);
     }
@@ -68,6 +73,10 @@ public class TemplateGroupController {
      */
     @RequestMapping("update")
     public Result update(@RequestBody TemplateGroup templateGroup) {
+        TemplateGroup group = templateGroupService.getByName(templateGroup.getGroupName());
+        if (group != null && !Objects.equals(group.getId(), templateGroup.getId())) {
+            throw new RuntimeException(templateGroup.getGroupName() + " 已存在");
+        }
         templateGroupService.updateIgnoreNull(templateGroup);
         return Action.ok();
     }

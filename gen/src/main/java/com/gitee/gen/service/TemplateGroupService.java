@@ -102,4 +102,8 @@ public class TemplateGroupService {
         templateConfigMapper.deleteByGroupId(templateGroup.getId());
         return delete;
     }
+
+    public TemplateGroup getByName(String name) {
+        return templateGroupMapper.getByName(name);
+    }
 }

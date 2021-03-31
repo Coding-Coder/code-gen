@@ -76,6 +76,9 @@ Object.assign(Vue.prototype, {
       }
     }).catch(function() {})
   },
+  handleCommand: function(command) {
+    command()
+  },
   /**
    * 重置表单
    * @param formName 表单元素的ref

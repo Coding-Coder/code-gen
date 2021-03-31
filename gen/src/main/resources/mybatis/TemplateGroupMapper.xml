@@ -27,7 +27,16 @@
         SELECT
         <include refid="baseColumns" />
         FROM template_group t
-        WHERE id = #{id}
+        WHERE id = #{id} AND t.is_deleted = 0
+        LIMIT 1
+    </select>
+
+    <select id="getByName" resultMap="BaseResultMap" parameterType="String">
+        SELECT
+        <include refid="baseColumns" />
+        FROM template_group t
+        WHERE group_name = #{name} AND t.is_deleted = 0
+        LIMIT 1
     </select>
 
     <!-- 插入全部字段 -->

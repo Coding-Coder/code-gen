@@ -341,12 +341,14 @@ export default {
       this.setAttr(current_datasource_id_key, id)
     },
     getCurrentDataSourceId() {
-      const id = this.getAttr(current_datasource_id_key);
+      const id = this.getAttr(current_datasource_id_key)
       return parseInt(id) || ''
     },
     onDataSourceAdd() {
       this.datasourceTitle = '新建连接'
-      Object.keys(this.datasourceFormData).forEach(key=>{this.datasourceFormData[key]=''})
+      Object.keys(this.datasourceFormData).forEach(key => {
+        this.datasourceFormData[key] = ''
+      })
       this.datasourceFormData.id = 0
       this.datasourceDlgShow = true
       this.$nextTick(() => {
