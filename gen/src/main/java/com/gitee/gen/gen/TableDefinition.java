@@ -14,6 +14,11 @@ import java.util.List;
 public class TableDefinition {
 
     /**
+     * PSSQL对应的schema
+     */
+    private String schema;
+
+    /**
      * 表名
      */
     private String tableName;
@@ -156,5 +161,13 @@ public class TableDefinition {
 
     public void setCsharpColumnDefinitions(List<CsharpColumnDefinition> csharpColumnDefinitions) {
         this.csharpColumnDefinitions = csharpColumnDefinitions;
+    }
+
+    public String getSchema() {
+        return schema;
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 }

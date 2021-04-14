@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.12
+
+- PostgreSQL数据源可指定schema（模板中可使用：`${table.schema}`）
+
 ## 1.4.11
 
 - 优化模板管理交互

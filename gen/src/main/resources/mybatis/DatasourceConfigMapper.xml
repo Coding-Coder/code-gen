@@ -6,6 +6,7 @@
         <result column="db_type" property="dbType" />
         <result column="driver_class" property="driverClass" />
         <result column="db_name" property="dbName" />
+        <result column="schema_name" property="schemaName" />
         <result column="host" property="host" />
         <result column="port" property="port" />
         <result column="username" property="username" />
@@ -22,6 +23,7 @@
         , t.db_type
         , t.driver_class
         , t.db_name
+        , t.schema_name
         , t.host
         , t.port
         , t.username
@@ -57,6 +59,7 @@
             db_type,
             driver_class,
             db_name,
+            schema_name,
             host,
             port,
             username,
@@ -70,6 +73,7 @@
             #{dbType},
             #{driverClass},
             #{dbName},
+            #{schemaName},
             #{host},
             #{port},
             #{username},
@@ -96,6 +100,9 @@
             </if>
             <if test="dbName != null">
                 db_name,
+            </if>
+            <if test="schemaName != null">
+                schema_name,
             </if>
             <if test="host != null">
                 host,
@@ -132,6 +139,9 @@
             <if test="dbName != null" >
                 #{dbName},
             </if>
+            <if test="schemaName != null" >
+                #{schemaName},
+            </if>
             <if test="host != null" >
                 #{host},
             </if>
@@ -166,6 +176,7 @@
             db_type=#{dbType},
             driver_class=#{driverClass},
             db_name=#{dbName},
+            schema_name=#{schemaName},
             host=#{host},
             port=#{port},
             username=#{username},
@@ -191,6 +202,9 @@
             </if>
             <if test="dbName != null" >
                 db_name=#{dbName},
+            </if>
+            <if test="schemaName != null" >
+                schema_name=#{schemaName},
             </if>
             <if test="host != null" >
                 host=#{host},

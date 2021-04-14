@@ -136,6 +136,9 @@
         <el-form-item label="Database" prop="dbName">
           <el-input v-model="datasourceFormData.dbName" placeholder="数据库" show-word-limit maxlength="64" />
         </el-form-item>
+        <el-form-item v-show="showPgSqlSchema" label="Schema" prop="schemaName">
+          <el-input v-model="datasourceFormData.schemaName" placeholder="schema" show-word-limit maxlength="64" />
+        </el-form-item>
         <el-form-item label="Username" prop="username">
           <el-input v-model="datasourceFormData.username" placeholder="用户名" show-word-limit maxlength="100" />
         </el-form-item>
@@ -195,6 +198,12 @@
 </style>
 <script>
 const current_datasource_id_key = "gen-datasource-id"
+const DB_TYPE = {
+  MySQL: 1,
+  Oracle: 2,
+  SQL_Server: 3,
+  PostgreSQL: 4,
+}
 export default {
   name: 'GenerateConfig',
   data() {
@@ -225,6 +234,7 @@ export default {
         username: '',
         password: '',
         dbName: '',
+        schemaName: '',
         packageName: '',
         delPrefix: '',
         groupId: ''
@@ -265,6 +275,11 @@ export default {
       }
     }
   },
+  computed: {
+    showPgSqlSchema() {
+      return this.datasourceFormData.dbType === DB_TYPE.PostgreSQL;
+    }
+  },
   created() {
     this.loadDataSource()
     this.loadTemplate()
@@ -299,7 +314,8 @@ export default {
       return 'hidden-row';
     },
     getDatasourceLabel(item) {
-      return `${item.dbName} (${item.host}) - ${item.username}`
+      const schema = item.schemaName ? `/${item.schemaName}` : ''
+      return `${item.dbName}${schema} (${item.host}) - ${item.username}`
     },
     loadGroups() {
       this.post(`/group/list/`, {}, function(resp) {
@@ -350,6 +366,7 @@ export default {
         this.datasourceFormData[key] = ''
       })
       this.datasourceFormData.id = 0
+      this.datasourceFormData.dbType = 1
       this.datasourceDlgShow = true
       this.$nextTick(() => {
         if (this.groupData.length > 0) {

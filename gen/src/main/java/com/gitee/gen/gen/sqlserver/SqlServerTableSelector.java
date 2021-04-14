@@ -2,8 +2,8 @@ package com.gitee.gen.gen.sqlserver;
 
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
-import com.gitee.gen.gen.TableSelector;
 import com.gitee.gen.gen.TableDefinition;
+import com.gitee.gen.gen.TableSelector;
 
 import java.util.Map;
 
@@ -15,7 +15,7 @@ public class SqlServerTableSelector extends TableSelector {
 	}
 
 	@Override
-	protected String getShowTablesSQL(String dbName) {
+	protected String getShowTablesSQL(GeneratorConfig generatorConfig) {
 		return "SELECT SS.name + '.' + t.name AS table_name " +
 				",ISNULL(ext.value, '') as comment " +
 				"FROM sysobjects t " +

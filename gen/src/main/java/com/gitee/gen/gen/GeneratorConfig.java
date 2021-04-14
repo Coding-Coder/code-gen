@@ -8,6 +8,8 @@ public class GeneratorConfig {
     private Integer dbType;
     /** 数据库名称 */
     private String dbName;
+    /** schema(PGSQL专用) */
+    private String schemaName;
     /** 数据库host */
     private String host;
     /** 数据库端口 */
@@ -88,4 +90,11 @@ public class GeneratorConfig {
         this.password = password;
     }
 
+    public String getSchemaName() {
+        return schemaName;
+    }
+
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
 }

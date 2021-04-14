@@ -8,12 +8,17 @@ import java.util.Objects;
  */
 public class DatasourceConfig {
     private Integer id;
-    /** 数据库类型，1：MySql, 2:Oracle, 3:sqlserver */
+    /**
+     * 数据库类型
+     * @see com.gitee.gen.gen.DbType
+     */
     private Integer dbType;
     /** 数据库驱动 */
     private String driverClass;
     /** 数据库名称 */
     private String dbName;
+    /** schema(PGSQL专用) */
+    private String schemaName;
     /** 数据库host */
     private String host;
     /** 数据库端口 */
@@ -125,6 +130,14 @@ public class DatasourceConfig {
 
     public void setGroupId(Integer groupId) {
         this.groupId = groupId;
+    }
+
+    public String getSchemaName() {
+        return schemaName;
+    }
+
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
     }
 
     @Override

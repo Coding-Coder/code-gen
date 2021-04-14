@@ -51,6 +51,11 @@ public class UpgradeService {
      */
     public void upgrade() {
         upgradeV1_4_0();
+        upgradeV1_4_12();
+    }
+
+    private void upgradeV1_4_12() {
+        this.addColumn(TABLE_DATASOURCE_CONFIG, "schema_name", "varchar(100)");
     }
 
     /**

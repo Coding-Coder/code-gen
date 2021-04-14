@@ -2,8 +2,8 @@ package com.gitee.gen.gen.oracle;
 
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
-import com.gitee.gen.gen.TableSelector;
 import com.gitee.gen.gen.TableDefinition;
+import com.gitee.gen.gen.TableSelector;
 
 import java.util.Map;
 
@@ -22,11 +22,12 @@ public class OracleTableSelector extends TableSelector {
 	 * FROM ALL_TABLES a,USER_TAB_COMMENTS b
 	 * WHERE a.TABLE_NAME=b.TABLE_NAME
 	 * AND a.OWNER='SYSTEM'
-	 * @param showParam
+	 * @param generatorConfig generatorConfig
 	 * @return
 	 */
 	@Override
-	protected String getShowTablesSQL(String showParam) {
+	protected String getShowTablesSQL(GeneratorConfig generatorConfig) {
+		String dbName = generatorConfig.getUsername().toUpperCase();
 		StringBuilder sb = new StringBuilder("");
 		sb.append(" SELECT a.TABLE_NAME as NAME,b.COMMENTS as COMMENTS ");
 		sb.append(" FROM ALL_TABLES a,USER_TAB_COMMENTS b ");
@@ -38,7 +39,7 @@ public class OracleTableSelector extends TableSelector {
 			}
 			sb.append(" AND a.TABLE_NAME IN (" + tables.substring(1) + ")");
 		}
-		sb.append(" AND a.OWNER='"+showParam+"'");
+		sb.append(" AND a.OWNER='"+dbName+"'");
 		return sb.toString();
 	}
 
