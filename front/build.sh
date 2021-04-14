@@ -2,6 +2,8 @@
 
 server_dest="../gen/src/main/resources/public"
 
+npm install
+
 rm -rf dist/*
 npm run build:prod
 echo "复制dist文件内容到$server_dest"
