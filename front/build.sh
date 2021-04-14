@@ -2,7 +2,7 @@
 
 server_dest="../gen/src/main/resources/public"
 
-npm install
+sudo npm install
 
 rm -rf dist/*
 npm run build:prod
