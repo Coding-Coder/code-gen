@@ -91,6 +91,10 @@
         {
           "expression": "${table.comment}",
           "text": "表注释"
+        },
+        {
+          "expression": "${table.schema}",
+          "text": "PostgreSQL中的Schema"
         }
       ]
     },
