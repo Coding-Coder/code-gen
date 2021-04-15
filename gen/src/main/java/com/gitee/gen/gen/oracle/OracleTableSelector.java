@@ -7,6 +7,8 @@ import com.gitee.gen.gen.TableSelector;
 
 import java.util.Map;
 
+import static com.gitee.gen.util.FieldUtil.convertString;
+
 /**
  * 查询mysql数据库表
  */
@@ -46,8 +48,8 @@ public class OracleTableSelector extends TableSelector {
 	@Override
 	protected TableDefinition buildTableDefinition(Map<String, Object> tableMap) {
 		TableDefinition tableDefinition = new TableDefinition();
-		tableDefinition.setTableName((String)tableMap.get("NAME"));
-		tableDefinition.setComment((String)tableMap.get("COMMENTS"));
+		tableDefinition.setTableName(convertString(tableMap.get("NAME")));
+		tableDefinition.setComment(convertString(tableMap.get("COMMENTS")));
 		return tableDefinition;
 	}
 

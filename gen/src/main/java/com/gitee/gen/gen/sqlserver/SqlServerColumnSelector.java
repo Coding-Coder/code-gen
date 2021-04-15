@@ -3,6 +3,7 @@ package com.gitee.gen.gen.sqlserver;
 import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
+import com.gitee.gen.util.FieldUtil;
 
 import java.util.Map;
 import java.util.Set;
@@ -92,14 +93,14 @@ public class SqlServerColumnSelector extends ColumnSelector {
 		
 		ColumnDefinition columnDefinition = new ColumnDefinition();
 		
-		columnDefinition.setColumnName((String)rowMap.get("COLUMN_NAME"));
+		columnDefinition.setColumnName(FieldUtil.convertString(rowMap.get("COLUMN_NAME")));
 		columnDefinition.setIsIdentity((Boolean)rowMap.get("IS_IDENTITY"));
 		boolean isPk = (Integer)rowMap.get("IS_PK") == 1;
 		columnDefinition.setIsPk(isPk);
-		String type = (String) rowMap.get("TYPE");
+		String type = FieldUtil.convertString( rowMap.get("TYPE"));
 		columnDefinition.setType(TYPE_FORMATTER.format(type));
 		
-		columnDefinition.setComment((String)rowMap.get("COMMENT"));
+		columnDefinition.setComment(FieldUtil.convertString(rowMap.get("COMMENT")));
 		
 		return columnDefinition;
 	}

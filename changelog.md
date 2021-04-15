@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.13
+
+- 优化类型转换
+
 ## 1.4.12
 
 - PostgreSQL数据源可指定schema（模板中可使用：`${table.schema}`）

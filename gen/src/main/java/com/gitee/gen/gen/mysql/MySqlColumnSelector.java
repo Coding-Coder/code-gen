@@ -4,6 +4,7 @@ import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.TypeFormatter;
+import com.gitee.gen.util.FieldUtil;
 
 import java.util.Map;
 import java.util.Set;
@@ -42,19 +43,19 @@ public class MySqlColumnSelector extends ColumnSelector {
 		}
 		
 		ColumnDefinition columnDefinition = new ColumnDefinition();
+
+		columnDefinition.setColumnName(FieldUtil.convertString(rowMap.get("FIELD")));
 		
-		columnDefinition.setColumnName((String)rowMap.get("FIELD"));
-		
-		boolean isIdentity = "auto_increment".equalsIgnoreCase((String)rowMap.get("EXTRA"));
+		boolean isIdentity = "auto_increment".equalsIgnoreCase(FieldUtil.convertString(rowMap.get("EXTRA")));
 		columnDefinition.setIsIdentity(isIdentity);
 		
-		boolean isPk = "PRI".equalsIgnoreCase((String)rowMap.get("KEY"));
+		boolean isPk = "PRI".equalsIgnoreCase(FieldUtil.convertString(rowMap.get("KEY")));
 		columnDefinition.setIsPk(isPk);
 		
-		String type = (String)rowMap.get("TYPE");
+		String type = FieldUtil.convertString(rowMap.get("TYPE"));
 		columnDefinition.setType(TYPE_FORMATTER.format(type));
 		
-		columnDefinition.setComment((String)rowMap.get("COMMENT"));
+		columnDefinition.setComment(FieldUtil.convertString(rowMap.get("COMMENT")));
 		
 		return columnDefinition;
 	}

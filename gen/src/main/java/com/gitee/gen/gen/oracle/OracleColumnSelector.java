@@ -4,6 +4,7 @@ import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.TypeFormatter;
+import com.gitee.gen.util.FieldUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
@@ -56,14 +57,14 @@ public class OracleColumnSelector extends ColumnSelector {
 		
 		ColumnDefinition columnDefinition = new ColumnDefinition();
 		
-		columnDefinition.setColumnName((String)rowMap.get("FIELD"));
+		columnDefinition.setColumnName(FieldUtil.convertString(rowMap.get("FIELD")));
 
 		columnDefinition.setIsIdentity(false);
 		
-		boolean isPk = "true".equalsIgnoreCase((String)rowMap.get("KEY"));
+		boolean isPk = "true".equalsIgnoreCase(FieldUtil.convertString(rowMap.get("KEY")));
 		columnDefinition.setIsPk(isPk);
 		
-		String type = (String)rowMap.get("TYPE");
+		String type = FieldUtil.convertString(rowMap.get("TYPE"));
 		// 如果是number
 		if (StringUtils.containsIgnoreCase(type, "number")) {
 			// 有精度则为decimal，否则是int
@@ -76,7 +77,7 @@ public class OracleColumnSelector extends ColumnSelector {
 		}
 		columnDefinition.setType(TYPE_FORMATTER.format(type));
 		
-		columnDefinition.setComment((String)rowMap.get("COMMENTS"));
+		columnDefinition.setComment(FieldUtil.convertString(rowMap.get("COMMENTS")));
 
 		return columnDefinition;
 	}

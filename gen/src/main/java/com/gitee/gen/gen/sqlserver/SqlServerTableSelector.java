@@ -7,6 +7,8 @@ import com.gitee.gen.gen.TableSelector;
 
 import java.util.Map;
 
+import static com.gitee.gen.util.FieldUtil.convertString;
+
 public class SqlServerTableSelector extends TableSelector {
 	
 	public SqlServerTableSelector(ColumnSelector columnSelector,
@@ -50,8 +52,8 @@ public class SqlServerTableSelector extends TableSelector {
 	@Override
 	protected TableDefinition buildTableDefinition(Map<String, Object> tableMap) {
 		TableDefinition tableDefinition = new TableDefinition();
-		tableDefinition.setTableName((String)tableMap.get("TABLE_NAME"));
-		tableDefinition.setComment((String)tableMap.get("COMMENT"));
+		tableDefinition.setTableName(convertString(tableMap.get("TABLE_NAME")));
+		tableDefinition.setComment(convertString(tableMap.get("COMMENT")));
 		return tableDefinition;
 	}
 
