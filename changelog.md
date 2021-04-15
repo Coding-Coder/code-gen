@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.14
+
+- 修复`不支持“variant”数据类型`错误 [#I3CSLO](https://gitee.com/durcframework/code-gen/issues/I3CSLO)
+
 ## 1.4.13
 
 - 优化类型转换
