@@ -22,8 +22,10 @@ public class MySqlTableSelector extends TableSelector {
 	@Override
 	protected String getShowTablesSQL(GeneratorConfig generatorConfig) {
 		String dbName = generatorConfig.getDbName();
-		// 兼容dbName包含'-'字段会报错的情况
-		dbName = dbName.contains("-") ? String.format("`%s`",dbName): dbName;
+		// 兼容dbName包含特殊字符会报错的情况
+		if (!(dbName.startsWith("`") && dbName.endsWith("`"))) {
+			dbName = String.format("`%s`",dbName);
+		}
 		String sql = "SHOW TABLE STATUS FROM " + dbName;
 		if(this.getSchTableNames() != null && this.getSchTableNames().size() > 0) {
 			StringBuilder tables = new StringBuilder();
