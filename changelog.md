@@ -3,6 +3,7 @@
 ## 1.4.14
 
 - 修复`不支持“variant”数据类型`错误 [#I3CSLO](https://gitee.com/durcframework/code-gen/issues/I3CSLO)
+- 修复数据库名字带点.生成错误问题 [#I2EBRL](https://gitee.com/durcframework/code-gen/issues/I2EBRL)
 
 ## 1.4.13
 
