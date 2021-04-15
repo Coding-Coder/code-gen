@@ -19,7 +19,7 @@ public class SqlServerTableSelector extends TableSelector {
 	@Override
 	protected String getShowTablesSQL(GeneratorConfig generatorConfig) {
 		return "SELECT SS.name + '.' + t.name AS table_name " +
-				",ISNULL(ext.value, '') as comment " +
+				",CONVERT(varchar(50),ISNULL(ext.value, '')) as comment " +
 				"FROM sysobjects t " +
 				"INNER JOIN sys.objects SO ON t.name = SO.name " +
 				"INNER JOIN sys.schemas  SS ON SO.schema_id = SS.schema_id " +
