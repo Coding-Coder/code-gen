@@ -24,6 +24,7 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
     private static final String SHOW_COLUMN_SQL = "SELECT  " +
             " pg_attribute.attname AS colname,  " +
             " atttypid::regtype AS type,  " +
+            " numeric_scale as SCALE,  " +
             " col_description ( pg_attribute.attrelid, pg_attribute.attnum ) AS cmt,  " +
             " pg_attribute.attnum = pg_constraint.conkey [ 1 ] AS is_pk,  " +
             "CASE WHEN POSITION ( 'nextval' IN column_default ) > 0 THEN 1 ELSE 0 END AS is_identity  " +

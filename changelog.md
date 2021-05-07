@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.15
+
+- 修复PostgreSQL的numeric字段映射为题
+
 ## 1.4.14
 
 - 修复`不支持“variant”数据类型`错误 [#I3CSLO](https://gitee.com/durcframework/code-gen/issues/I3CSLO)
