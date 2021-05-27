@@ -1,5 +1,9 @@
 # changelog
 
+## 1.4.16
+
+- 修复表名前缀替换问题 [pr](https://gitee.com/durcframework/code-gen/pulls/9/files)
+
 ## 1.4.15
 
 - 修复PostgreSQL的numeric字段映射为题
