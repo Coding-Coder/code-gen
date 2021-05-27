@@ -85,7 +85,7 @@ public class SQLContext {
         if(delPrefix != null){
             String[] split = delPrefix.split(",");
             for (String prefix : split){
-                tableName = tableName.startsWith(prefix) && !StringUtils.isEmpty(prefix) ? tableName.replace(prefix, "") : tableName;
+                tableName = StringUtils.removeStart(tableName, prefix);
             }
         }
 
