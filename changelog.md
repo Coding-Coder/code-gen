@@ -6,7 +6,7 @@
 
 ## 1.4.15
 
-- 修复PostgreSQL的numeric字段映射为题
+- 修复PostgreSQL的numeric字段映射问题
 
 ## 1.4.14
 
