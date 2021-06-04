@@ -50,6 +50,9 @@ public class GeneratorConfig implements WebMvcConfigurer {
             frontRoot = StringUtils.trimTrailingCharacter(frontLocation, '/');
         } else {
             String homeDir = SystemUtil.getBinPath();
+            if ("/".equals(homeDir)) {
+                homeDir = "";
+            }
             frontRoot = homeDir + "/view";
         }
         log.info("前端资源目录：{}", frontRoot);
