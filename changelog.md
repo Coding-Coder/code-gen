@@ -1,5 +1,13 @@
 # changelog
 
+## 1.5.0
+
+- 支持oracle服务名和SID连接 [pr](https://gitee.com/durcframework/code-gen/pulls/11)
+- 支持模板指定目录名称 by Mario Luo
+- 支持模板导入导出 by Mario Luo
+- 优化表前缀删除功能 by Mario Luo
+- 调整静态文件编译目录
+
 ## 1.4.16
 
 - 修复表名前缀替换问题 [pr](https://gitee.com/durcframework/code-gen/pulls/9/files)
