@@ -13,6 +13,8 @@ echo "开始构建..."
 
 cd front
 
+npm install
+
 npm run build:prod
 
 cd ..
