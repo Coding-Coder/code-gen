@@ -29,19 +29,18 @@ public class OracleTableSelector extends TableSelector {
 	 */
 	@Override
 	protected String getShowTablesSQL(GeneratorConfig generatorConfig) {
-		String dbName = generatorConfig.getUsername().toUpperCase();
+		String owner = generatorConfig.getSchemaName().toUpperCase();
 		StringBuilder sb = new StringBuilder("");
-		sb.append(" SELECT a.TABLE_NAME as NAME,b.COMMENTS as COMMENTS ");
-		sb.append(" FROM ALL_TABLES a,USER_TAB_COMMENTS b ");
-		sb.append(" WHERE a.TABLE_NAME=b.TABLE_NAME ");
+		sb.append(" SELECT TABLE_NAME AS NAME, COMMENTS FROM all_tab_comments ");
+		sb.append(" WHERE 1=1 ");
 		if(this.getSchTableNames() != null && this.getSchTableNames().size() > 0) {
 			StringBuilder tables = new StringBuilder();
 			for (String table : this.getSchTableNames()) {
 				tables.append(",'").append(table).append("'");
 			}
-			sb.append(" AND a.TABLE_NAME IN (" + tables.substring(1) + ")");
+			sb.append(" AND TABLE_NAME IN (" + tables.substring(1) + ")");
 		}
-		sb.append(" AND a.OWNER='"+dbName+"'");
+		sb.append(" AND OWNER='"+owner+"'");
 		return sb.toString();
 	}
 

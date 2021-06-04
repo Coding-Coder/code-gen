@@ -13,7 +13,7 @@ public enum DbType {
     ORACLE(2,
             "Oracle",
             "oracle.jdbc.driver.OracleDriver",
-            "jdbc:oracle:thin:@%s:%s:%s"),
+            "jdbc:oracle:thin:@%s:%s%s"),
 
     SQL_SERVER(3,
             "SQL Server",

@@ -17,26 +17,45 @@ public class OracleColumnSelector extends ColumnSelector {
 
 	private static final TypeFormatter TYPE_FORMATTER = new OracleTypeFormatter();
 
-	private static final String COLUMN_SQL = "select "
-			+ " utc.column_name as FIELD,utc.data_type TYPE, utc.data_scale SCALE, utc.data_length 最大长度, "
-			+ " 		CASE utc.nullable WHEN 'N' THEN '否' ELSE '是' END 可空, "
-			+ " utc.data_default 默认值,ucc.comments COMMENTS,UTC.table_name 表名, "
-			+ " CASE UTC.COLUMN_NAME "
-			+ " WHEN (select "
-			+ " 		col.column_name "
-			+ " 		from "
-			+ " 		user_constraints con,user_cons_columns col "
-			+ " 		where "
-			+ " 	con.constraint_name=col.constraint_name and con.constraint_type='P' "
-			+ " 		and col.table_name='%s')   THEN 'true' ELSE 'false' END AS KEY "
-			+ " 		from "
-			+ " user_tab_columns utc,user_col_comments ucc "
-			+ " 		where "
-			+ " utc.table_name = ucc.table_name "
-			+ " and utc.column_name = ucc.column_name "
-			+ " and utc.table_name = '%s' "
-			+ " order by "
-			+ " column_id ";
+//	private static final String COLUMN_SQL = "select "
+//			+ " utc.column_name as FIELD,utc.data_type TYPE, utc.data_scale SCALE, utc.data_length 最大长度, "
+//			+ " 		CASE utc.nullable WHEN 'N' THEN '否' ELSE '是' END 可空, "
+//			+ " utc.data_default 默认值,ucc.comments COMMENTS,UTC.table_name 表名, "
+//			+ " CASE UTC.COLUMN_NAME "
+//			+ " WHEN (select "
+//			+ " 		col.column_name "
+//			+ " 		from "
+//			+ " 		user_constraints con,user_cons_columns col "
+//			+ " 		where "
+//			+ " 	con.constraint_name=col.constraint_name and con.constraint_type='P' "
+//			+ " 		and col.table_name='%s')   THEN 'true' ELSE 'false' END AS KEY "
+//			+ " 		from "
+//			+ " user_tab_columns utc,user_col_comments ucc "
+//			+ " 		where "
+//			+ " utc.table_name = ucc.table_name "
+//			+ " and utc.column_name = ucc.column_name "
+//			+ " and utc.table_name = '%s' "
+//			+ " order by "
+//			+ " column_id ";
+
+	private static final String COLUMN_SQL = " SELECT " +
+			" atc.COLUMN_NAME FIELD, atc.DATA_TYPE TYPE, atc.DATA_SCALE SCALE, atc.DATA_LENGTH 最大长度, " +
+			" CASE atc.NULLABLE WHEN 'N' THEN '否' ELSE '是' END 可空, " +
+			" atc.DATA_DEFAULT 默认值, acc.COMMENTS COMMENTS, atc.TABLE_NAME 表名, " +
+			" CASE atc.COLUMN_NAME " +
+			" WHEN " +
+			" ( SELECT col.column_name FROM all_constraints con " +
+			"	LEFT JOIN all_cons_columns col ON con.table_name = col.table_name " +
+			"	AND con.OWNER = col.OWNER AND con.CONSTRAINT_NAME = col.CONSTRAINT_NAME " +
+			"   WHERE con.constraint_type = 'P' " +
+			"	AND col.table_name = '%s' AND con.OWNER = '%s' ) " +
+			" THEN 'true' ELSE 'false' END AS KEY " +
+			" FROM ALL_TAB_COLUMNS atc " +
+			" LEFT JOIN ALL_COL_COMMENTS acc " +
+			" ON acc.TABLE_NAME = atc.TABLE_NAME AND acc.COLUMN_NAME = atc.COLUMN_NAME " +
+			" AND acc.OWNER = atc.OWNER " +
+			" WHERE atc.TABLE_NAME = '%s' AND atc.OWNER = '%s' " +
+			" ORDER BY atc.COLUMN_ID ";
 
 	public OracleColumnSelector(GeneratorConfig generatorConfig) {
 		super(generatorConfig);
@@ -44,7 +63,8 @@ public class OracleColumnSelector extends ColumnSelector {
 
 	@Override
 	protected String getColumnInfoSQL(String tableName) {
-		return String.format(COLUMN_SQL, tableName, tableName);
+		String owner = this.getGeneratorConfig().getSchemaName();
+		return String.format(COLUMN_SQL, tableName, owner, tableName, owner);
 	}
 	
 	@Override

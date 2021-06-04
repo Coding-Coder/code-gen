@@ -27,6 +27,7 @@ Object.assign(Vue.prototype, {
       if (code === '0') { // 成功
         callback && callback.call(that, resp)
       } else {
+        errorCallback && errorCallback.call(that, resp)
         that.$message.error(resp.msg)
       }
     }).catch(function(error) {
