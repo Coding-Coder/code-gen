@@ -2,6 +2,11 @@
 
 ## 1.5.0
 
+**注意：** 
+
+> 从1.5.0开始前端打包后的文件不再放到`resource/public`下，而是单独放到外面`gen/view`下。
+> 理论上前端打包后的文件也属于编译后的文件，同class文件一样，不能提交到git，git只存放源码，这样在做些PR合并的时候会减少文件的冲突。
+
 - 支持oracle服务名和SID连接 [pr](https://gitee.com/durcframework/code-gen/pulls/11)
 - 支持模板指定目录名称 by Mario Luo
 - 支持模板导入导出 by Mario Luo

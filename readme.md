@@ -48,6 +48,10 @@ clone代码，然后执行`docker-build.sh`脚本
 - db：数据库初始化文件
 - script：辅助脚本
 
+## 参与贡献
+
+欢迎贡献代码，完善功能，PR请提交到`pr`分支
+
 ## 自主构建
 
 > 需要安装Maven3，Java8
