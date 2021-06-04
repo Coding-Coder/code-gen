@@ -13,9 +13,9 @@ echo "开始构建..."
 
 cd front
 
-npm install
+npm install --unsafe-perm
 
-npm run build:prod
+npm run build:prod --unsafe-perm
 
 cd ..
 
