@@ -57,7 +57,10 @@ public class GeneratorService {
             setDelPrefix(sqlContext, generatorParam.getDelPrefix());
             for (int tcId : generatorParam.getTemplateConfigIdList()) {
                 TemplateConfig template = templateConfigService.getById(tcId);
-                String folder = template.getName();
+                String folder = template.getFolder();
+                if (StringUtils.isEmpty(folder)) {
+                    folder = template.getName();
+                }
                 String fileName = doGenerator(sqlContext, template.getFileName());
                 String content = doGenerator(sqlContext, template.getContent());
                 content = this.formatCode(fileName, content);

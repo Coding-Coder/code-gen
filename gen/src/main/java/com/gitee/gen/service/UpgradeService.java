@@ -52,6 +52,11 @@ public class UpgradeService {
     public void upgrade() {
         upgradeV1_4_0();
         upgradeV1_4_12();
+        upgradeV1_4_17();
+    }
+
+    private void upgradeV1_4_17() {
+        this.addColumn(TABLE_TEMPLATE_CONFIG, "folder", "varchar(64)");
     }
 
     private void upgradeV1_4_12() {

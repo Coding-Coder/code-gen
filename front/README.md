@@ -14,9 +14,4 @@
 
 - 自动构建
 
-执行`build.sh`
-
-- 手动构建
-
-  - 执行`npm run build:prod`进行打包，结果在dist下
-  - 把dist中的所有文件，放到`gen/src/main/resources/public`下
+执行`npm run build:prod`

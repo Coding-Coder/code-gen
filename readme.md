@@ -54,19 +54,18 @@ clone代码，然后执行`docker-build.sh`脚本
 
 - 自动构建[推荐]：
 
-Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist`文件夹下。
+Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`文件夹下。
 
 - 手动构建：
     
     `cd front`
     
-    - 执行`npm run build:prod`进行打包，结果在dist下
-    - 把dist中的所有文件，放到`gen/src/main/resources/public`下
+    - 执行`npm run build:prod`
     
     `cd ..`
     
-    - 执行`mvn clean package`，在`gen/target`下会生成一个`gen-xx-SNAPSHOT.jar`（xx表示本号）
-    - 将`gen-xx-SNAPSHOT.jar`和db下的`gen.db`放在同一个文件夹下
+    - 执行`mvn clean package`，在`gen/target`下会生成一个`gen-1.0.0-SNAPSHOT.jar`（xx表示本号）
+    - 将`gen-1.0.0-SNAPSHOT.jar`放在`dist/gen`下，确保jar和`view`在同一目录
     - 执行`java -jar gen-xx-SNAPSHOT.jar`
     - 浏览器访问`http://localhost:6969/`
 
@@ -79,4 +78,4 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist`文�
 
 ## 沟通交流
 
-Q群：167643071
+Q群：565894770

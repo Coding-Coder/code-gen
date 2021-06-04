@@ -51,7 +51,7 @@
         </el-table-column>
       </el-table>
     </el-tabs>
-    <el-dialog title="批量导入模板" :visible.sync="importDialogVisible" :close-on-press-escape="false" :close-on-click-modal="false">
+    <el-dialog title="批量导入模板" :visible.sync="importDialogVisible" :close-on-press-escape="false" :close-on-click-modal="false" @closed="onImportDialogClosed">
       <el-upload  v-if="!importLoading" drag multiple accept=".txt,.vm" action="http://xx.nothing" :limit="20"
                   :show-file-list="false"
                   :http-request="uploadTemplates">
@@ -195,6 +195,11 @@ export default {
       this.importFiles = []
       this.importLoading = false
       this.importDialogVisible = true
+    },
+    onImportDialogClosed() {
+      if(this.currentTab) {
+        this.loadTable(this.currentTab.id)
+      }
     },
     uploadTemplates(target) {
       this.importLoading = true

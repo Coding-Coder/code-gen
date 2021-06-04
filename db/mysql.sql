@@ -23,6 +23,7 @@ CREATE TABLE `datasource_config` (
 CREATE TABLE `template_config` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '' COMMENT '模板名称',
+  `folder` varchar(64) NOT NULL DEFAULT '' COMMENT '目录名称',
   `file_name` varchar(128) NOT NULL DEFAULT '' COMMENT '文件名称',
   `content` text NOT NULL COMMENT '内容',
   `is_deleted` int(11) NOT NULL DEFAULT '0' COMMENT '是否删除，1：已删除，0：未删除',

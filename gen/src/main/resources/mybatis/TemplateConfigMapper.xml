@@ -6,6 +6,7 @@
         <result column="group_id" property="groupId" />
         <result column="group_name" property="groupName" />
         <result column="name" property="name" />
+        <result column="folder" property="folder" />
         <result column="file_name" property="fileName" />
         <result column="content" property="content" />
         <result column="is_deleted" property="isDeleted" />
@@ -17,6 +18,7 @@
         , t.group_id
         , t.group_name
         , t.name
+        , t.folder
         , t.file_name
         , t.content
         , t.is_deleted
@@ -56,6 +58,7 @@
             group_id,
             group_name,
             name,
+            folder,
             file_name,
             content,
             is_deleted,
@@ -64,6 +67,7 @@
             #{groupId},
             #{groupName},
             #{name},
+            #{folder},
             #{fileName},
             #{content},
             #{isDeleted},
@@ -145,6 +149,9 @@
             </if>
             <if test="name != null" >
                 name=#{name},
+            </if>
+            <if test="folder != null" >
+                folder=#{folder},
             </if>
             <if test="fileName != null" >
                 file_name=#{fileName},
