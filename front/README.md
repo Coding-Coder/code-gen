@@ -4,8 +4,8 @@
 
 1. 启动服务端程序
 2. `cd front`
-3. 执行`npm install --registry=https://registry.npm.taobao.org`
-4. 执行`npm run dev`，访问`http://localhost:9528/`
+3. 执行`npm install --registry=https://registry.npm.taobao.org`，（下载依赖，执行一次即可）
+4. 执行`npm run dev`，访问`http://localhost:9528/`，（后续每次启动都需要执行）
 
 
 - 修改端口号：打开`vue.config.js`，找到`port`属性
