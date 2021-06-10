@@ -24,6 +24,8 @@
         </span>
       </el-tab-pane>
       <el-button type="text" size="mini" icon="el-icon-plus" style="margin-bottom: 10px;" @click="onAdd">新增模板</el-button>
+      <el-button type="text" size="mini" icon="el-icon-upload2" style="margin-bottom: 10px;" @click="onImportTemplates">批量导入</el-button>
+      <el-button type="text" size="mini" icon="el-icon-download" style="margin-bottom: 10px;" @click="downloadTemplates">导出模板</el-button>
       <el-table
         :data="tableData"
         border
@@ -49,17 +51,35 @@
         </el-table-column>
       </el-table>
     </el-tabs>
+    <el-dialog title="批量导入模板" :visible.sync="importDialogVisible" :close-on-press-escape="false" :close-on-click-modal="false" @closed="onImportDialogClosed">
+      <el-upload  v-if="!importLoading" drag multiple accept=".txt,.vm" action="http://xx.nothing" :limit="20"
+                  :show-file-list="false"
+                  :http-request="uploadTemplates">
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      </el-upload>
+      <el-table v-if="importLoading" :data="importFiles" style="width: 100%">
+        <el-table-column prop="name" label="文件" width="180"></el-table-column>
+        <el-table-column prop="state" label="状态"></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import JSZip from "jszip"
+import { saveAs } from 'file-saver'
+
 export default {
   data() {
     return {
       activeName: '',
       tableData: [],
       groupData: [],
-      currentTab: { id: 0 }
+      currentTab: { id: 0 },
+      importDialogVisible: false,
+      importLoading: false,
+      importFiles: [],
     }
   },
   created() {
@@ -171,6 +191,65 @@ export default {
         })
       })
     },
+    onImportTemplates() {
+      this.importFiles = []
+      this.importLoading = false
+      this.importDialogVisible = true
+    },
+    onImportDialogClosed() {
+      if(this.currentTab) {
+        this.loadTable(this.currentTab.id)
+      }
+    },
+    uploadTemplates(target) {
+      this.importLoading = true
+      const file = target.file
+      this.importFiles.push({
+        name: file.name,
+        state: "上传中..."
+      })
+      const reader = new FileReader()
+      reader.readAsText(file)
+      reader.onloadend = async () => {
+        let content = reader.result
+        let templateName = file.name
+        let splitIdx = templateName.lastIndexOf(".");
+        if (splitIdx !== -1) {
+          templateName = templateName.substring(0, splitIdx)
+        }
+        let data = {
+          groupId: this.currentTab.id,
+          groupName: this.currentTab.groupName,
+          name: templateName,
+          content: content,
+        }
+        await this.saveTemplate(data)
+        this.importFiles.forEach(item => {
+          if(item.name === file.name) {
+            item.state = "成功"
+          }
+        })
+      }
+      return true
+    },
+    saveTemplate(data) {
+      const uri = '/template/save'
+      this.post(uri, data)
+    },
+    downloadTemplates() {
+      const folder = this.currentTab.groupName;
+      const filename = folder + ".zip"
+      const zip = new JSZip()
+      const folderZip = zip.folder(folder)
+      this.tableData.forEach(row => {
+        folderZip.file(row.name + ".vm", row.content)
+      })
+      // 下载
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
+        // see FileSaver.js
+        saveAs(content, filename)
+      })
+    }
   }
 }
 </script>

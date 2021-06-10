@@ -33,6 +33,9 @@
           <el-form-item prop="name" label="模板名称">
             <el-input v-model="formData.name" show-word-limit maxlength="64" />
           </el-form-item>
+          <el-form-item prop="folder" label="文件目录">
+            <el-input v-model="formData.folder" placeholder="为空则是模板名" show-word-limit maxlength="64" />
+          </el-form-item>
           <el-form-item prop="fileName" label="文件名称">
             <el-input v-model="formData.fileName" placeholder="可使用velocity变量" show-word-limit maxlength="100" />
           </el-form-item>
@@ -118,6 +121,7 @@ export default {
         groupId: '',
         groupName: '',
         name: '',
+        folder: '',
         fileName: '',
         content: ''
       },

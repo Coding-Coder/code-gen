@@ -133,14 +133,34 @@
         <el-form-item label="Port" prop="port">
           <el-input v-model="datasourceFormData.port" placeholder="端口" show-word-limit maxlength="10" />
         </el-form-item>
-        <el-form-item label="Database" prop="dbName">
-          <el-input v-model="datasourceFormData.dbName" placeholder="数据库" show-word-limit maxlength="64" />
+        <el-form-item :label="dbNamePlaceholder" prop="dbName">
+          <el-input  v-model="datasourceFormData.dbName" :placeholder="dbNamePlaceholder" show-word-limit maxlength="64" />
         </el-form-item>
-        <el-form-item v-show="showPgSqlSchema" label="Schema" prop="schemaName">
-          <el-input v-model="datasourceFormData.schemaName" placeholder="schema" show-word-limit maxlength="64" />
+        <el-form-item label="连接类型" v-show="showOracleFields">
+          <el-select v-model="datasourceFormData.oracleConnType">
+            <el-option
+              v-for="item in oracleConnTypeList"
+              :key="item.val"
+              :label="item.lab"
+              :value="item.val"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-show="showPgSqlSchema" :label="schemaPlaceholder" :prop="schemaPlaceholder">
+          <el-input v-model="datasourceFormData.schemaName" :placeholder="schemaPlaceholder+',如SCOTT'" show-word-limit maxlength="64" />
         </el-form-item>
         <el-form-item label="Username" prop="username">
           <el-input v-model="datasourceFormData.username" placeholder="用户名" show-word-limit maxlength="100" />
+        </el-form-item>
+        <el-form-item label="角色" v-show="showOracleFields">
+          <el-select v-model="datasourceFormData.oracleRole">
+            <el-option
+              v-for="item in oracleRoleList"
+              :key="item.val"
+              :label="item.lab"
+              :value="item.val"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="Password" prop="password">
           <el-input v-model="datasourceFormData.password" type="password" placeholder="密码" show-word-limit maxlength="100" />
@@ -234,12 +254,28 @@ export default {
         username: '',
         password: '',
         dbName: '',
+        oracleConnType: '',
+        oracleRole: '',
         schemaName: '',
         packageName: '',
         delPrefix: '',
         groupId: ''
       },
       dbTypeConfig: [],
+      oracleConnTypeList: [{
+        lab:"服务名",
+        val:1
+      },{
+        lab:"SID",
+        val:2
+      }],
+      oracleRoleList: [{
+        lab: "SYSDBA",
+        val: 1
+      },{
+        lab: "SYSOPER",
+        val: 2
+      }],
       datasourceRule: {
         host: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -277,7 +313,24 @@ export default {
   },
   computed: {
     showPgSqlSchema() {
-      return this.datasourceFormData.dbType === DB_TYPE.PostgreSQL;
+      return this.datasourceFormData.dbType === DB_TYPE.PostgreSQL || this.datasourceFormData.dbType === DB_TYPE.Oracle;
+    },
+    dbNamePlaceholder() {
+      if(this.datasourceFormData.dbType === DB_TYPE.Oracle) {
+        return "服务名";
+      } else {
+        return "数据库";
+      }
+    },
+    schemaPlaceholder() {
+      if(this.datasourceFormData.dbType === DB_TYPE.Oracle) {
+        return "数据库";
+      } else {
+        return "schema";
+      }
+    },
+    showOracleFields() {
+      return this.datasourceFormData.dbType === DB_TYPE.Oracle;
     }
   },
   created() {
@@ -360,6 +413,44 @@ export default {
       const id = this.getAttr(current_datasource_id_key)
       return parseInt(id) || ''
     },
+    packageOracleFields() {
+      // 处理oracle连接数据
+      if(this.datasourceFormData.dbType === DB_TYPE.Oracle) {
+        // 处理连接类型
+        if (this.datasourceFormData.oracleConnType == 1) {
+          this.datasourceFormData.dbName = "/" + this.datasourceFormData.dbName;
+        } else if (this.datasourceFormData.oracleConnType == 2) {
+          this.datasourceFormData.dbName = ":" + this.datasourceFormData.dbName;
+        }
+        // 处理账号角色
+        if (this.datasourceFormData.oracleRole == 1) {
+          this.datasourceFormData.username += " AS SYSDBA";
+        } else {
+          this.datasourceFormData.username += " AS SYSOPER";
+        }
+      }
+    },
+    unPackOracleFields(item) {
+      // 处理oracle属性 拆包
+      if (item.dbType = DB_TYPE.Oracle) {
+        // 处理连接类型
+        if (item.dbName.startsWith("/")) {
+          item.oracleConnType = 1;
+          item.dbName = item.dbName.replace("/","");
+        } else if (item.dbName.startsWith(":")) {
+          item.oracleConnType = 2;
+          item.dbName = item.dbName.replace(":","");
+        }
+        // 处理账号角色
+        if (item.username.includes("AS SYSDBA")) {
+          item.oracleRole = 1;
+          item.username = item.username.replace(" AS SYSDBA", "");
+        } else if (item.username.includes("AS SYSOPER")) {
+          item.oracleRole = 2;
+          item.username = item.username.replace(" AS SYSOPER", "");
+        }
+      }
+    },
     onDataSourceAdd() {
       this.datasourceTitle = '新建连接'
       Object.keys(this.datasourceFormData).forEach(key => {
@@ -394,6 +485,7 @@ export default {
     },
     onDataSourceUpdate(item) {
       this.datasourceTitle = '修改连接'
+      this.unPackOracleFields(item);
       Object.assign(this.datasourceFormData, item)
       this.datasourceDlgShow = true
     },
@@ -431,15 +523,33 @@ export default {
       })
     },
     onDatasourceTest() {
+      this.packageOracleFields();
       this.$refs.datasourceForm.validate((valid) => {
         if (valid) {
           this.post('/datasource/test', this.datasourceFormData, resp => {
+            if (this.datasourceFormData.dbType === DB_TYPE.Oracle) {
+              // 处理连接类型
+              if (this.datasourceFormData.oracleConnType == 1) {
+                this.datasourceFormData.dbName = this.datasourceFormData.dbName.replace("/","");
+              } else if (this.datasourceFormData.oracleConnType == 2) {
+                this.datasourceFormData.dbName = this.datasourceFormData.dbName.replace(":");
+              }
+              // 处理账号角色
+              if (this.datasourceFormData.oracleRole == 1) {
+                this.datasourceFormData.username = this.datasourceFormData.username.replace(" AS SYSDBA","");
+              } else {
+                this.datasourceFormData.username = this.datasourceFormData.username.replace(" AS SYSOPER","");
+              }
+            }
             this.tip('连接成功')
+          }, err => {
+            this.unPackOracleFields(this.datasourceFormData);
           })
         }
       })
     },
     onDatasourceSave() {
+      this.packageOracleFields();
       this.$refs.datasourceForm.validate((valid) => {
         if (valid) {
           this.post('/datasource/test', this.datasourceFormData, resp => {

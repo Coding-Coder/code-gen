@@ -1,8 +1,6 @@
 package com.gitee.gen.entity;
 
 
-import java.util.Objects;
-
 /**
  * 模板表
  */
@@ -12,6 +10,10 @@ public class TemplateConfig {
     private String groupName;
     /** 模板名称 */
     private String name;
+    /**
+     * 目录
+     */
+    private String folder;
     /** 文件名称 */
     private String fileName;
     /** 内容 */
@@ -75,23 +77,60 @@ public class TemplateConfig {
         this.isDeleted = isDeleted;
     }
 
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TemplateConfig)) {
+            return false;
+        }
+
         TemplateConfig that = (TemplateConfig) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(groupId, that.groupId) &&
-                Objects.equals(groupName, that.groupName) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(fileName, that.fileName) &&
-                Objects.equals(content, that.content) &&
-                Objects.equals(isDeleted, that.isDeleted);
+
+        if (id != null ? !id.equals(that.id) : that.id != null) {
+            return false;
+        }
+        if (groupId != null ? !groupId.equals(that.groupId) : that.groupId != null) {
+            return false;
+        }
+        if (groupName != null ? !groupName.equals(that.groupName) : that.groupName != null) {
+            return false;
+        }
+        if (name != null ? !name.equals(that.name) : that.name != null) {
+            return false;
+        }
+        if (folder != null ? !folder.equals(that.folder) : that.folder != null) {
+            return false;
+        }
+        if (fileName != null ? !fileName.equals(that.fileName) : that.fileName != null) {
+            return false;
+        }
+        if (content != null ? !content.equals(that.content) : that.content != null) {
+            return false;
+        }
+        return isDeleted != null ? isDeleted.equals(that.isDeleted) : that.isDeleted == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, groupId, groupName, name, fileName, content, isDeleted);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (groupId != null ? groupId.hashCode() : 0);
+        result = 31 * result + (groupName != null ? groupName.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (folder != null ? folder.hashCode() : 0);
+        result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -101,6 +140,7 @@ public class TemplateConfig {
                 ", groupId=" + groupId +
                 ", groupName='" + groupName + '\'' +
                 ", name='" + name + '\'' +
+                ", folder='" + folder + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", content='" + content + '\'' +
                 ", isDeleted=" + isDeleted +

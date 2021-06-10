@@ -18,7 +18,7 @@ public class OracleColumnSelector extends ColumnSelector {
 	private static final TypeFormatter TYPE_FORMATTER = new OracleTypeFormatter();
 
 //	private static final String COLUMN_SQL = "select "
-//			+ " utc.column_name as FIELD,utc.data_type TYPE, utc.data_scale SCALE, utc.data_length 最大长度, "
+//			+ " utc.column_name as FIELD,utc.data_type TYPE, utc.data_scale SCALE, utc.data_length MAXLENGTH, "
 //			+ " 		CASE utc.nullable WHEN 'N' THEN '否' ELSE '是' END 可空, "
 //			+ " utc.data_default 默认值,ucc.comments COMMENTS,UTC.table_name 表名, "
 //			+ " CASE UTC.COLUMN_NAME "

@@ -83,7 +83,7 @@ public class SQLContext {
     public String getJavaBeanNameLF() {
         String tableName = tableDefinition.getTableName();
         if(delPrefix != null){
-            String[] split = delPrefix.split(",");
+            String[] split = delPrefix.split("\\s*,\\s*");
             for (String prefix : split){
                 tableName = StringUtils.removeStart(tableName, prefix);
             }

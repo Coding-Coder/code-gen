@@ -6,6 +6,7 @@ import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.entity.TemplateGroup;
 import com.gitee.gen.service.TemplateConfigService;
 import com.gitee.gen.service.TemplateGroupService;
+import com.gitee.gen.util.TemplateMetaUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,6 +59,7 @@ public class TemplateConfigController {
                 String groupName = idMap.getOrDefault(gid, "");
                 templateConfig.setGroupName(groupName);
             }
+            templateConfig.setContent(TemplateMetaUtils.generateMetaContent(templateConfig));
         }
         return Action.ok(templateConfigs);
     }
@@ -71,6 +73,12 @@ public class TemplateConfigController {
     @RequestMapping("/del")
     public Result del(@RequestBody TemplateConfig templateConfig) {
         templateConfigService.delete(templateConfig);
+        return Action.ok();
+    }
+
+    @RequestMapping("/save")
+    public Result save(@RequestBody TemplateConfig templateConfig) {
+        templateConfigService.save(templateConfig);
         return Action.ok();
     }
 
