@@ -85,15 +85,15 @@ public class OracleColumnSelector extends ColumnSelector {
 		columnDefinition.setIsPk(isPk);
 
 		String type = FieldUtil.convertString(rowMap.get("TYPE"));
-		// 如果是number 就对应decimal
+		// 如果是number
 		if (StringUtils.containsIgnoreCase(type, "number")) {
 			// 有精度则为decimal，否则是int
-//			Object scaleCol = rowMap.get("SCALE");
-//			if (scaleCol == null) {
-//				scaleCol = 0;
-//			}
-//			String scale = String.valueOf(scaleCol);
-			type = "decimal";
+			Object scaleCol = rowMap.get("SCALE");
+			if (scaleCol == null) {
+				scaleCol = 0;
+			}
+			String scale = String.valueOf(scaleCol);
+			type = "0".equals(scale) ? "int" : "decimal";
 		}
 		columnDefinition.setType(TYPE_FORMATTER.format(type));
 
