@@ -1,5 +1,9 @@
 # changelog
 
+## 1.5.1
+
+- 表字段信息，增加字段长度信息（`${column.maxLength}`，`${column.scale}`），目前只支持 mysql 和 oracle. [PR](https://gitee.com/durcframework/code-gen/pulls/12)
+
 ## 1.5.0
 
 **注意：** 
