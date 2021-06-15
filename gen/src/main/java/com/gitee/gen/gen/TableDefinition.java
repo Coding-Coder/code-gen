@@ -125,10 +125,7 @@ public class TableDefinition {
                 return column;
             }
         }
-        if (pk != null) {
-            return pk;
-        }
-        throw new RuntimeException(tableName + "表未设置主键");
+        return pk;
     }
 
     public String getTableName() {

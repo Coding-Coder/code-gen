@@ -3,6 +3,7 @@
 ## 1.5.2
 
 - 支持`SqlServer`字段长度信息（`${column.maxLength}`，`${column.scale}`）
+- 修复没有主键无法生成问题
 
 ## 1.5.1
 

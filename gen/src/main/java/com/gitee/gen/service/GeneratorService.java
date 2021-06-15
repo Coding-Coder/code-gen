@@ -3,6 +3,7 @@ package com.gitee.gen.service;
 import com.gitee.gen.common.GeneratorParam;
 import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.gen.CodeFile;
+import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.gen.SQLContext;
 import com.gitee.gen.gen.SQLService;
@@ -132,14 +133,29 @@ public class GeneratorService {
             return "";
         }
         VelocityContext context = new VelocityContext();
-
+        ColumnDefinition pkColumn = sqlContext.getTableDefinition().getPkColumn();
+        if (pkColumn == null) {
+            pkColumn = getSysPk();
+        }
         context.put("context", sqlContext);
         context.put("table", sqlContext.getTableDefinition());
-        context.put("pk", sqlContext.getTableDefinition().getPkColumn());
+        context.put("pk", pkColumn);
         context.put("columns", sqlContext.getTableDefinition().getColumnDefinitions());
         context.put("csharpColumns", sqlContext.getTableDefinition().getCsharpColumnDefinitions());
 
         return VelocityUtil.generate(context, template);
+    }
+
+    private static ColumnDefinition getSysPk() {
+        ColumnDefinition sysPk = new ColumnDefinition();
+        sysPk.setColumnName("id");
+        sysPk.setComment("虚拟主键");
+        sysPk.setScale(0);
+        sysPk.setType("int");
+        sysPk.setMaxLength(11);
+        sysPk.setIsPk(true);
+        sysPk.setIsIdentity(false);
+        return sysPk;
     }
 
 }
