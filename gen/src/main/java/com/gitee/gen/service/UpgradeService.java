@@ -53,6 +53,7 @@ public class UpgradeService {
         upgradeV1_4_0();
         upgradeV1_4_12();
         upgradeV1_4_17();
+        upgradeV1_5_2();
     }
 
     private void upgradeV1_4_17() {
@@ -80,6 +81,18 @@ public class UpgradeService {
         this.addColumn(TABLE_TEMPLATE_CONFIG, "group_id", "int");
         this.addColumn(TABLE_TEMPLATE_CONFIG, "group_name", "varchar(100)");
         runSql("update template_config set group_id=1,group_name='default' where group_id IS NULL");
+    }
+
+    /**
+     * 升级v1.5.2
+     * 1、前端：修复修改数据源时候不管什么数据库都带出oracle数据库
+     * 2、前端：新增oracle类型数据库 数据库角色可以为空
+     * 3、前端：修复数据库类型为oracle数据库时候测试连接服务器字段展示undefined问题
+     * 4、前后端：新增author作者名配置，方便模板中插入作者
+     * 5、后端：修复postgresql数据库表如果没有设置主键无法获取列数组问题
+     */
+    private void upgradeV1_5_2() {
+        this.addColumn(TABLE_DATASOURCE_CONFIG, "author", "varchar(255)");
     }
 
     private void runSql(String sql) {

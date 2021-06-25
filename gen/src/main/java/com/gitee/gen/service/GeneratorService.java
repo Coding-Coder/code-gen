@@ -56,6 +56,7 @@ public class GeneratorService {
         for (SQLContext sqlContext : contextList) {
             setPackageName(sqlContext, generatorParam.getPackageName());
             setDelPrefix(sqlContext, generatorParam.getDelPrefix());
+            setAuthor(sqlContext, generatorParam.getAuthor());
             for (int tcId : generatorParam.getTemplateConfigIdList()) {
                 TemplateConfig template = templateConfigService.getById(tcId);
                 String folder = template.getFolder();
@@ -125,6 +126,12 @@ public class GeneratorService {
     private void setDelPrefix(SQLContext sqlContext, String delPrefix) {
         if (StringUtils.hasText(delPrefix)) {
             sqlContext.setDelPrefix(delPrefix);
+        }
+    }
+
+    private void setAuthor(SQLContext sqlContext, String author) {
+        if (StringUtils.hasText(author)) {
+            sqlContext.setAuthor(author);
         }
     }
 

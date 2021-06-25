@@ -38,6 +38,11 @@ public class SQLContext {
      */
     private String dbName;
 
+    /**
+     * 作者名
+     */
+    private String author;
+
     public SQLContext(TableDefinition tableDefinition) {
         this.tableDefinition = tableDefinition;
         // 默认为全字母小写的类名
@@ -148,5 +153,13 @@ public class SQLContext {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

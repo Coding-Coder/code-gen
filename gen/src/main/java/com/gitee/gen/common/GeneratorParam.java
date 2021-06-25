@@ -16,6 +16,8 @@ public class GeneratorParam {
 
 	private String delPrefix;
 
+	private String author;
+
 	private String charset = "UTF-8";
 
 	public int getDatasourceConfigId() {
@@ -58,6 +60,14 @@ public class GeneratorParam {
 		this.delPrefix = delPrefix;
 	}
 
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
 	public String getCharset() {
 		return charset;
 	}
@@ -74,6 +84,7 @@ public class GeneratorParam {
 				", templateConfigIdList=" + templateConfigIdList +
 				", packageName='" + packageName + '\'' +
 				", delPrefix='" + delPrefix + '\'' +
+				", author='" + author + '\'' +
 				", charset='" + charset + '\'' +
 				'}';
 	}
