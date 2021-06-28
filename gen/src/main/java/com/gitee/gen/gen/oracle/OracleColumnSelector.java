@@ -18,7 +18,7 @@ public class OracleColumnSelector extends ColumnSelector {
 	private static final TypeFormatter TYPE_FORMATTER = new OracleTypeFormatter();
 
 //	private static final String COLUMN_SQL = "select "
-//			+ " utc.column_name as FIELD,utc.data_type TYPE, utc.data_scale SCALE, utc.data_length 最大长度, "
+//			+ " utc.column_name as FIELD,utc.data_type TYPE, utc.data_scale SCALE, utc.data_length MAXLENGTH, "
 //			+ " 		CASE utc.nullable WHEN 'N' THEN '否' ELSE '是' END 可空, "
 //			+ " utc.data_default 默认值,ucc.comments COMMENTS,UTC.table_name 表名, "
 //			+ " CASE UTC.COLUMN_NAME "
@@ -39,7 +39,7 @@ public class OracleColumnSelector extends ColumnSelector {
 //			+ " column_id ";
 
 	private static final String COLUMN_SQL = " SELECT " +
-			" atc.COLUMN_NAME FIELD, atc.DATA_TYPE TYPE, atc.DATA_SCALE SCALE, atc.DATA_LENGTH 最大长度, " +
+			" atc.COLUMN_NAME FIELD, atc.DATA_TYPE TYPE, atc.DATA_SCALE SCALE, atc.DATA_LENGTH MAXLENGTH, " +
 			" CASE atc.NULLABLE WHEN 'N' THEN '否' ELSE '是' END 可空, " +
 			" atc.DATA_DEFAULT 默认值, acc.COMMENTS COMMENTS, atc.TABLE_NAME 表名, " +
 			" CASE atc.COLUMN_NAME " +
@@ -66,24 +66,24 @@ public class OracleColumnSelector extends ColumnSelector {
 		String owner = this.getGeneratorConfig().getSchemaName();
 		return String.format(COLUMN_SQL, tableName, owner, tableName, owner);
 	}
-	
+
 	@Override
 	protected ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap){
 		Set<String> columnSet = rowMap.keySet();
-		
+
 		for (String columnInfo : columnSet) {
 			rowMap.put(columnInfo.toUpperCase(), rowMap.get(columnInfo));
 		}
-		
+
 		ColumnDefinition columnDefinition = new ColumnDefinition();
-		
+
 		columnDefinition.setColumnName(FieldUtil.convertString(rowMap.get("FIELD")));
 
 		columnDefinition.setIsIdentity(false);
-		
+
 		boolean isPk = "true".equalsIgnoreCase(FieldUtil.convertString(rowMap.get("KEY")));
 		columnDefinition.setIsPk(isPk);
-		
+
 		String type = FieldUtil.convertString(rowMap.get("TYPE"));
 		// 如果是number
 		if (StringUtils.containsIgnoreCase(type, "number")) {
@@ -96,11 +96,17 @@ public class OracleColumnSelector extends ColumnSelector {
 			type = "0".equals(scale) ? "int" : "decimal";
 		}
 		columnDefinition.setType(TYPE_FORMATTER.format(type));
-		
+
 		columnDefinition.setComment(FieldUtil.convertString(rowMap.get("COMMENTS")));
+
+		String maxLength = FieldUtil.convertString(rowMap.get("MAXLENGTH"));
+		columnDefinition.setMaxLength(new Integer(StringUtils.isEmpty(maxLength) ? "0" : maxLength));
+
+		String scale = FieldUtil.convertString(rowMap.get("SCALE"));
+		columnDefinition.setScale(new Integer(StringUtils.isEmpty(scale) ? "0" : scale));
 
 		return columnDefinition;
 	}
-	
+
 
 }

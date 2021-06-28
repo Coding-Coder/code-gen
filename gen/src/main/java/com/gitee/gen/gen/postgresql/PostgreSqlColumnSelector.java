@@ -30,13 +30,14 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
             "CASE WHEN POSITION ( 'nextval' IN column_default ) > 0 THEN 1 ELSE 0 END AS is_identity  " +
             "FROM  " +
             " pg_constraint  " +
-            " INNER JOIN pg_class ON pg_constraint.conrelid = pg_class.oid  " +
-            " INNER JOIN pg_attribute ON pg_attribute.attrelid = pg_class.oid  " +
-            " INNER JOIN pg_type ON pg_type.oid = pg_attribute.atttypid  " +
-            " INNER JOIN information_schema.COLUMNS C ON C.TABLE_NAME = pg_class.relname   " +
+            " RIGHT JOIN pg_class ON pg_constraint.conrelid = pg_class.oid  " +
+            " RIGHT JOIN pg_attribute ON pg_attribute.attrelid = pg_class.oid  " +
+            " RIGHT JOIN pg_type ON pg_type.oid = pg_attribute.atttypid  " +
+            " RIGHT JOIN information_schema.COLUMNS C ON C.TABLE_NAME = pg_class.relname   " +
             " AND C.COLUMN_NAME = pg_attribute.attname   " +
             "WHERE  " +
-            " pg_class.relname = '%s' and pg_constraint.contype = 'p' " +
+            " pg_class.relname = '%s' " +
+//            " and pg_constraint.contype = 'p' " +
             " AND pg_attribute.attnum > 0";
 
     @Override
@@ -69,7 +70,7 @@ public class PostgreSqlColumnSelector extends ColumnSelector {
         boolean isIdentity = "1".equals(convertString(rowMap.get("IS_IDENTITY")));
         columnDefinition.setIsIdentity(isIdentity);
 
-        boolean isPk = (Boolean) rowMap.get("IS_PK");
+        boolean isPk = (Boolean) (rowMap.get("IS_PK") != null ? rowMap.get("IS_PK") : false);
         columnDefinition.setIsPk(isPk);
 
         String type = convertString(rowMap.get("TYPE"));

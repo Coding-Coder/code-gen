@@ -27,6 +27,30 @@ public class ColumnDefinition {
      * 字段注释
      */
     private String comment;
+    /**
+     * 字段长度
+     */
+    private Integer maxLength;
+    /**
+     * 小数位长度
+     */
+    private Integer scale;
+
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    public void setScale(Integer scale) {
+        this.scale = scale;
+    }
+
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    public Integer getScale() {
+        return scale;
+    }
 
     /**
      * 获得基本类型,int,float

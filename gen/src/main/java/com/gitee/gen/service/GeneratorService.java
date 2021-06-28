@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -55,6 +56,7 @@ public class GeneratorService {
         for (SQLContext sqlContext : contextList) {
             setPackageName(sqlContext, generatorParam.getPackageName());
             setDelPrefix(sqlContext, generatorParam.getDelPrefix());
+            setAuthor(sqlContext, generatorParam.getAuthor());
             for (int tcId : generatorParam.getTemplateConfigIdList()) {
                 TemplateConfig template = templateConfigService.getById(tcId);
                 String folder = template.getFolder();
@@ -127,15 +129,24 @@ public class GeneratorService {
         }
     }
 
+    private void setAuthor(SQLContext sqlContext, String author) {
+        if (StringUtils.hasText(author)) {
+            sqlContext.setAuthor(author);
+        }
+    }
+
     private String doGenerator(SQLContext sqlContext, String template) {
         if (template == null) {
             return "";
         }
         VelocityContext context = new VelocityContext();
-
+        Object pkColumn = sqlContext.getTableDefinition().getPkColumn();
+        if (pkColumn == null) {
+            pkColumn = Collections.emptyMap();
+        }
         context.put("context", sqlContext);
         context.put("table", sqlContext.getTableDefinition());
-        context.put("pk", sqlContext.getTableDefinition().getPkColumn());
+        context.put("pk", pkColumn);
         context.put("columns", sqlContext.getTableDefinition().getColumnDefinitions());
         context.put("csharpColumns", sqlContext.getTableDefinition().getCsharpColumnDefinitions());
 

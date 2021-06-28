@@ -35,6 +35,8 @@ public class DatasourceConfig {
     private String delPrefix;
     /** 代码生成器模板组id*/
     private Integer groupId;
+    /** 作者名*/
+    private String author;
 
     public Integer getId() {
         return id;
@@ -140,6 +142,14 @@ public class DatasourceConfig {
         this.schemaName = schemaName;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -156,12 +166,13 @@ public class DatasourceConfig {
                 Objects.equals(isDeleted, that.isDeleted) &&
                 Objects.equals(packageName, that.packageName) &&
                 Objects.equals(delPrefix, that.delPrefix) &&
-                Objects.equals(groupId, that.groupId);
+                Objects.equals(groupId, that.groupId) &&
+                Objects.equals(author, that.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dbType, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId);
+        return Objects.hash(id, dbType, driverClass, dbName, host, port, username, password, isDeleted, packageName, delPrefix, groupId, author);
     }
 
     @Override
@@ -179,6 +190,7 @@ public class DatasourceConfig {
                 ", packageName='" + packageName + '\'' +
                 ", delPrefix='" + delPrefix + '\'' +
                 ", groupId='" + groupId + '\'' +
+                ", author='" + author + '\'' +
                 '}';
     }
 }

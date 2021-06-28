@@ -4,6 +4,7 @@ import com.gitee.gen.gen.ColumnDefinition;
 import com.gitee.gen.gen.ColumnSelector;
 import com.gitee.gen.gen.GeneratorConfig;
 import com.gitee.gen.util.FieldUtil;
+import org.springframework.util.StringUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,8 @@ public class SqlServerColumnSelector extends ColumnSelector {
 	private static String TABKE_DETAIL_SQL = new StringBuilder()
 		.append("SELECT")
 		.append("	 col.name AS column_name")
+		.append("	, col.max_length AS MaxLength")  //sqlserver 字段长度
+		.append("	, col.scale AS Scale")  //sqlserver 字段精度
 		.append("	, bt.name AS type")
 		.append("	, col.is_identity")
 		.append("	, ext.value AS comment")
@@ -101,6 +104,13 @@ public class SqlServerColumnSelector extends ColumnSelector {
 		columnDefinition.setType(TYPE_FORMATTER.format(type));
 		
 		columnDefinition.setComment(FieldUtil.convertString(rowMap.get("COMMENT")));
+
+		//sqlserver 字段长度
+		String maxLength = FieldUtil.convertString(rowMap.get("MAXLENGTH"));
+		columnDefinition.setMaxLength(Integer.parseInt(StringUtils.isEmpty(maxLength) ? "0" : maxLength));
+		//sqlserver 字段精度
+		String scale = FieldUtil.convertString(rowMap.get("SCALE"));
+		columnDefinition.setScale(Integer.parseInt(StringUtils.isEmpty(scale) ? "0" : scale));
 		
 		return columnDefinition;
 	}

@@ -48,6 +48,11 @@ clone代码，然后执行`docker-build.sh`脚本
 - db：数据库初始化文件
 - script：辅助脚本
 
+## 本地开发
+
+- 运行`gen`下的`com.gitee.gen.GenApplication`（SpringBoot工程）
+- 运行`front`下的前端项目，详见：[readme](./front/README.md)
+
 ## 参与贡献
 
 欢迎贡献代码，完善功能，PR请提交到`pr`分支

@@ -31,6 +31,9 @@
       <el-form-item v-show="showTable" label="删除前缀">
         <el-input v-model="clientParam.delPrefix" placeholder="可选，如：sys_user对应Java类为User(多前缀逗号隔开)" show-word-limit maxlength="100" />
       </el-form-item>
+      <el-form-item v-show="showTable" label="作者名">
+        <el-input v-model="clientParam.author" placeholder="可选，如：author" show-word-limit maxlength="100" />
+      </el-form-item>
     </el-form>
     <el-row v-show="showTable" :gutter="20">
       <el-col :span="12">
@@ -153,7 +156,7 @@
           <el-input v-model="datasourceFormData.username" placeholder="用户名" show-word-limit maxlength="100" />
         </el-form-item>
         <el-form-item label="角色" v-show="showOracleFields">
-          <el-select v-model="datasourceFormData.oracleRole">
+          <el-select v-model="datasourceFormData.oracleRole" clearable>
             <el-option
               v-for="item in oracleRoleList"
               :key="item.val"
@@ -170,6 +173,9 @@
         </el-form-item>
         <el-form-item label="删除前缀" prop="delPrefix">
           <el-input v-model="datasourceFormData.delPrefix" placeholder="删除前缀（表名sys_user删除前缀sys_对应bean为User）多前缀逗号隔开" show-word-limit maxlength="200" />
+        </el-form-item>
+        <el-form-item label="作者名" prop="author">
+          <el-input v-model="datasourceFormData.author" placeholder="作者名" show-word-limit maxlength="100" />
         </el-form-item>
         <el-form-item label="代码生成器模板" prop="delPrefix">
           <el-select
@@ -237,7 +243,8 @@ export default {
         templateConfigIdList: [],
         packageName: '',
         delPrefix: '',
-        groupId: ''
+        groupId: '',
+        author: ''
       },
       tableSearch: '',
       datasourceConfigList: [],
@@ -259,7 +266,8 @@ export default {
         schemaName: '',
         packageName: '',
         delPrefix: '',
-        groupId: ''
+        groupId: '',
+        author: ''
       },
       dbTypeConfig: [],
       oracleConnTypeList: [{
@@ -270,6 +278,9 @@ export default {
         val:2
       }],
       oracleRoleList: [{
+        lab: "default",
+        val: ""
+      },{
         lab: "SYSDBA",
         val: 1
       },{
@@ -304,7 +315,8 @@ export default {
           Object.assign(this.clientParam, {
             packageName: item.packageName,
             delPrefix: item.delPrefix,
-            groupId: item.groupId
+            groupId: item.groupId,
+            author: item.author
           })
           break
         }
@@ -425,14 +437,14 @@ export default {
         // 处理账号角色
         if (this.datasourceFormData.oracleRole == 1) {
           this.datasourceFormData.username += " AS SYSDBA";
-        } else {
+        } else if (this.datasourceFormData.oracleRole == 2) {
           this.datasourceFormData.username += " AS SYSOPER";
         }
       }
     },
     unPackOracleFields(item) {
       // 处理oracle属性 拆包
-      if (item.dbType = DB_TYPE.Oracle) {
+      if (item.dbType === DB_TYPE.Oracle) {
         // 处理连接类型
         if (item.dbName.startsWith("/")) {
           item.oracleConnType = 1;
@@ -532,7 +544,7 @@ export default {
               if (this.datasourceFormData.oracleConnType == 1) {
                 this.datasourceFormData.dbName = this.datasourceFormData.dbName.replace("/","");
               } else if (this.datasourceFormData.oracleConnType == 2) {
-                this.datasourceFormData.dbName = this.datasourceFormData.dbName.replace(":");
+                this.datasourceFormData.dbName = this.datasourceFormData.dbName.replace(":","");
               }
               // 处理账号角色
               if (this.datasourceFormData.oracleRole == 1) {

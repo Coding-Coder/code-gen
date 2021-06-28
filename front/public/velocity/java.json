@@ -165,6 +165,14 @@
         {
           "expression": "${column.comment}",
           "text": "字段注释"
+        },
+        {
+          "expression": "${column.maxLength}",
+          "text": "字段长度"
+        },
+        {
+          "expression": "${column.scale}",
+          "text": "小数位长度"
         }
       ]
     }
