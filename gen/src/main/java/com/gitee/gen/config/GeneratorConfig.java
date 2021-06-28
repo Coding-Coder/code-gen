@@ -60,6 +60,7 @@ public class GeneratorConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/index.html").addResourceLocations(frontLocation + "/index.html");
         registry.addResourceHandler("/favicon.ico").addResourceLocations(frontLocation + "/favicon.ico");
         registry.addResourceHandler("/static/**").addResourceLocations(frontLocation + "/static/");
+        registry.addResourceHandler("/velocity/**").addResourceLocations(frontLocation + "/velocity/");
     }
 
 }
