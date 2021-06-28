@@ -15,6 +15,7 @@
         <result column="package_name" property="packageName" />
         <result column="del_prefix" property="delPrefix" />
         <result column="group_id" property="groupId" />
+        <result column="author" property="author" />
     </resultMap>
 
     <!-- 表字段 -->
@@ -32,6 +33,7 @@
         , t.package_name
         , t.del_prefix
         , t.group_id
+        , t.author
         </sql>
 
     <!-- 查询全部 -->
@@ -68,6 +70,7 @@
             package_name,
             del_prefix,
             group_id,
+            author,
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{dbType},
@@ -82,6 +85,7 @@
             #{packageName},
             #{delPrefix},
             #{groupId},
+            #{author},
         </trim>
     </insert>
 
@@ -128,6 +132,9 @@
             <if test="groupId != null">
                 group_id,
             </if>
+            <if test="author != null">
+                author,
+            </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             <if test="dbType != null" >
@@ -166,6 +173,9 @@
             <if test="groupId != null" >
                 #{groupId},
             </if>
+            <if test="author != null" >
+                #{author},
+            </if>
         </trim>
     </insert>
 
@@ -185,6 +195,7 @@
             package_name=#{packageName},
             del_prefix=#{delPrefix},
             group_id=#{groupId},
+            author=#{author},
         </set>
         WHERE id = #{id}
     </update>
@@ -229,6 +240,9 @@
             </if>
             <if test="groupId != null" >
                 group_id=#{groupId},
+            </if>
+            <if test="author != null" >
+                author=#{author},
             </if>
         </set>
         WHERE id = #{id}

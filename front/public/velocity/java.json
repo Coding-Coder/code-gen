@@ -47,6 +47,10 @@
       "text": "",
       "children": [
         {
+          "expression": "${context.author}",
+          "text": "作者名"
+        },
+        {
           "expression": "${context.dbName}",
           "text": "数据库名"
         },

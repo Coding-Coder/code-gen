@@ -1,5 +1,13 @@
 # changelog
 
+## 1.5.3
+
+1、前端：修复修改数据源时候不管什么数据库都带出oracle数据库
+2、前端：新增oracle类型数据库数据库角色可以为空
+3、前端：修复数据库类型为oracle数据库时候测试连接服务器字段展示undefined问题
+4、前后端：新增author作者名配置，方便模板中插入作者
+5、后端：修复postgresql数据库表如果没有设置主键无法获取列数组问题
+
 ## 1.5.2
 
 - 支持`SqlServer`字段长度信息（`${column.maxLength}`，`${column.scale}`）
