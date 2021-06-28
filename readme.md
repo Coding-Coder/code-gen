@@ -29,6 +29,8 @@
 
 浏览器访问`http://ip:6969/`
 
+后续更新替换jar文件和view文件夹即可。
+
 - 方式二：本地构建镜像
 
 clone代码，然后执行`docker-build.sh`脚本
