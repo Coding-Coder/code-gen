@@ -1,4 +1,4 @@
-## filename=${context.javaBeanName}Service.java, folder=
+## filename=${context.javaBeanName}Service.java, folder=service
 package ${context.packageName}.service;
 
 import ${context.packageName}.entity.${context.javaBeanName};
@@ -30,23 +30,15 @@ public interface ${context.javaBeanName}Service {
     ${context.javaBeanName} getById(${pk.javaTypeBox} ${pk.javaFieldName});
 	
     /**
-     * 新增，插入所有字段
+     * 新增
      *
      * @param ${context.javaBeanNameLF} 新增的记录
      * @return 返回影响行数
      */
     int insert(${context.javaBeanName} ${context.javaBeanNameLF});
-	
+
     /**
-     * 新增，忽略null字段
-     *
-     * @param ${context.javaBeanNameLF} 新增的记录
-     * @return 返回影响行数
-     */
-    int insertIgnoreNull(${context.javaBeanName} ${context.javaBeanNameLF});
-	
-    /**
-     * 修改，修改所有字段
+     * 修改
      *
      * @param ${context.javaBeanNameLF} 修改的记录
      * @return 返回影响行数
@@ -54,26 +46,10 @@ public interface ${context.javaBeanName}Service {
     int update(${context.javaBeanName} ${context.javaBeanNameLF});
 	
     /**
-     * 修改，忽略null字段
-     *
-     * @param ${context.javaBeanNameLF} 修改的记录
-     * @return 返回影响行数
-     */
-    int updateIgnoreNull(${context.javaBeanName} ${context.javaBeanNameLF});
-    
-    /**
      * 根据主键删除记录
      *
      * @param ${pk.javaFieldName} 主键ID
      * @return 返回影响行数
      */
     int deleteById(${pk.javaTypeBox} ${pk.javaFieldName});
-	
-    /**
-     * 根据主键逻辑删除
-     *
-     * @param ${pk.javaFieldName} 主键ID
-     * @return 返回影响行数
-     */
-    int deleteLogic(${pk.javaTypeBox} ${pk.javaFieldName});
 }

@@ -1,0 +1,78 @@
+## filename=${context.javaBeanName}Controller.java, folder=controller
+package ${context.packageName}.controller;
+
+import ${context.packageName}.entity.${context.javaBeanName};
+import ${context.packageName}.service.${context.javaBeanName}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${context.javaBeanName}Controller.
+ *
+ * @author ${context.author}
+ * @date ${context.date}
+ * @description
+ */
+@RequestMapping("/${context.javaBeanNameLF}")
+@RestController
+public class ${context.javaBeanName}Controller {
+
+    @Autowired
+    private ${context.javaBeanName}Service ${context.javaBeanNameLF}Service;
+
+    /**
+     * 查询所有记录
+     *
+     * @return 返回集合，没有返回空List
+     */
+    @GetMapping
+    public List<${context.javaBeanName}> listAll() {
+        return ${context.javaBeanNameLF}Service.listAll();
+    }
+
+    /**
+     * 根据主键查询
+     *
+     * @param id 主键
+     * @return 返回记录，没有返回null
+     */
+    @GetMapping("/{id}")
+    public ${context.javaBeanName} getById(@PathVariable ${pk.javaTypeBox} id) {
+        return ${context.javaBeanNameLF}Service.getById(id);
+    }    
+     
+    /**
+     * 新增(忽略null字段)
+     *
+     * @param ${context.javaBeanNameLF} 新增的记录
+     * @return 返回影响行数
+     */
+    @PostMapping
+    public int insert(@RequestBody ${context.javaBeanName} ${context.javaBeanNameLF}) {
+        return ${context.javaBeanNameLF}Service.insert(${context.javaBeanNameLF});
+    }    
+
+    /**
+     * 修改(忽略null字段)
+     *
+     * @param ${context.javaBeanNameLF} 修改的记录
+     * @return 返回影响行数
+     */
+    @PutMapping
+    public int update(@RequestBody ${context.javaBeanName} ${context.javaBeanNameLF}) {
+        return ${context.javaBeanNameLF}Service.update(${context.javaBeanNameLF});
+    }
+
+    /**
+     * 删除记录
+     *
+     * @param ${context.javaBeanNameLF} 待删除的记录
+     * @return 返回影响行数
+     */
+    @DeleteMapping
+    public int deleteById(${pk.javaTypeBox} ${pk.javaFieldName}) {
+        return ${context.javaBeanNameLF}Service.deleteById(${pk.javaFieldName});
+    }
+}
