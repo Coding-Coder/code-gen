@@ -55,8 +55,14 @@ clone代码，然后执行`docker-build.sh`脚本
 
 ## 本地开发
 
+### 前后端分离启动
 - 运行`gen`下的`com.gitee.gen.GenApplication`（SpringBoot工程）
 - 运行`front`下的前端项目，详见：[readme](./front/README.md)
+
+### SpringBoot整合Vue启动
+- `cd front & npm run build:dev`
+- 运行`gen`下的`com.gitee.gen.GenApplication`（SpringBoot工程）
+- 浏览器访问`http://localhost:6969/`
 
 ## 参与贡献
 
