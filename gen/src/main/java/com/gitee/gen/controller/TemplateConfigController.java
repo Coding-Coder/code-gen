@@ -45,9 +45,9 @@ public class TemplateConfigController {
     @RequestMapping("/list")
     public Result list(String groupId) {
         List<TemplateConfig> templateConfigs = null;
-        if(StringUtils.isEmpty(groupId)){
+        if (StringUtils.isEmpty(groupId)) {
             templateConfigs = templateConfigService.listAll();
-        }else {
+        } else {
             templateConfigs = templateConfigService.listByGroupId(groupId);
         }
         Map<Integer, String> idMap = templateGroupService.listAll()
