@@ -1,6 +1,7 @@
 package com.gitee.gen.gen;
 
 import com.gitee.gen.gen.converter.ColumnTypeConverter;
+import org.springframework.util.StringUtils;
 
 /**
  * 表字段信息
@@ -35,6 +36,10 @@ public class ColumnDefinition {
      * 小数位长度
      */
     private Integer scale;
+
+    public String getLabel() {
+        return StringUtils.hasLength(comment) ? comment : columnName;
+    }
 
     public void setMaxLength(Integer maxLength) {
         this.maxLength = maxLength;

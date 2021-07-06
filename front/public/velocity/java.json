@@ -39,6 +39,10 @@
         {
           "expression": "${pk.comment}",
           "text": "主键字段注释"
+        },
+        {
+          "expression": "${pk.label}",
+          "text": "返回注释，没有则返回数据库字段名"
         }
       ]
     },
@@ -169,6 +173,10 @@
         {
           "expression": "${column.comment}",
           "text": "字段注释"
+        },
+        {
+          "expression": "${column.label}",
+          "text": "返回注释，没有则返回数据库字段名"
         },
         {
           "expression": "${column.maxLength}",
