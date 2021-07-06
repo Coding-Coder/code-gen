@@ -2,9 +2,9 @@
 <!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gitee.gen.mapper.TemplateGroupMapper">
     <resultMap id="BaseResultMap" type="com.gitee.gen.entity.TemplateGroup">
-        <result column="id" property="id" />
-        <result column="group_name" property="groupName" />
-        <result column="is_deleted" property="isDeleted" />
+        <result column="id" property="id"/>
+        <result column="group_name" property="groupName"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
     <!-- 表字段 -->
@@ -12,12 +12,13 @@
          t.id
         , t.group_name
         , t.is_deleted
+        , desc
         </sql>
 
     <!-- 查询全部 -->
     <select id="listAll" resultMap="BaseResultMap">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM template_group t
         WHERE t.is_deleted = 0
     </select>
@@ -25,7 +26,7 @@
     <!-- 根据主键获取单条记录 -->
     <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM template_group t
         WHERE id = #{id} AND t.is_deleted = 0
         LIMIT 1
@@ -33,7 +34,7 @@
 
     <select id="getByName" resultMap="BaseResultMap" parameterType="String">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM template_group t
         WHERE group_name = #{name} AND t.is_deleted = 0
         LIMIT 1
@@ -47,10 +48,12 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             group_name,
             is_deleted,
+            desc,
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             #{groupName},
             #{isDeleted},
+            #{desc},
         </trim>
     </insert>
 
@@ -67,13 +70,19 @@
             <if test="isDeleted != null">
                 is_deleted,
             </if>
+            <if test="desc != null">
+                desc,
+            </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
-            <if test="groupName != null" >
+            <if test="groupName != null">
                 #{groupName},
             </if>
-            <if test="isDeleted != null" >
+            <if test="isDeleted != null">
                 #{isDeleted},
+            </if>
+            <if test="desc != null">
+                #{desc},
             </if>
         </trim>
     </insert>
@@ -84,6 +93,7 @@
         <set>
             group_name=#{groupName},
             is_deleted=#{isDeleted},
+            desc=#{desc},
         </set>
         WHERE id = #{id}
     </update>
@@ -93,11 +103,14 @@
     <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.TemplateGroup">
         UPDATE template_group
         <set>
-            <if test="groupName != null" >
+            <if test="groupName != null">
                 group_name=#{groupName},
             </if>
-            <if test="isDeleted != null" >
+            <if test="isDeleted != null">
                 is_deleted=#{isDeleted},
+            </if>
+            <if test="desc != null">
+                desc=#{desc},
             </if>
         </set>
         WHERE id = #{id}

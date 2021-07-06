@@ -4,7 +4,9 @@
     <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
       <el-tab-pane v-for="item in groupData" :key="item.id" :name="`${item.id}`" :label="item.groupName">
         <span slot="label">
-          {{ item.groupName }}
+          <el-tooltip placement="top" :content="item.desc" :open-delay="1000">
+            <span>{{ item.groupName }}</span>
+          </el-tooltip>
           <el-dropdown
             v-show="item.id === currentTab.id"
             trigger="click"
@@ -18,6 +20,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-edit" :command="onGroupInfoUpdate">修改</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-info" :command="onGroupInfoDescUpdate">修改描述</el-dropdown-item>
               <el-dropdown-item icon="el-icon-delete" :command="onGroupInfoDelete">删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -141,6 +144,9 @@ export default {
     onGroupInfoUpdate() {
       this.onGroupUpdate(this.currentTab)
     },
+    onGroupInfoDescUpdate() {
+      this.onGroupDescUpdate(this.currentTab)
+    },
     onGroupInfoDelete() {
       this.onGroupDelete(this.currentTab)
     },
@@ -174,6 +180,24 @@ export default {
         const data = {
           id: row.id,
           groupName: value
+        }
+        this.post('/group/update', data, resp => {
+          this.reload()
+        })
+      }).catch(() => {
+      })
+    },
+    onGroupDescUpdate(row){
+      this.$prompt('请输入组备注信息', '修改模板组备注信息', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputValue: row.desc,
+        inputPattern: /^.{1,64}$/,
+        inputErrorMessage: '不能为空且长度在64以内'
+      }).then(({ value }) => {
+        const data = {
+          id: row.id,
+          desc: value
         }
         this.post('/group/update', data, resp => {
           this.reload()

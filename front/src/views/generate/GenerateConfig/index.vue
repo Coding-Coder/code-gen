@@ -75,9 +75,9 @@
             v-for="item in groupData"
             :key="item.id"
             :label="item.groupName"
-            :value="item.id"
-          >
-            {{ item.groupName }}
+            :value="item.id">
+            <span style="float: left">{{ item.groupName }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.desc }}</span>
           </el-option>
         </el-select>
         <el-table

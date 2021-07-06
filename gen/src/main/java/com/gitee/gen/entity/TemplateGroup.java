@@ -11,5 +11,6 @@ import lombok.Data;
 public class TemplateGroup {
     private Integer id;
     private String groupName;
+    private String desc;
     private Integer isDeleted;
 }

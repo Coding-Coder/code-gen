@@ -55,6 +55,7 @@ public class UpgradeService {
         upgradeV1_4_12();
         upgradeV1_4_17();
         upgradeV1_5_2();
+        upgradeV1_5_3();
     }
 
     private void upgradeV1_4_17() {
@@ -94,6 +95,12 @@ public class UpgradeService {
      */
     private void upgradeV1_5_2() {
         this.addColumn(TABLE_DATASOURCE_CONFIG, "author", "varchar(255)");
+    }
+
+    private void upgradeV1_5_3() {
+        this.addColumn(TABLE_TEMPLATE_GROUP, "desc", "varchar(255)");
+
+        this.runSql("UPDATE `template_group` SET `desc`='默认模板' WHERE `id` = 1");
     }
 
     private void runSql(String sql) {
