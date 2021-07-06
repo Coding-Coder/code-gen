@@ -1,4 +1,5 @@
 <h1 align="center">code-gen</h1>
+<h4 align="center">把简单的重复劳动交给code-gen,省下来的时间多陪陪家人</h4>
 
 [![Author](https://img.shields.io/badge/author-Coding--Code-orange)](https://github.com/Coding-Coder)
 
