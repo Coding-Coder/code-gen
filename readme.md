@@ -89,6 +89,14 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`
     - 执行`java -jar gen-xx-SNAPSHOT.jar`
     - 浏览器访问`http://localhost:6969/`
 
+- 将vue.js打包到jar包内：
+    - `cd front & npm run build:prod`
+    - 复制`dist/gen/view`内所有内容到`gen`项目的`resources/static`下
+    - 注释`GeneratorConfig#addResourceHandlers`方法体中的内容
+    - 执行`mvn clean package`，在`gen/target`下会生成一个`gen-1.0.0-SNAPSHOT.jar`（xx表示本号）
+    - 执行`java -jar gen-xx-SNAPSHOT.jar`
+    - 浏览器访问`http://localhost:6969/`
+
 ## 常用模板
 下载template中的模板，通过页面的批量导入模板功能导入即可使用。
 
