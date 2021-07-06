@@ -83,6 +83,9 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`
     - 执行`java -jar gen-xx-SNAPSHOT.jar`
     - 浏览器访问`http://localhost:6969/`
 
+## 常用模板
+下载template中的模板，通过页面的批量导入模板功能导入即可使用。
+
 ## 效果图
 
 ![代码生成](https://images.gitee.com/uploads/images/2020/0724/180853_df66e76d_332975.png "gen7.png")
