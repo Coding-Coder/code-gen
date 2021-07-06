@@ -380,7 +380,7 @@ export default {
     },
     getDatasourceLabel(item) {
       const schema = item.schemaName ? `/${item.schemaName}` : ''
-      return `${item.dbName}${schema} (${item.host}) - ${item.username}`
+      return `${item.username}@${item.host}:${item.port}/${item.dbName}${schema}`
     },
     getTemplateGroupLabel(item){
       return `${item.groupName}(${item.desc})`
