@@ -16,6 +16,7 @@ import java.util.Objects;
 
 /**
  * 升级
+ *
  * @author tanghc
  */
 @Service
@@ -101,9 +102,10 @@ public class UpgradeService {
 
     /**
      * 添加表字段
-     * @param tableName 表名
+     *
+     * @param tableName  表名
      * @param columnName 字段名
-     * @param type 字段类型，如：varchar(128),text,integer
+     * @param type       字段类型，如：varchar(128),text,integer
      * @return 返回true，插入成功
      */
     public boolean addColumn(String tableName, String columnName, String type) {
@@ -120,6 +122,7 @@ public class UpgradeService {
 
     /**
      * 创建表
+     *
      * @param tableName 表名
      * @return 创建成功返回true
      */
@@ -152,7 +155,8 @@ public class UpgradeService {
 
     /**
      * 判断列是否存在
-     * @param tableName 表名
+     *
+     * @param tableName  表名
      * @param columnName 列名
      * @return true：存在
      */
@@ -166,6 +170,7 @@ public class UpgradeService {
 
     /**
      * 表是否存在
+     *
      * @param tableName
      * @return
      */

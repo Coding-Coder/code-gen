@@ -6,9 +6,9 @@ import com.gitee.gen.gen.TableSelector;
 
 public class MySqlService implements SQLService {
 
-	@Override
-	public TableSelector getTableSelector(GeneratorConfig generatorConfig) {
-		return new MySqlTableSelector(new MySqlColumnSelector(generatorConfig), generatorConfig);
-	}
+    @Override
+    public TableSelector getTableSelector(GeneratorConfig generatorConfig) {
+        return new MySqlTableSelector(new MySqlColumnSelector(generatorConfig), generatorConfig);
+    }
 
 }

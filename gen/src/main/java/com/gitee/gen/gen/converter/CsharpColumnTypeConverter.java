@@ -11,6 +11,7 @@ import java.util.Map;
 public class CsharpColumnTypeConverter implements ColumnTypeConverter {
 
     private static final Map<String, String> TYPE_MAP = new HashMap<>(64);
+
     static {
         TYPE_MAP.put(TypeEnum.BIT.getType(), "bool");
         TYPE_MAP.put(TypeEnum.BOOLEAN.getType(), "bool");

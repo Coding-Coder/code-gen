@@ -7,7 +7,6 @@ import org.springframework.util.StringUtils;
  * 表字段信息
  */
 public class ColumnDefinition {
-
     /**
      * 数据库字段名
      */

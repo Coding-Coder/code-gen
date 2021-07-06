@@ -18,7 +18,6 @@ public interface TemplateConfigMapper {
      */
     List<TemplateConfig> listAll();
 
-
     /**
      * 根据主键查询
      *

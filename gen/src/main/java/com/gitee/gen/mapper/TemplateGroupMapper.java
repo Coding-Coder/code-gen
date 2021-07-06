@@ -20,7 +20,6 @@ public interface TemplateGroupMapper {
      */
     List<TemplateGroup> listAll();
 
-
     /**
      * 根据主键查询
      *

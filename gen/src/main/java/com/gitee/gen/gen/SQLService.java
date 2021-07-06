@@ -3,6 +3,6 @@ package com.gitee.gen.gen;
 
 public interface SQLService {
 
-	TableSelector getTableSelector(GeneratorConfig generatorConfig);
+    TableSelector getTableSelector(GeneratorConfig generatorConfig);
 
 }

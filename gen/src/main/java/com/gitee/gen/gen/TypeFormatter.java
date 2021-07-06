@@ -6,8 +6,9 @@ import java.util.List;
 
 /**
  * 将各数据库类型格式化成统一的类型
- * @see TypeEnum
+ *
  * @author tanghc
+ * @see TypeEnum
  */
 public interface TypeFormatter {
 
@@ -39,7 +40,7 @@ public interface TypeFormatter {
         if (isDecimal(columnType)) {
             return TypeEnum.DECIMAL.getType();
         }
-        if(isJsonb(columnType)){
+        if (isJsonb(columnType)) {
             return TypeEnum.JSONB.getType();
         }
         if (isVarchar(columnType)) {
@@ -65,16 +66,28 @@ public interface TypeFormatter {
     }
 
     boolean isBit(String columnType);
+
     boolean isBoolean(String columnType);
+
     boolean isTinyint(String columnType);
+
     boolean isSmallint(String columnType);
+
     boolean isInt(String columnType);
+
     boolean isLong(String columnType);
+
     boolean isFloat(String columnType);
+
     boolean isDouble(String columnType);
+
     boolean isDecimal(String columnType);
+
     boolean isVarchar(String columnType);
+
     boolean isDatetime(String columnType);
+
     boolean isBlob(String columnType);
+
     boolean isJsonb(String columnType);
 }

@@ -3,15 +3,15 @@ package com.gitee.gen.service;
 import com.gitee.gen.entity.TemplateConfig;
 import com.gitee.gen.mapper.TemplateConfigMapper;
 import com.gitee.gen.util.TemplateMetaUtils;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author tanghc
@@ -41,7 +41,7 @@ public class TemplateConfigService {
         String name = templateConfig.getName();
         TemplateConfig existObj = templateConfigMapper.getByName(name, templateConfig.getGroupId());
         if (existObj != null) {
-            throw new RuntimeException("模板名称 "+ name +" 已存在");
+            throw new RuntimeException("模板名称 " + name + " 已存在");
         }
         templateConfig.setIsDeleted(0);
         templateConfigMapper.insert(templateConfig);
@@ -51,7 +51,7 @@ public class TemplateConfigService {
         String name = templateConfig.getName();
         TemplateConfig existObj = templateConfigMapper.getByName(name, templateConfig.getGroupId());
         if (existObj != null && !Objects.equals(templateConfig.getId(), existObj.getId())) {
-            throw new RuntimeException("模板名称 "+ name +" 已存在");
+            throw new RuntimeException("模板名称 " + name + " 已存在");
         }
         templateConfigMapper.updateIgnoreNull(templateConfig);
     }
@@ -68,7 +68,7 @@ public class TemplateConfigService {
         handleContent(templateConfig);
         String name = templateConfig.getName();
         TemplateConfig existObj = templateConfigMapper.getByName(name, templateConfig.getGroupId());
-        if(existObj == null) {
+        if (existObj == null) {
             this.insert(templateConfig);
         } else {
             templateConfig.setId(existObj.getId());

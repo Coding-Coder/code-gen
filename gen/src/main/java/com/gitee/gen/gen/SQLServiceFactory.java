@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class SQLServiceFactory {
 
-
     private static final Map<Integer, SQLService> SERVICE_CONFIG = new HashMap<>(16);
 
     static {

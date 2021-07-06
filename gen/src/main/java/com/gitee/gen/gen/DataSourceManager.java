@@ -18,7 +18,6 @@ public class DataSourceManager {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSourceManager.class);
 
-
     private static final Map<String, DataSource> DATA_SOURCE_MAP = new ConcurrentHashMap<>(16);
     private static final ThreadLocal<Connection> CONNECTION_LOCAL = new ThreadLocal<>();
 
@@ -49,7 +48,8 @@ public class DataSourceManager {
     }
 
     public static DataSource getDataSource(GeneratorConfig generatorConfig) {
-        String jdbcUrl = generatorConfig.getJdbcUrl() + ":" + generatorConfig.getUsername(); ;
+        String jdbcUrl = generatorConfig.getJdbcUrl() + ":" + generatorConfig.getUsername();
+        ;
         DataSource dataSource = DATA_SOURCE_MAP.computeIfAbsent(jdbcUrl, key -> {
             Properties properties = new Properties();
             properties.put("driverClassName", generatorConfig.getDriverClass());

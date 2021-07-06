@@ -9,6 +9,7 @@ public class Action {
     private static final String CODE_ERROR = "100";
 
     private static Result ok = new Result();
+
     static {
         ok.setCode(CODE_SUCCESS);
     }

@@ -28,10 +28,14 @@ public class TableDefinition {
      */
     private String comment;
 
-    /** Java相关字段 */
+    /**
+     * Java相关字段
+     */
     private transient List<ColumnDefinition> columnDefinitions = Collections.emptyList();
 
-    /** C#相关字段 */
+    /**
+     * C#相关字段
+     */
     private transient List<CsharpColumnDefinition> csharpColumnDefinitions = Collections.emptyList();
 
     public TableDefinition() {
@@ -43,6 +47,7 @@ public class TableDefinition {
 
     /**
      * 是否有时间字段
+     *
      * @return true：有
      */
     public boolean getHasDateColumn() {

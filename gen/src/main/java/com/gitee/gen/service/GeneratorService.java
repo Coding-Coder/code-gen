@@ -2,13 +2,7 @@ package com.gitee.gen.service;
 
 import com.gitee.gen.common.GeneratorParam;
 import com.gitee.gen.entity.TemplateConfig;
-import com.gitee.gen.gen.CodeFile;
-import com.gitee.gen.gen.GeneratorConfig;
-import com.gitee.gen.gen.SQLContext;
-import com.gitee.gen.gen.SQLService;
-import com.gitee.gen.gen.SQLServiceFactory;
-import com.gitee.gen.gen.TableDefinition;
-import com.gitee.gen.gen.TableSelector;
+import com.gitee.gen.gen.*;
 import com.gitee.gen.util.FormatUtil;
 import com.gitee.gen.util.VelocityUtil;
 import org.apache.velocity.VelocityContext;
@@ -45,7 +39,7 @@ public class GeneratorService {
     /**
      * 生成代码内容,map的
      *
-     * @param generatorParam 生成参数
+     * @param generatorParam  生成参数
      * @param generatorConfig 数据源配置
      * @return 一张表对应多个模板
      */
@@ -93,12 +87,11 @@ public class GeneratorService {
     /**
      * 返回SQL上下文列表
      *
-     * @param generatorParam 参数
+     * @param generatorParam  参数
      * @param generatorConfig 配置
      * @return 返回SQL上下文
      */
     private List<SQLContext> buildSQLContextList(GeneratorParam generatorParam, GeneratorConfig generatorConfig) {
-
         List<String> tableNames = generatorParam.getTableNames();
         List<SQLContext> contextList = new ArrayList<>();
         SQLService service = SQLServiceFactory.build(generatorConfig);

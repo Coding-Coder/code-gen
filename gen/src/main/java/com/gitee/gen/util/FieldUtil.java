@@ -26,7 +26,6 @@ public class FieldUtil {
      * __name -> __name
      * </pre>
      *
-     *
      * @param field 字段
      * @return 返回转换后的字段
      */
@@ -52,6 +51,7 @@ public class FieldUtil {
 
     /**
      * 是不是全部大写的单词，如：NAME, ADDRESS
+     *
      * @param name 单词
      * @return true：是
      */

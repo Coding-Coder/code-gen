@@ -52,7 +52,7 @@ public class PostgreSqlTypeFormatter implements TypeFormatter {
 
     @Override
     public boolean isDecimal(String columnType) {
-        return contains(Arrays.asList("decimal","numeric"), columnType);
+        return contains(Arrays.asList("decimal", "numeric"), columnType);
     }
 
     @Override

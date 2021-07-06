@@ -14,14 +14,14 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class RequestListener implements ServletRequestListener {
 
-	@Override
-	public void requestDestroyed(ServletRequestEvent sre) {
-		DataSourceManager.closeConnection();
-	}
+    @Override
+    public void requestDestroyed(ServletRequestEvent sre) {
+        DataSourceManager.closeConnection();
+    }
 
-	@Override
-	public void requestInitialized(ServletRequestEvent sre) {
-	}
+    @Override
+    public void requestInitialized(ServletRequestEvent sre) {
+    }
 
 }
 

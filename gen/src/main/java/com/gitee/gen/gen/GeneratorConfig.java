@@ -6,17 +6,29 @@ import org.springframework.beans.BeanUtils;
 public class GeneratorConfig {
 
     private Integer dbType;
-    /** 数据库名称 */
+    /**
+     * 数据库名称
+     */
     private String dbName;
-    /** schema(PGSQL专用) */
+    /**
+     * schema(PGSQL专用)
+     */
     private String schemaName;
-    /** 数据库host */
+    /**
+     * 数据库host
+     */
     private String host;
-    /** 数据库端口 */
+    /**
+     * 数据库端口
+     */
     private Integer port;
-    /** 数据库用户名 */
+    /**
+     * 数据库用户名
+     */
     private String username;
-    /** 数据库密码 */
+    /**
+     * 数据库密码
+     */
     private String password;
 
     public static GeneratorConfig build(DatasourceConfig datasourceConfig) {

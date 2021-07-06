@@ -1,9 +1,9 @@
 package com.gitee.gen.mapper;
 
-import java.util.List;
-
 import com.gitee.gen.entity.DatasourceConfig;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface DatasourceConfigMapper {
@@ -14,7 +14,6 @@ public interface DatasourceConfigMapper {
      * @return 返回集合，没有返回空List
      */
     List<DatasourceConfig> listAll();
-
 
     /**
      * 根据主键查询
@@ -63,5 +62,4 @@ public interface DatasourceConfigMapper {
      * @return 返回影响行数
      */
     int delete(DatasourceConfig datasourceConfig);
-
 }

@@ -12,6 +12,7 @@ public class JavaColumnTypeConverter implements ColumnTypeConverter {
 
     private static final Map<String, String> TYPE_MAP = new HashMap<>(64);
     private static final Map<String, String> TYPE_BOX_MAP = new HashMap<>(64);
+
     static {
         TYPE_MAP.put(TypeEnum.BIT.getType(), "boolean");
         TYPE_MAP.put(TypeEnum.BOOLEAN.getType(), "boolean");

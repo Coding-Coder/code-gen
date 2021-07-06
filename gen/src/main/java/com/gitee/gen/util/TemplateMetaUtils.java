@@ -1,10 +1,11 @@
 package com.gitee.gen.util;
 
 import com.gitee.gen.entity.TemplateConfig;
+import org.springframework.util.StringUtils;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.util.StringUtils;
 
 /**
  * 模板元信息工具类
@@ -48,7 +49,7 @@ public final class TemplateMetaUtils {
         String metaRow = generateMetaRow(template);
         if (content.startsWith("##")) {
             int rowIdx = content.indexOf('\n');
-            if(rowIdx == -1) {
+            if (rowIdx == -1) {
                 content = metaRow;
             } else {
                 content = metaRow + content.substring(rowIdx);

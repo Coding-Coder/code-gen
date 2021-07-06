@@ -6,9 +6,9 @@ import com.gitee.gen.gen.TableSelector;
 
 public class OracleService implements SQLService {
 
-	@Override
-	public TableSelector getTableSelector(GeneratorConfig generatorConfig) {
-		return new OracleTableSelector(new OracleColumnSelector(generatorConfig), generatorConfig);
-	}
+    @Override
+    public TableSelector getTableSelector(GeneratorConfig generatorConfig) {
+        return new OracleTableSelector(new OracleColumnSelector(generatorConfig), generatorConfig);
+    }
 
 }

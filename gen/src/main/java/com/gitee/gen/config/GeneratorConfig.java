@@ -25,7 +25,9 @@ public class GeneratorConfig implements WebMvcConfigurer {
     @Value("${gen.front-location:}")
     private String frontLocation;
 
-    // 支持跨域
+    /**
+     * 支持跨域
+     */
     @Bean
     @ConditionalOnMissingBean
     public CorsFilter corsFilter() {
@@ -41,7 +43,6 @@ public class GeneratorConfig implements WebMvcConfigurer {
 
     /**
      * 配置静态资源
-     * @param registry
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -9,44 +9,46 @@ import java.util.Map;
  */
 public abstract class ColumnSelector {
 
-	private GeneratorConfig generatorConfig;
-	
-	public ColumnSelector(GeneratorConfig generatorConfig){
-		this.generatorConfig = generatorConfig;
-	}
+    private GeneratorConfig generatorConfig;
 
-	/**
-	 * 返回查询表字段信息的SQL语句,不同的数据查询表信息不一样
-	 * 如mysql是DESC tableName
-	 * @return
-	 */
-	protected abstract String getColumnInfoSQL(String tableName);
-	
-	/**
-	 * 构建列信息
-	 * @param rowMap
-	 * @return
-	 */
-	protected abstract ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap);
-	
-	public List<ColumnDefinition> getColumnDefinitions(String tableName) {
-		List<Map<String, Object>> resultList = SqlHelper.runSql(this.getGeneratorConfig(), getColumnInfoSQL(tableName));
-		
-		List<ColumnDefinition> columnDefinitionList = new ArrayList<ColumnDefinition>(resultList.size());
-		// 构建columnDefinition
-		for (Map<String, Object> rowMap : resultList) {
-			columnDefinitionList.add(buildColumnDefinition(rowMap));
-		}
-					
-		return columnDefinitionList;
-	}
+    public ColumnSelector(GeneratorConfig generatorConfig) {
+        this.generatorConfig = generatorConfig;
+    }
 
-	public GeneratorConfig getGeneratorConfig() {
-		return generatorConfig;
-	}
+    /**
+     * 返回查询表字段信息的SQL语句,不同的数据查询表信息不一样
+     * 如mysql是DESC tableName
+     *
+     * @return
+     */
+    protected abstract String getColumnInfoSQL(String tableName);
 
-	public void setGeneratorConfig(GeneratorConfig generatorConfig) {
-		this.generatorConfig = generatorConfig;
-	}
+    /**
+     * 构建列信息
+     *
+     * @param rowMap
+     * @return
+     */
+    protected abstract ColumnDefinition buildColumnDefinition(Map<String, Object> rowMap);
+
+    public List<ColumnDefinition> getColumnDefinitions(String tableName) {
+        List<Map<String, Object>> resultList = SqlHelper.runSql(this.getGeneratorConfig(), getColumnInfoSQL(tableName));
+
+        List<ColumnDefinition> columnDefinitionList = new ArrayList<ColumnDefinition>(resultList.size());
+        // 构建columnDefinition
+        for (Map<String, Object> rowMap : resultList) {
+            columnDefinitionList.add(buildColumnDefinition(rowMap));
+        }
+
+        return columnDefinitionList;
+    }
+
+    public GeneratorConfig getGeneratorConfig() {
+        return generatorConfig;
+    }
+
+    public void setGeneratorConfig(GeneratorConfig generatorConfig) {
+        this.generatorConfig = generatorConfig;
+    }
 
 }

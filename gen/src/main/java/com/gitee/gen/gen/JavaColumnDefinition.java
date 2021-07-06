@@ -15,6 +15,7 @@ public class JavaColumnDefinition extends ColumnDefinition {
     private static final JavaColumnTypeConverter COLUMN_TYPE_CONVERTER = new JavaColumnTypeConverter();
 
     private static final Map<String, String> TYPE_MYBATIS_MAP = new HashMap<>(64);
+
     static {
         TYPE_MYBATIS_MAP.put(TypeEnum.BIT.getType(), "BOOLEAN");
         TYPE_MYBATIS_MAP.put(TypeEnum.BOOLEAN.getType(), "BOOLEAN");

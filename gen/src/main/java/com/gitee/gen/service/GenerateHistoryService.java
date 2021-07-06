@@ -40,7 +40,7 @@ public class GenerateHistoryService {
      * @return 返回集合，没有返回空List
      */
     public List<GenerateHistory> listAll() {
-    	return generateHistoryMapper.listAll();
+        return generateHistoryMapper.listAll();
     }
 
 
@@ -51,9 +51,9 @@ public class GenerateHistoryService {
      * @return 返回记录，没有返回null
      */
     public GenerateHistory getById(Integer id) {
-    	return generateHistoryMapper.getById(id);
+        return generateHistoryMapper.getById(id);
     }
-	
+
     /**
      * 新增，插入所有字段
      *
@@ -61,9 +61,9 @@ public class GenerateHistoryService {
      * @return 返回影响行数
      */
     public int insert(GenerateHistory generateHistory) {
-    	return generateHistoryMapper.insert(generateHistory);
+        return generateHistoryMapper.insert(generateHistory);
     }
-	
+
     /**
      * 新增，忽略null字段
      *
@@ -71,9 +71,9 @@ public class GenerateHistoryService {
      * @return 返回影响行数
      */
     public int insertIgnoreNull(GenerateHistory generateHistory) {
-    	return generateHistoryMapper.insertIgnoreNull(generateHistory);
+        return generateHistoryMapper.insertIgnoreNull(generateHistory);
     }
-	
+
     /**
      * 修改，修改所有字段
      *
@@ -81,9 +81,9 @@ public class GenerateHistoryService {
      * @return 返回影响行数
      */
     public int update(GenerateHistory generateHistory) {
-    	return generateHistoryMapper.update(generateHistory);
+        return generateHistoryMapper.update(generateHistory);
     }
-	
+
     /**
      * 修改，忽略null字段
      *
@@ -91,9 +91,9 @@ public class GenerateHistoryService {
      * @return 返回影响行数
      */
     public int updateIgnoreNull(GenerateHistory generateHistory) {
-    	return generateHistoryMapper.updateIgnoreNull(generateHistory);
+        return generateHistoryMapper.updateIgnoreNull(generateHistory);
     }
-	
+
     /**
      * 删除记录
      *
@@ -101,7 +101,7 @@ public class GenerateHistoryService {
      * @return 返回影响行数
      */
     public int delete(GenerateHistory generateHistory) {
-    	return generateHistoryMapper.delete(generateHistory);
+        return generateHistoryMapper.delete(generateHistory);
     }
-	
+
 }

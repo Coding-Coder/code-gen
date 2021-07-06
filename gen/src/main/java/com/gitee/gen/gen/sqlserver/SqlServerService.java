@@ -6,9 +6,9 @@ import com.gitee.gen.gen.TableSelector;
 
 public class SqlServerService implements SQLService {
 
-	@Override
-	public TableSelector getTableSelector(GeneratorConfig generatorConfig) {
-		return new SqlServerTableSelector(new SqlServerColumnSelector(generatorConfig), generatorConfig);
-	}
+    @Override
+    public TableSelector getTableSelector(GeneratorConfig generatorConfig) {
+        return new SqlServerTableSelector(new SqlServerColumnSelector(generatorConfig), generatorConfig);
+    }
 
 }

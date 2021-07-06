@@ -25,6 +25,7 @@ public abstract class TableSelector {
      * 查询数据库表的SQL
      * 1.如果是oracle的話則應該傳入用戶名，oracle是根據用戶去管理數據的
      * 2.mysql的话是传入数据库名，mysql和sqlserver是根据数据库去管理的
+     *
      * @param generatorConfig 配置
      * @return 返回获取表信息的sql
      */
