@@ -1,12 +1,14 @@
 package com.gitee.gen.controller.vo;
 
 import com.gitee.gen.common.GeneratorParam;
+import lombok.Data;
 
 import java.util.List;
 
 /**
  * @author tanghc
  */
+@Data
 public class GenerateHistoryVO {
 
     /*
@@ -30,37 +32,6 @@ public class GenerateHistoryVO {
     private String generateTime;
 
     private String datasource;
+    private String templateGroupName;
     private List<String> templateNames;
-
-    public GeneratorParam getConfigContent() {
-        return configContent;
-    }
-
-    public void setConfigContent(GeneratorParam configContent) {
-        this.configContent = configContent;
-    }
-
-    public String getGenerateTime() {
-        return generateTime;
-    }
-
-    public void setGenerateTime(String generateTime) {
-        this.generateTime = generateTime;
-    }
-
-    public String getDatasource() {
-        return datasource;
-    }
-
-    public void setDatasource(String datasource) {
-        this.datasource = datasource;
-    }
-
-    public List<String> getTemplateNames() {
-        return templateNames;
-    }
-
-    public void setTemplateNames(List<String> templateNames) {
-        this.templateNames = templateNames;
-    }
 }

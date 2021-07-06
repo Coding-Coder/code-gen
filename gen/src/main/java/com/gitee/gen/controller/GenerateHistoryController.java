@@ -8,9 +8,11 @@ import com.gitee.gen.controller.vo.GenerateHistoryVO;
 import com.gitee.gen.entity.DatasourceConfig;
 import com.gitee.gen.entity.GenerateHistory;
 import com.gitee.gen.entity.TemplateConfig;
+import com.gitee.gen.entity.TemplateGroup;
 import com.gitee.gen.service.DatasourceConfigService;
 import com.gitee.gen.service.GenerateHistoryService;
 import com.gitee.gen.service.TemplateConfigService;
+import com.gitee.gen.service.TemplateGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +35,9 @@ public class GenerateHistoryController {
     @Autowired
     private TemplateConfigService templateConfigService;
 
+    @Autowired
+    private TemplateGroupService templateGroupService;
+
     /**
      * 查询所有记录
      *
@@ -52,6 +57,7 @@ public class GenerateHistoryController {
                     List<String> templateNames = this.listTemplateNames(generatorParam.getTemplateConfigIdList());
                     generateHistoryVO.setGenerateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(generateHistory.getGenerateTime()));
                     generateHistoryVO.setConfigContent(generatorParam);
+                    generateHistoryVO.setTemplateGroupName(this.getTemplateGroupName(generatorParam.getTemplateConfigIdList()));
                     generateHistoryVO.setDatasource(datasourceInfo);
                     generateHistoryVO.setTemplateNames(templateNames);
                     return generateHistoryVO;
@@ -66,8 +72,7 @@ public class GenerateHistoryController {
         if (datasourceConfig == null) {
             return null;
         }
-        String tpl = "%s（%s:%s）";
-        return String.format(tpl, datasourceConfig.getDbName(), datasourceConfig.getHost(), datasourceConfig.getPort());
+        return String.format("%s@%s:%s/%s", datasourceConfig.getUsername(), datasourceConfig.getHost(), datasourceConfig.getPort(), datasourceConfig.getDbName());
     }
 
     private List<String> listTemplateNames(List<Integer> idList) {
@@ -75,6 +80,12 @@ public class GenerateHistoryController {
                 .stream()
                 .map(TemplateConfig::getName)
                 .collect(Collectors.toList());
+    }
+
+    private String getTemplateGroupName(List<Integer> idList) {
+        TemplateConfig templateConfig = templateConfigService.getById(idList.get(0));
+        TemplateGroup templateGroup = templateGroupService.getById(templateConfig.getGroupId());
+        return templateGroup.getGroupName();
     }
 
 }
