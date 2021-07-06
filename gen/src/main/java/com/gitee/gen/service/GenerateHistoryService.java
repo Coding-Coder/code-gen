@@ -104,4 +104,13 @@ public class GenerateHistoryService {
         return generateHistoryMapper.delete(generateHistory);
     }
 
+    /**
+     * 批量删除记录
+     *
+     * @param generateHistory 待删除的记录
+     * @return 返回影响行数
+     */
+    public int deleteBatch(List<String> ids) {
+        return generateHistoryMapper.deleteBatch(ids);
+    }
 }

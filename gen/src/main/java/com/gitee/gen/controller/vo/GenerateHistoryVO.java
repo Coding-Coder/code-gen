@@ -28,9 +28,8 @@ public class GenerateHistoryVO {
 }
      */
     private GeneratorParam configContent;
-
     private String generateTime;
-
+    private Integer historyId;
     private String datasource;
     private String templateGroupName;
     private List<String> templateNames;

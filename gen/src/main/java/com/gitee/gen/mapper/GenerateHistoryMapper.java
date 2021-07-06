@@ -64,6 +64,14 @@ public interface GenerateHistoryMapper {
      */
     int delete(GenerateHistory generateHistory);
 
+    /**
+     * 批量删除记录
+     *
+     * @param generateHistory 待删除的记录
+     * @return 返回影响行数
+     */
+    int deleteBatch(List<String> ids);
+
 
     /**
      * 根据md5查询

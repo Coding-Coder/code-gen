@@ -2,10 +2,10 @@
 <!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gitee.gen.mapper.GenerateHistoryMapper">
     <resultMap id="BaseResultMap" type="com.gitee.gen.entity.GenerateHistory">
-        <result column="id" property="id" />
-        <result column="config_content" property="configContent" />
-        <result column="md5_value" property="md5Value" />
-        <result column="generate_time" property="generateTime" />
+        <result column="id" property="id"/>
+        <result column="config_content" property="configContent"/>
+        <result column="md5_value" property="md5Value"/>
+        <result column="generate_time" property="generateTime"/>
     </resultMap>
 
     <!-- 表字段 -->
@@ -19,7 +19,7 @@
     <!-- 查询全部 -->
     <select id="listAll" resultMap="BaseResultMap">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM generate_history t
         ORDER BY id desc
     </select>
@@ -27,7 +27,7 @@
     <!-- 根据主键获取单条记录 -->
     <select id="getById" resultMap="BaseResultMap" parameterType="Integer">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM generate_history t
         WHERE id = #{id}
     </select>
@@ -67,13 +67,13 @@
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
-            <if test="configContent != null" >
+            <if test="configContent != null">
                 #{configContent},
             </if>
-            <if test="md5Value != null" >
+            <if test="md5Value != null">
                 #{md5Value},
             </if>
-            <if test="generateTime != null" >
+            <if test="generateTime != null">
                 #{generateTime},
             </if>
         </trim>
@@ -95,13 +95,13 @@
     <update id="updateIgnoreNull" parameterType="com.gitee.gen.entity.GenerateHistory">
         UPDATE generate_history
         <set>
-            <if test="configContent != null" >
+            <if test="configContent != null">
                 config_content=#{configContent},
             </if>
-            <if test="md5Value != null" >
+            <if test="md5Value != null">
                 md5_value=#{md5Value},
             </if>
-            <if test="generateTime != null" >
+            <if test="generateTime != null">
                 generate_time=#{generateTime},
             </if>
         </set>
@@ -116,9 +116,17 @@
 		WHERE id = #{id}
 	</delete>
 
+    <!-- 批量删除记录 -->
+    <delete id="deleteBatch">
+		DELETE FROM generate_history WHERE id in
+		<foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
     <select id="getByMd5" resultMap="BaseResultMap">
         SELECT
-        <include refid="baseColumns" />
+        <include refid="baseColumns"/>
         FROM generate_history t
         WHERE md5_value = #{md5}
         LIMIT 1

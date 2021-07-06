@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-table :data="tableData" border highlight-current-row>
+    <el-button type="danger" size="mini" icon="el-icon-delete" style="margin-bottom: 10px;" @click="onHistoryDel">删除</el-button>
+    <el-table :data="tableData" border highlight-current-row @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="generateTime" label="生成时间" width="155"/>
       <el-table-column prop="datasource" label="数据源" width="300"/>
       <el-table-column label="packageName" width="170">
@@ -55,7 +57,8 @@ export default {
   name: 'GenerateHistory',
   data() {
     return {
-      tableData: []
+      tableData: [],
+      multipleSelectionHistoryIds:[]
     }
   },
   created() {
@@ -80,6 +83,22 @@ export default {
         ret.push(array[i])
       }
       return ret.join(split)
+    },
+    handleSelectionChange(selectedRows){
+      console.log(selectedRows);
+      this.multipleSelectionHistoryIds = selectedRows
+        .filter(row => row.hidden === undefined || row.hidden === false)
+        .map(row => row.historyId)
+      console.log(this.multipleSelectionHistoryIds)
+    },
+    onHistoryDel(){
+      this.confirm(`确认要删除构建历史记录吗？`, function(done) {
+        this.post('/history/delBatch', this.multipleSelectionHistoryIds, function() {
+          done()
+          this.tip('删除成功')
+          this.loadTable()
+        })
+      })
     }
   }
 }

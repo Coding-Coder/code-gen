@@ -14,10 +14,12 @@ import com.gitee.gen.service.GenerateHistoryService;
 import com.gitee.gen.service.TemplateConfigService;
 import com.gitee.gen.service.TemplateGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -57,6 +59,7 @@ public class GenerateHistoryController {
                     List<String> templateNames = this.listTemplateNames(generatorParam.getTemplateConfigIdList());
                     generateHistoryVO.setGenerateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(generateHistory.getGenerateTime()));
                     generateHistoryVO.setConfigContent(generatorParam);
+                    generateHistoryVO.setHistoryId(generateHistory.getId());
                     generateHistoryVO.setTemplateGroupName(this.getTemplateGroupName(generatorParam.getTemplateConfigIdList()));
                     generateHistoryVO.setDatasource(datasourceInfo);
                     generateHistoryVO.setTemplateNames(templateNames);
@@ -65,6 +68,18 @@ public class GenerateHistoryController {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         return Action.ok(generateHistoryVOS);
+    }
+
+    /**
+     * 批量删除构建历史记录
+     *
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/delBatch")
+    public Result delBatch(@RequestBody String[] ids) {
+        generateHistoryService.deleteBatch(Arrays.asList(ids));
+        return Action.ok();
     }
 
     private String getDatasourceInfo(int datasourceConfigId) {

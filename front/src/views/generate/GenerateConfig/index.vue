@@ -2,17 +2,8 @@
   <div class="code-gen">
     <el-form ref="genForm" class="gen-form" :model="clientParam" size="mini" label-width="150px">
       <el-form-item label="选择数据源" prop="datasourceConfigId" :rules="{required: true, message: '请选择数据源'}">
-        <el-select
-          v-model="clientParam.datasourceConfigId"
-          placeholder="选择数据源"
-          @change="onDataSourceChange"
-        >
-          <el-option
-            v-for="item in datasourceConfigList"
-            :key="item.id"
-            :label="getDatasourceLabel(item)"
-            :value="item.id"
-          >
+        <el-select v-model="clientParam.datasourceConfigId" placeholder="选择数据源" @change="onDataSourceChange">
+          <el-option v-for="item in datasourceConfigList" :key="item.id" :label="getDatasourceLabel(item)" :value="item.id">
             <span style="float: left">{{ getDatasourceLabel(item) }}</span>
             <span style="float: right; color: #8492a6; font-size: 13px">
               <el-tooltip placement="top" content="Duplicate">
@@ -38,39 +29,15 @@
     <el-row v-show="showTable" :gutter="20">
       <el-col :span="12">
         <h4>选择表</h4>
-        <el-input
-          v-model="tableSearch"
-          prefix-icon="el-icon-search"
-          clearable
-          size="mini"
-          placeholder="过滤表"
-          style="margin-bottom: 10px;width: 100%;"
-        />
-        <el-table
-          :data="tableListData"
-          border
-          :cell-style="cellStyleSmall()"
-          :header-cell-style="headCellStyleSmall()"
-          :row-class-name="tableRowClassName"
-          @selection-change="onTableListSelect"
-        >
-          <el-table-column
-            type="selection"
-          />
-          <el-table-column
-            prop="tableName"
-            label="表名"
-          />
+        <el-input v-model="tableSearch" prefix-icon="el-icon-search" clearable size="mini" placeholder="过滤表" style="margin-bottom: 10px;width: 100%;"/>
+        <el-table :data="tableListData" border :cell-style="cellStyleSmall()" :header-cell-style="headCellStyleSmall()" :row-class-name="tableRowClassName" @selection-change="onTableListSelect">
+          <el-table-column type="selection"/>
+          <el-table-column prop="tableName" label="表名"/>
         </el-table>
       </el-col>
       <el-col :span="12" id="templateSelect">
         <h4>选择模板</h4>
-        <el-select
-          v-model="groupId"
-          placeholder="选择模板所在组"
-          size="mini"
-          style="margin-bottom: 10px; width: 100%;"
-        >
+        <el-select v-model="groupId" placeholder="选择模板所在组" size="mini" style="margin-bottom: 10px; width: 100%;">
           <el-option
             v-for="item in groupData"
             :key="item.id"
@@ -80,21 +47,9 @@
             <span style="float: right; color: #8492a6; font-size: 13px">{{ item.desc }}</span>
           </el-option>
         </el-select>
-        <el-table
-          :data="templateListData"
-          border
-          :cell-style="cellStyleSmall()"
-          :header-cell-style="headCellStyleSmall()"
-          :row-class-name="templateTableRowClassName"
-          @selection-change="onTemplateListSelect"
-        >
-          <el-table-column
-            type="selection"
-          />
-          <el-table-column
-            prop="name"
-            label="模板名称"
-          >
+        <el-table :data="templateListData" border :cell-style="cellStyleSmall()" :header-cell-style="headCellStyleSmall()" :row-class-name="templateTableRowClassName" @selection-change="onTemplateListSelect">
+          <el-table-column type="selection"/>
+          <el-table-column prop="name" label="模板名称">
             <span slot-scope="scope">
 <!--              {{scope.row.groupName}}-{{scope.row.name}}-->
               {{scope.row.name}}
@@ -105,29 +60,11 @@
       </el-col>
     </el-row>
 
-    <el-dialog
-      :title="datasourceTitle"
-      :visible.sync="datasourceDlgShow"
-    >
-      <el-form
-        ref="datasourceForm"
-        :model="datasourceFormData"
-        :rules="datasourceRule"
-        size="mini"
-        label-width="120px"
-      >
+    <el-dialog :title="datasourceTitle" :visible.sync="datasourceDlgShow">
+      <el-form ref="datasourceForm" :model="datasourceFormData" :rules="datasourceRule" size="mini" label-width="120px">
         <el-form-item label="数据库类型">
-          <el-select
-            v-model="datasourceFormData.dbType"
-            filterable
-            default-first-option
-          >
-            <el-option
-              v-for="item in dbTypeConfig"
-              :key="item.dbType"
-              :label="item.label"
-              :value="item.dbType"
-            />
+          <el-select v-model="datasourceFormData.dbType" filterable default-first-option>
+            <el-option v-for="item in dbTypeConfig" :key="item.dbType" :label="item.label" :value="item.dbType"/>
           </el-select>
         </el-form-item>
         <el-form-item label="Host" prop="host">
@@ -141,12 +78,7 @@
         </el-form-item>
         <el-form-item label="连接类型" v-show="showOracleFields">
           <el-select v-model="datasourceFormData.oracleConnType">
-            <el-option
-              v-for="item in oracleConnTypeList"
-              :key="item.val"
-              :label="item.lab"
-              :value="item.val"
-            />
+            <el-option v-for="item in oracleConnTypeList" :key="item.val" :label="item.lab" :value="item.val"/>
           </el-select>
         </el-form-item>
         <el-form-item v-show="showPgSqlSchema" :label="schemaPlaceholder" :prop="schemaPlaceholder">
@@ -157,12 +89,7 @@
         </el-form-item>
         <el-form-item label="角色" v-show="showOracleFields">
           <el-select v-model="datasourceFormData.oracleRole" clearable>
-            <el-option
-              v-for="item in oracleRoleList"
-              :key="item.val"
-              :label="item.lab"
-              :value="item.val"
-            />
+            <el-option v-for="item in oracleRoleList" :key="item.val" :label="item.lab" :value="item.val"/>
           </el-select>
         </el-form-item>
         <el-form-item label="Password" prop="password">
@@ -178,18 +105,8 @@
           <el-input v-model="datasourceFormData.author" placeholder="作者名" show-word-limit maxlength="100" />
         </el-form-item>
         <el-form-item label="代码生成器模板" prop="delPrefix">
-          <el-select
-            v-model="datasourceFormData.groupId"
-            placeholder="选择模板所在组"
-            size="mini"
-            style="margin-bottom: 10px; width: 100%;"
-          >
-            <el-option
-              v-for="item in groupData"
-              :key="item.id"
-              :label="item.groupName"
-              :value="item.id"
-            >
+          <el-select v-model="datasourceFormData.groupId" placeholder="选择模板所在组" size="mini" style="margin-bottom: 10px; width: 100%;">
+            <el-option v-for="item in groupData" :key="item.id" :label="item.groupName" :value="item.id">
               {{ item.groupName }}
             </el-option>
           </el-select>
@@ -200,28 +117,8 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-
   </div>
 </template>
-<style lang="scss">
-  .code-gen {
-    margin: 0 auto;
-    width: 70%;
-      .el-input { width: 450px;}
-      .el-row h4 {
-        text-align: center;
-      }
-      .el-row .el-button {
-        margin-top: 20px;
-      }
-  }
-  .el-table .hidden-row {
-    display: none;
-  }
-  #templateSelect {
-    .el-input { width: 100%;}
-  }
-</style>
 <script>
 const current_datasource_id_key = "gen-datasource-id"
 const DB_TYPE = {
@@ -586,4 +483,22 @@ export default {
   }
 }
 </script>
-
+<style lang="scss">
+  .code-gen {
+    margin: 0 auto;
+    width: 70%;
+    .el-input { width: 450px;}
+    .el-row h4 {
+      text-align: center;
+    }
+    .el-row .el-button {
+      margin-top: 20px;
+    }
+  }
+  .el-table .hidden-row {
+    display: none;
+  }
+  #templateSelect {
+    .el-input { width: 100%;}
+  }
+</style>
