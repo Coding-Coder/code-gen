@@ -1,4 +1,6 @@
-# code-gen
+<h1 align="center">code-gen</h1>
+
+[![Author](https://img.shields.io/badge/author-Coding--Code-orange)](https://github.com/Coding-Coder)
 
 一款代码生成工具，可自定义模板生成不同的代码，支持MySQL、Oracle、SQL Server、PostgreSQL。
 
