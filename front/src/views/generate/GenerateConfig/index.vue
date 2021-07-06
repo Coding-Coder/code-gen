@@ -74,7 +74,7 @@
           <el-option
             v-for="item in groupData"
             :key="item.id"
-            :label="item.groupName"
+            :label="getTemplateGroupLabel(item)"
             :value="item.id">
             <span style="float: left">{{ item.groupName }}</span>
             <span style="float: right; color: #8492a6; font-size: 13px">{{ item.desc }}</span>
@@ -381,6 +381,9 @@ export default {
     getDatasourceLabel(item) {
       const schema = item.schemaName ? `/${item.schemaName}` : ''
       return `${item.dbName}${schema} (${item.host}) - ${item.username}`
+    },
+    getTemplateGroupLabel(item){
+      return `${item.groupName}(${item.desc})`
     },
     loadGroups() {
       this.post(`/group/list/`, {}, function(resp) {
