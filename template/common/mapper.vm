@@ -1,0 +1,112 @@
+## filename=${context.javaBeanName}Mapper.xml, folder=
+#set($jq="$")
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${context.packageName}.mapper.${context.javaBeanName}Mapper">
+	<!-- Table:${table.tableName}-->
+	<resultMap id="BaseResultMap" type="${context.packageName}.entity.${context.javaBeanName}">
+    #foreach($column in $columns)
+        <result column="${column.columnName}" property="${column.javaFieldName}"/>
+	#end
+	</resultMap>  
+    
+    <!-- 表字段 -->
+    <sql id="Base_Column_List">
+    #foreach($column in $columns)
+    #if($velocityCount > 1),#end ${column.columnName}
+    #end
+    </sql> 
+    
+    <!-- 查询全部 -->
+    <select id="listAll" resultMap="BaseResultMap">
+		SELECT         
+        	<include refid="Base_Column_List"/>
+		FROM ${table.tableName}
+	</select>
+ 
+ 	<!-- 根据主键获取单条记录 -->
+    <select id="getById" resultMap="BaseResultMap" parameterType="${pk.javaTypeBox}">
+		SELECT         
+        	<include refid="Base_Column_List"/>
+		FROM ${table.tableName}
+		WHERE ${pk.columnName} = #{${pk.javaFieldName}}
+	</select>
+
+	<!-- 插入全部字段 -->
+    <insert id="insert" parameterType="${context.packageName}.entity.${context.javaBeanName}" keyProperty="${context.javaPkName}" keyColumn="${context.pkName}" useGeneratedKeys="true">
+	INSERT INTO ${table.tableName}
+    <trim prefix="(" suffix=")" suffixOverrides=",">            
+#foreach($column in $columns)
+#if(!${column.isIdentityPk})${column.columnName},#end
+#end
+
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">            
+#foreach($column in $columns)
+#if(!${column.isIdentityPk})#{${column.javaFieldName}},#end
+#end
+
+    </trim>
+	</insert>
+    
+    <!-- 插入不为NULL的字段 -->
+    <insert id="insertIgnoreNull" parameterType="${context.packageName}.entity.${context.javaBeanName}" keyProperty="${pk.javaFieldName}" keyColumn="${context.pkName}" useGeneratedKeys="true">
+        INSERT INTO ${table.tableName}    
+        <trim prefix="(" suffix=")" suffixOverrides=",">	 
+            #foreach($column in $columns) 
+                #if(!${column.isIdentityPk}) 
+                    <if test="${column.javaFieldName} != null">
+                   ${column.columnName},
+                    </if>
+                #end          
+            #end
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">            
+            #foreach($column in $columns) 
+                #if(!${column.isIdentityPk})  
+                    <if test="${column.javaFieldName} != null">
+                    #{${column.javaFieldName}},                    
+                    </if>
+                #end          
+            #end
+        </trim>
+    </insert>
+
+	<!-- 更新全部字段 -->
+    <update id="update" parameterType="${context.packageName}.entity.${context.javaBeanName}">
+    UPDATE ${table.tableName}
+    <set>		
+    #foreach($column in $columns) 
+        #if(!${column.isPk})               
+        ${column.columnName}=#{${column.javaFieldName}},        
+        #end          
+    #end
+    </set>	
+    WHERE ${pk.columnName} = #{${pk.javaFieldName}}
+    </update>  
+    
+    <!-- 更新不为NULL的字段 -->
+    <update id="updateIgnoreNull" parameterType="${context.packageName}.entity.${context.javaBeanName}">
+    UPDATE ${table.tableName}
+    <set>
+    	#foreach($column in $columns) 
+            #if(!${column.isPk})  
+                <if test="${column.javaFieldName} != null">
+                ${column.columnName}=#{${column.javaFieldName}},                 
+                </if>
+            #end          
+        #end
+    </set>
+    WHERE ${pk.columnName} = #{${pk.javaFieldName}}
+    </update>
+    
+    <!-- 根据主键删除记录 -->
+	<delete id="deleteById">
+		DELETE FROM ${table.tableName} WHERE ${pk.columnName} = #{${pk.javaFieldName}}
+	</delete>
+
+	<!-- 根据主键逻辑删除 -->
+	<delete id="deleteLogic">
+		UPDATE ${table.tableName} SET is_deleted=1 WHERE ${pk.columnName} = #{${pk.javaFieldName}}
+	</delete>
+</mapper>

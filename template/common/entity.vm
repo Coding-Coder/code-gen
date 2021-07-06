@@ -1,0 +1,46 @@
+## filename=${context.javaBeanName}.java, folder=
+package ${context.packageName}.entity;
+
+import lombok.Data;
+
+#if(${table.hasDateField})
+import java.util.Date;
+#end
+#if(${table.hasLocalDateField})
+import java.time.LocalDate;
+#end
+#if(${table.hasLocalDateTimeField})
+import java.time.LocalDateTime;
+#end
+#if(${table.hasBigDecimalField})
+import java.math.BigDecimal;
+#end
+
+#if( "${table.comment}" != "" )
+/**
+ * ${table.comment}.
+ *
+ * @author ${context.author}
+ * @date ${context.date}
+ * @description
+ */
+#else
+/**
+ * ${context.javaBeanName}.
+ *
+ * @author ${context.author}
+ * @date ${context.date}
+ * @description
+ */
+#end
+@Data
+public class ${context.javaBeanName} {
+#foreach($column in $columns)
+#if( "${column.comment}" != "" )
+    /**
+     * ${column.comment}
+     */
+#end
+    private ${column.javaTypeBox} ${column.javaFieldName};
+#end
+}
