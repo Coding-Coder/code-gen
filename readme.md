@@ -34,18 +34,15 @@
 - 本项目是基于[tanghc/code-gen](https://gitee.com/durcframework/code-gen) 之上的定制型代码生成器
 
 ## 使用步骤
-
-- 前往[发行版页面](https://gitee.com/durcframework/code-gen/releases)，下载最新版本zip文件
+- 前往[发行版页面](https://github.com/Coding-Coder/code-gen/releases) ，下载最新版本zip文件
 - 解压zip，如果是Mac/Linux操作系统，运行`startup.sh`文件启动，Windows操作系统运行cmd输入`java -jar gen.jar`启动
 - 浏览器访问`http://localhost:6969/`
 
-默认端口是6969，更改端口号按如下方式：
-
+默认端口是6969，**更改端口号**按如下方式：
 - Mac/Linux操作系统：打开`startup.sh`文件，修改`--server.port`参数值
 - Windows操作系统：可执行：`java -jar gen.jar --server.port=端口号`
 
 ### docker运行
-
 - 方式一：下载公共镜像
 
 `docker pull tanghc2020/gen:latest`
@@ -63,13 +60,11 @@ clone代码，然后执行`docker-build.sh`脚本
 执行`docker run --name gen -p 6969:6969 -d <镜像ID>`
 
 ## 其它
-
 - [快速搭建SpringBoot+Mybatis应用](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2478942&doc_id=27724)
 - [更多模板](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=2979234&doc_id=27724)
 - [代码生成器原理](https://gitee.com/durcframework/code-gen/wikis/pages?sort_id=3287812&doc_id=27724)
 
 ## 工程说明
-
 - front：前端vue
 - gen：后端服务
 - db：数据库初始化文件
@@ -124,6 +119,8 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`
 
 ## 效果图
 
-![代码生成](https://images.gitee.com/uploads/images/2020/0724/180853_df66e76d_332975.png "gen7.png")
+![代码生成](https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707195714.png)
 
-![生成结果](https://images.gitee.com/uploads/images/2020/0731/085506_9d66201f_332975.png "gen8.png")
+![生成结果](https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707195809.png)
+
+![模板管理](https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707195843.png)
