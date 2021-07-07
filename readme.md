@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707104136.png" ></img>
+	<img src="https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707104509.png" ></img>
 </p>
 <!-- <h1 align="center">code-gen</h1> -->
 <h4 align="center">把简单的重复劳动交给code-gen,省下来的时间多陪陪家人</h4>
