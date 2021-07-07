@@ -119,7 +119,7 @@ Mac/Linux系统可直接执行`build.sh`进行构建，构建结果在`dist/gen`
 
 ## 效果图
 
-![代码生成](https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707195714.png)
+![代码生成](https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707200014.png)
 
 ![生成结果](https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707195809.png)
 
