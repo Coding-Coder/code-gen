@@ -5,63 +5,55 @@
 <mapper namespace="${context.packageName}.mapper.${context.javaBeanName}Mapper">
 	<!-- Table:${table.tableName}-->
 	<resultMap id="BaseResultMap" type="${context.packageName}.entity.${context.javaBeanName}">
-    #foreach($column in $columns)
+#foreach($column in $columns)
         <result column="${column.columnName}" property="${column.javaFieldName}"/>
-	#end
-	</resultMap>  
-    
+#end
+	</resultMap>
+
     <!-- 表字段 -->
     <sql id="Base_Column_List">
-    #foreach($column in $columns)
-    #if($velocityCount > 1),#end ${column.columnName}
-    #end
-    </sql> 
+    	#foreach($column in $columns)#if($velocityCount > 1),#end ${column.columnName}#end
     
+    </sql>
+
     <!-- 查询全部 -->
     <select id="listAll" resultMap="BaseResultMap">
-		SELECT         
-        	<include refid="Base_Column_List"/>
+		SELECT
+        <include refid="Base_Column_List"/>
 		FROM ${table.tableName}
 	</select>
- 
+
  	<!-- 根据主键获取单条记录 -->
     <select id="getById" resultMap="BaseResultMap" parameterType="${pk.javaTypeBox}">
-		SELECT         
-        	<include refid="Base_Column_List"/>
+		SELECT
+        <include refid="Base_Column_List"/>
 		FROM ${table.tableName}
 		WHERE ${pk.columnName} = #{${pk.javaFieldName}}
 	</select>
 
-	<!-- 插入全部字段 -->
+	<!-- 插入 -->
     <insert id="insert" parameterType="${context.packageName}.entity.${context.javaBeanName}" keyProperty="${context.javaPkName}" keyColumn="${context.pkName}" useGeneratedKeys="true">
-	INSERT INTO ${table.tableName}
-    <trim prefix="(" suffix=")" suffixOverrides=",">            
-#foreach($column in $columns)
-#if(!${column.isIdentityPk})${column.columnName},#end
-#end
+		INSERT INTO ${table.tableName}
+    	<trim prefix="(" suffix=")" suffixOverrides=",">
+			#foreach($column in $columns)#if(!${column.isIdentityPk})${column.columnName}, #end#end
 
-    </trim>
-    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">            
-#foreach($column in $columns)
-#if(!${column.isIdentityPk})#{${column.javaFieldName}},#end
-#end
+    	</trim>
+    	<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			#foreach($column in $columns)#if(!${column.isIdentityPk})#{${column.javaFieldName}}, #end#end
 
-    </trim>
+    	</trim>
 	</insert>
 
 	<!-- 更新 -->
     <update id="update" parameterType="${context.packageName}.entity.${context.javaBeanName}">
     UPDATE ${table.tableName}
-    <set>		
-    #foreach($column in $columns) 
-        #if(!${column.isPk})               
-        ${column.columnName}=#{${column.javaFieldName}},        
-        #end          
-    #end
-    </set>	
+    <set>
+#foreach($column in $columns)#if(!${column.isPk})		${column.columnName} = #{${column.javaFieldName}},
+#end#end
+    </set>
     WHERE ${pk.columnName} = #{${pk.javaFieldName}}
-    </update>  
-    
+    </update>
+
     <!-- 根据主键删除记录 -->
 	<delete id="deleteById">
 		DELETE FROM ${table.tableName} WHERE ${pk.columnName} = #{${pk.javaFieldName}}
