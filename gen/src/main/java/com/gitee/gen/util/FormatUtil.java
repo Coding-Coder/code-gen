@@ -1,6 +1,7 @@
 package com.gitee.gen.util;
 
 import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
@@ -26,6 +27,7 @@ public class FormatUtil {
             // 注释：创建输出格式
             OutputFormat formater = OutputFormat.createPrettyPrint();
             // formater=OutputFormat.createCompactFormat();
+            // format.setSuppressDeclaration(true);//去掉顶部的<?xml version="1.0" encoding="utf-8"?>
             // 注释：设置xml的输出编码
             formater.setEncoding("utf-8");
             // TAB缩进
@@ -45,6 +47,4 @@ public class FormatUtil {
             return input;
         }
     }
-
-
 }
