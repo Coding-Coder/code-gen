@@ -6,7 +6,7 @@
       <el-container>
         <el-aside>
           <el-button icon="el-icon-download" type="text" @click="downloadAll">下载全部</el-button>
-          <el-button v-if="!loading" icon="el-icon-refresh" type="text" @click="reGenerate" style="float: right;">再次构建</el-button>
+          <el-button v-if="!loading" icon="el-icon-refresh" type="text" @click="reGenerate" style="float: right;">再次生成</el-button>
           <el-input v-show="treeData.length > 0" v-model="filterText" prefix-icon="el-icon-search" placeholder="搜索" size="mini" clearable style="margin-bottom: 10px;"/>
           <el-tree ref="tree" :data="treeData" :props="defaultProps" :filter-node-method="filterNode" node-key="id" default-expand-all highlight-current @current-change="onTreeSelect"/>
         </el-aside>
@@ -104,7 +104,7 @@ export default {
     },
     reGenerate(){
       this.onGenerate()
-      this.tip('构建成功')
+      this.tip('生成成功')
       this.fileInfo = {
         content: '',
         fileName: ''
