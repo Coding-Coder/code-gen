@@ -1,11 +1,26 @@
 <p align="center">
     <!-- http://www.akuziti.com/yw/ 使用This Night 60像素-->
-	<img src="https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707104509.png" ></img>
+	<img src="https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707104509.png" />
 </p>
-<!-- <h1 align="center">code-gen</h1> -->
-<h4 align="center">把简单的重复劳动交给code-gen,省下来的时间多陪陪家人</h4>
-
-[![Author](https://img.shields.io/badge/author-Coding--Code-orange)](https://github.com/Coding-Coder)
+<h3 align="center">把简单的重复劳动交给code-gen,省下来的时间多陪陪家人</h3>
+<hr/>
+<p align="center">
+    <a target="_blank" href="https://github.com/Coding-Coder">
+        <img alt="Author" src="https://img.shields.io/badge/Author-Coding--Code-orange"/>
+    </a>
+    <a target="_blank" href="https://github.com/Coding-Coder/code-gen">
+        <img alt="Github" src="https://img.shields.io/badge/Github-%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80-red" />
+    </a>
+    <a target="_blank" href="https://spring.io/projects/spring-boot">
+        <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-2.3.2.RELEASE-blueviolet" />
+    </a>
+    <a target="_blank" href="https://apache.org/">
+        <img alt="License" src="https://img.shields.io/badge/License-apache-brightgreen" />
+    </a>
+    <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
+        <img alt="JDK" src="https://img.shields.io/badge/JDK-1.8%2B-blue" />
+    </a>
+</p>
 
 一款代码生成工具，可自定义模板生成不同的代码，支持MySQL、Oracle、SQL Server、PostgreSQL。
 
