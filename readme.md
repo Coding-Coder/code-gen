@@ -14,8 +14,8 @@
     <a target="_blank" href="https://spring.io/projects/spring-boot">
         <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-2.3.2.RELEASE-blueviolet" />
     </a>
-    <a target="_blank" href="https://apache.org/">
-        <img alt="License" src="https://img.shields.io/badge/License-apache-brightgreen" />
+    <a target="_blank" href="https://github.com/Coding-Coder/code-gen/blob/master/LICENSE">
+        <img alt="License" src="https://img.shields.io/badge/License-MIT-brightgreen" />
     </a>
     <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
         <img alt="JDK" src="https://img.shields.io/badge/JDK-1.8%2B-blue" />
