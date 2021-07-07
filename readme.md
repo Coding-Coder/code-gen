@@ -1,4 +1,7 @@
-<h1 align="center">code-gen</h1>
+<p align="center">
+	<img src="https://gitee.com/naraka47/pic-go-store/raw/master/img/20210707104136.png" ></img>
+</p>
+<!-- <h1 align="center">code-gen</h1> -->
 <h4 align="center">把简单的重复劳动交给code-gen,省下来的时间多陪陪家人</h4>
 
 [![Author](https://img.shields.io/badge/author-Coding--Code-orange)](https://github.com/Coding-Coder)
@@ -10,6 +13,9 @@
 - 默认提供了通用的实体类、mybatis接口、mybatis配置文件模板，可以快速开发mybatis应用。
 
 > 用到的技术：SpringBoot + Mybatis + Vue
+
+## 项目说明
+- 本项目是基于[tanghc/code-gen](https://gitee.com/durcframework/code-gen) 之上的定制型代码生成器
 
 ## 使用步骤
 
