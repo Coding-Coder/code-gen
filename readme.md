@@ -11,15 +11,23 @@
     <a target="_blank" href="https://github.com/Coding-Coder/code-gen">
         <img alt="Github" src="https://img.shields.io/badge/Github-%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80-red" />
     </a>
+    <a target="_blank" href="https://github.com/Coding-Coder/code-gen/releases">
+        <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/Coding-Coder/code-gen">
+    </a>
+</p>
+<p align="center">
     <a target="_blank" href="https://spring.io/projects/spring-boot">
         <img alt="Spring Boot" src="https://img.shields.io/badge/Spring%20Boot-2.3.2.RELEASE-blueviolet" />
-    </a>
-    <a target="_blank" href="https://github.com/Coding-Coder/code-gen/blob/master/LICENSE">
-        <img alt="License" src="https://img.shields.io/badge/License-MIT-brightgreen" />
     </a>
     <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.html">
         <img alt="JDK" src="https://img.shields.io/badge/JDK-1.8%2B-blue" />
     </a>
+	<a target="_blank" href="https://github.com/Coding-Coder/code-gen/blob/master/LICENSE">
+        <img alt="GitHub license" src="https://img.shields.io/github/license/Coding-Coder/code-gen">
+    </a>
+    <img src="https://img.shields.io/badge/OS-linux%2C%20win%2C%20mac-blue.svg">
+	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Coding-Coder/code-gen">
+    <!-- <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/Coding-Coder/code-gen/total"> -->
 </p>
 
 一款代码生成工具，可自定义模板生成不同的代码，支持MySQL、Oracle、SQL Server、PostgreSQL。
