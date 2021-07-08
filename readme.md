@@ -6,7 +6,7 @@
 <hr/>
 <p align="center">
     <a target="_blank" href="https://github.com/Coding-Coder">
-        <img alt="Author" src="https://img.shields.io/badge/Author-Coding--Code-orange"/>
+        <img alt="Author" src="https://img.shields.io/badge/Author-Coding--Coder-orange"/>
     </a>
     <a target="_blank" href="https://github.com/Coding-Coder/code-gen">
         <img alt="Github" src="https://img.shields.io/badge/Github-%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80-red" />
