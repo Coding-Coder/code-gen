@@ -1,6 +1,6 @@
 <template>
   <div class="code-gen">
-    <el-form ref="genForm" class="gen-form" :model="clientParam" size="mini" label-width="150px">
+    <el-form ref="genForm" class="gen-form" :model="clientParam" size="mini" label-width="125px">
       <el-form-item label="选择数据源" prop="datasourceConfigId" :rules="{required: true, message: '请选择数据源'}">
         <el-select v-model="clientParam.datasourceConfigId" placeholder="选择数据源" @change="onDataSourceChange">
           <el-option v-for="item in datasourceConfigList" :key="item.id" :label="getDatasourceLabel(item)" :value="item.id">
@@ -16,7 +16,7 @@
         </el-select>
         <el-button type="text" @click="onDataSourceAdd">新建数据源</el-button>
       </el-form-item>
-      <el-form-item v-show="showTable" label="包名（package）">
+      <el-form-item v-show="showTable" label="包名(package)">
         <el-input v-model="clientParam.packageName" placeholder="可选，如：cn.studyjava.xxx" show-word-limit maxlength="100" />
       </el-form-item>
       <el-form-item v-show="showTable" label="删除前缀">

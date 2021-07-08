@@ -1,11 +1,17 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>
 
-    <breadcrumb class="breadcrumb-container" />
+    <breadcrumb class="breadcrumb-container"/>
 
     <div class="right-menu">
-      <el-link type="primary" :underline="false" href="https://gitee.com/durcframework/code-gen" target="_blank">Git</el-link>
+      <el-link type="primary" icon="github" :underline="false" href="https://github.com/Coding-Coder" target="_blank">
+        <template>
+          <el-tooltip class="item" effect="dark" content="Follow me on GitHub" placement="bottom-end">
+            <svg-icon style="width: 50px;height: 50px;" icon-class="github"/>
+          </el-tooltip>
+        </template>
+      </el-link>
     </div>
   </div>
 </template>
