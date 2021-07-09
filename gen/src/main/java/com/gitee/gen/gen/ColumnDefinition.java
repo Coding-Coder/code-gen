@@ -1,11 +1,13 @@
 package com.gitee.gen.gen;
 
 import com.gitee.gen.gen.converter.ColumnTypeConverter;
+import lombok.Data;
 import org.springframework.util.StringUtils;
 
 /**
  * 表字段信息
  */
+@Data
 public class ColumnDefinition {
     /**
      * 数据库字段名
@@ -26,7 +28,7 @@ public class ColumnDefinition {
     /**
      * 字段注释
      */
-    private String comment;
+    private String comment = "";
     /**
      * 字段长度
      */
@@ -36,24 +38,13 @@ public class ColumnDefinition {
      */
     private Integer scale;
 
+    /**
+     * 返回字段注释，没有则返回字段名
+     *
+     * @return
+     */
     public String getLabel() {
         return StringUtils.hasLength(comment) ? comment : columnName;
-    }
-
-    public void setMaxLength(Integer maxLength) {
-        this.maxLength = maxLength;
-    }
-
-    public void setScale(Integer scale) {
-        this.scale = scale;
-    }
-
-    public Integer getMaxLength() {
-        return maxLength;
-    }
-
-    public Integer getScale() {
-        return scale;
     }
 
     /**
@@ -83,50 +74,6 @@ public class ColumnDefinition {
      */
     public boolean getIsIdentityPk() {
         return getIsPk() && getIsIdentity();
-    }
-
-    public String getColumnName() {
-        return columnName;
-    }
-
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Boolean getIsIdentity() {
-        return isIdentity;
-    }
-
-    public void setIsIdentity(Boolean isIdentity) {
-        this.isIdentity = isIdentity;
-    }
-
-    public Boolean getIsPk() {
-        return isPk;
-    }
-
-    public void setIsPk(Boolean isPk) {
-        this.isPk = isPk;
-    }
-
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        if (comment == null) {
-            comment = "";
-        }
-        this.comment = comment;
     }
 
     public ColumnTypeConverter getColumnTypeConverter() {

@@ -1,6 +1,7 @@
 package com.gitee.gen.gen;
 
 import com.gitee.gen.util.FieldUtil;
+import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 
 import java.time.LocalDateTime;
@@ -10,8 +11,8 @@ import java.time.format.DateTimeFormatter;
  * SQL上下文,这里可以取到表,字段信息<br>
  * 最终会把SQL上下文信息放到velocity中
  */
+@Data
 public class SQLContext {
-
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -22,22 +23,22 @@ public class SQLContext {
      * 表结构定义
      */
     private final TableDefinition tableDefinition;
+    /**
+     * Java表字段定义
+     */
     private final JavaColumnDefinition javaPkColumn;
     /**
      * 包名
      */
     private String packageName;
-
     /**
      * 删除的前缀
      */
     private String delPrefix;
-
     /**
      * 数据库名
      */
     private String dbName;
-
     /**
      * 作者名
      */
@@ -126,41 +127,5 @@ public class SQLContext {
             return javaPkColumn.getMybatisJdbcType();
         }
         return "";
-    }
-
-    public TableDefinition getTableDefinition() {
-        return tableDefinition;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public String getDelPrefix() {
-        return delPrefix;
-    }
-
-    public void setDelPrefix(String delPrefix) {
-        this.delPrefix = delPrefix;
-    }
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 }

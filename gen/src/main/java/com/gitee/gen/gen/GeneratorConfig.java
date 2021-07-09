@@ -1,8 +1,10 @@
 package com.gitee.gen.gen;
 
 import com.gitee.gen.entity.DatasourceConfig;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
+@Data
 public class GeneratorConfig {
 
     private Integer dbType;
@@ -52,61 +54,5 @@ public class GeneratorConfig {
         }
         String jdbcUrl = dbType.getJdbcUrl();
         return String.format(jdbcUrl, host, port, dbName);
-    }
-
-    public String getDbName() {
-        return dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
-
-    public Integer getDbType() {
-        return dbType;
-    }
-
-    public void setDbType(Integer dbType) {
-        this.dbType = dbType;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSchemaName() {
-        return schemaName;
-    }
-
-    public void setSchemaName(String schemaName) {
-        this.schemaName = schemaName;
     }
 }

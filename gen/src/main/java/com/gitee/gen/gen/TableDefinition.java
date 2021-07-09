@@ -1,6 +1,9 @@
 package com.gitee.gen.gen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
@@ -12,6 +15,8 @@ import java.util.List;
 /**
  * 数据库表定义,从这里可以获取表名,字段信息
  */
+@Data
+@NoArgsConstructor
 public class TableDefinition {
 
     /**
@@ -39,15 +44,13 @@ public class TableDefinition {
      */
     private transient List<CsharpColumnDefinition> csharpColumnDefinitions = Collections.emptyList();
 
-    public TableDefinition() {
-    }
-
     public TableDefinition(String tableName) {
         this.tableName = tableName;
     }
 
     /**
      * 返回表注释，没有则返回表名
+     *
      * @return
      */
     public String getLabel() {
@@ -140,45 +143,5 @@ public class TableDefinition {
             }
         }
         return pk;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public List<ColumnDefinition> getColumnDefinitions() {
-        return columnDefinitions;
-    }
-
-    public void setColumnDefinitions(List<ColumnDefinition> columnDefinitions) {
-        this.columnDefinitions = columnDefinitions;
-    }
-
-    public List<CsharpColumnDefinition> getCsharpColumnDefinitions() {
-        return csharpColumnDefinitions;
-    }
-
-    public void setCsharpColumnDefinitions(List<CsharpColumnDefinition> csharpColumnDefinitions) {
-        this.csharpColumnDefinitions = csharpColumnDefinitions;
-    }
-
-    public String getSchema() {
-        return schema;
-    }
-
-    public void setSchema(String schema) {
-        this.schema = schema;
     }
 }

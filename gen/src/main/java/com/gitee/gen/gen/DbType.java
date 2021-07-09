@@ -4,7 +4,6 @@ package com.gitee.gen.gen;
  * @author tanghc
  */
 public enum DbType {
-
     MYSQL(1,
             "MySQL",
             "com.mysql.cj.jdbc.Driver",
@@ -13,18 +12,18 @@ public enum DbType {
     ORACLE(2,
             "Oracle",
             "oracle.jdbc.driver.OracleDriver",
-            "jdbc:oracle:thin:@%s:%s%s"),
-
+            "jdbc:oracle:thin:@%s:%s%s"
+    ),
     SQL_SERVER(3,
             "SQL Server",
             "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-            "jdbc:sqlserver://%s:%s;DatabaseName=%s"),
-
+            "jdbc:sqlserver://%s:%s;DatabaseName=%s"
+    ),
     POSTGRE_SQL(4,
             "PostgreSQL",
             "org.postgresql.Driver",
-            "jdbc:postgresql://%s:%s/%s"),
-
+            "jdbc:postgresql://%s:%s/%s"
+    ),
     ;
     private final int type;
     private final String displayName;
