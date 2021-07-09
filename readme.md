@@ -5,6 +5,7 @@
 <h3 align="center">把简单的重复劳动交给code-gen,省下来的时间多陪陪家人</h3>
 <hr/>
 <p align="center">
+    <img src="https://jaywcjlove.github.io/sb/lang/chinese.svg">
     <a target="_blank" href="https://github.com/Coding-Coder">
         <img alt="Author" src="https://img.shields.io/badge/Author-Coding--Coder-orange"/>
     </a>
