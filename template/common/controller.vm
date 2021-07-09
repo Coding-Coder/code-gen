@@ -43,7 +43,7 @@ public class ${context.javaBeanName}Controller {
     }    
      
     /**
-     * 新增(忽略null字段)
+     * 新增
      *
      * @param ${context.javaBeanNameLF} 新增的记录
      * @return 返回影响行数
@@ -54,7 +54,7 @@ public class ${context.javaBeanName}Controller {
     }    
 
     /**
-     * 修改(忽略null字段)
+     * 修改
      *
      * @param ${context.javaBeanNameLF} 修改的记录
      * @return 返回影响行数
@@ -67,7 +67,7 @@ public class ${context.javaBeanName}Controller {
     /**
      * 删除记录
      *
-     * @param ${context.javaBeanNameLF} 待删除的记录
+     * @param ${pk.javaFieldName} 待删除的记录
      * @return 返回影响行数
      */
     @DeleteMapping("delete")

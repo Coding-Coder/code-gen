@@ -119,6 +119,10 @@
         {
           "expression": "${table.schema}",
           "text": "PostgreSQL中的Schema"
+        },
+        {
+          "expression": "${table.label}",
+          "text": "返回表注释，没有则返回表名"
         }
       ]
     },

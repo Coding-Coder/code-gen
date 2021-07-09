@@ -1,6 +1,7 @@
 package com.gitee.gen.gen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,6 +44,14 @@ public class TableDefinition {
 
     public TableDefinition(String tableName) {
         this.tableName = tableName;
+    }
+
+    /**
+     * 返回表注释，没有则返回表名
+     * @return
+     */
+    public String getLabel() {
+        return StringUtils.hasLength(comment) ? comment : tableName;
     }
 
     /**

@@ -1,0 +1,37 @@
+## filename=${context.javaBeanName}.java, folder=
+package ${context.packageName}.entity;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+#if(${table.hasDateField})
+import java.util.Date;
+#end
+#if(${table.hasLocalDateField})
+import java.time.LocalDate;
+#end
+#if(${table.hasLocalDateTimeField})
+import java.time.LocalDateTime;
+#end
+#if(${table.hasBigDecimalField})
+import java.math.BigDecimal;
+#end
+
+/**
+ * ${table.label}.
+ * 
+ * @author ${context.author}
+ * @date ${context.date}
+ * @description
+ */
+@Data
+@Accessors(chain = true)
+@ApiModel(value = "${context.javaBeanName}", description = "${table.label}表对象")
+public class ${context.javaBeanName} {
+#foreach($column in $columns)
+	@ApiModelProperty("${column.label}")
+    private ${column.javaTypeBox} ${column.javaFieldName};
+#end
+}

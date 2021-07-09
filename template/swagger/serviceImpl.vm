@@ -1,0 +1,78 @@
+## filename=${context.javaBeanName}ServiceImpl.java, folder=serviceImpl
+package ${context.packageName}.service.impl;
+
+import ${context.packageName}.entity.${context.javaBeanName};
+import ${context.packageName}.mapper.${context.javaBeanName}Mapper;
+import ${context.packageName}.service.${context.javaBeanName}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * ${context.javaBeanName}ServiceImpl.
+ *
+ * @author ${context.author}
+ * @date ${context.date}
+ * @description
+ */
+@Service
+public class ${context.javaBeanName}ServiceImpl implements ${context.javaBeanName}Service{
+
+    @Autowired
+    private ${context.javaBeanName}Mapper ${context.javaBeanNameLF}Mapper;
+
+    /**
+     * 查询所有记录
+     *
+     * @return 返回集合，没有返回空List
+     */
+    @Override
+    public List<${context.javaBeanName}> listAll() {
+    	return ${context.javaBeanNameLF}Mapper.listAll();
+    }
+
+    /**
+     * 根据主键查询
+     *
+     * @param id 主键
+     * @return 返回记录，没有返回null
+     */
+    @Override
+    public ${context.javaBeanName} getById(${pk.javaTypeBox} ${pk.javaFieldName}) {
+    	return ${context.javaBeanNameLF}Mapper.getById(${pk.javaFieldName});
+    }
+	
+    /**
+     * 新增
+     *
+     * @param ${context.javaBeanNameLF} 新增的记录
+     * @return 返回影响行数
+     */
+    @Override
+    public int insert(${context.javaBeanName} ${context.javaBeanNameLF}) {
+    	return ${context.javaBeanNameLF}Mapper.insert(${context.javaBeanNameLF});
+    }
+	
+    /**
+     * 修改
+     *
+     * @param ${context.javaBeanNameLF} 修改的记录
+     * @return 返回影响行数
+     */
+    @Override
+    public int update(${context.javaBeanName} ${context.javaBeanNameLF}) {
+    	return ${context.javaBeanNameLF}Mapper.update(${context.javaBeanNameLF});
+    }
+    
+    /**
+     * 根据主键删除记录
+     *
+     * @param ${pk.javaFieldName} 主键ID
+     * @return 返回影响行数
+     */
+    @Override
+    public int deleteById(${pk.javaTypeBox} ${pk.javaFieldName}) {
+    	return ${context.javaBeanNameLF}Mapper.deleteById(${pk.javaFieldName});
+    }
+}

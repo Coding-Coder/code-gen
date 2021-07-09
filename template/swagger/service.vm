@@ -1,0 +1,55 @@
+## filename=${context.javaBeanName}Service.java, folder=service
+package ${context.packageName}.service;
+
+import ${context.packageName}.entity.${context.javaBeanName};
+
+import java.util.List;
+
+/**
+ * ${context.javaBeanName}Service.
+ *
+ * @author ${context.author}
+ * @date ${context.date}
+ * @description
+ */
+public interface ${context.javaBeanName}Service {
+
+    /**
+     * 查询所有记录
+     *
+     * @return 返回集合，没有返回空List
+     */
+    List<${context.javaBeanName}> listAll();
+
+    /**
+     * 根据主键查询
+     *
+     * @param id 主键
+     * @return 返回记录，没有返回null
+     */
+    ${context.javaBeanName} getById(${pk.javaTypeBox} ${pk.javaFieldName});
+	
+    /**
+     * 新增
+     *
+     * @param ${context.javaBeanNameLF} 新增的记录
+     * @return 返回影响行数
+     */
+    int insert(${context.javaBeanName} ${context.javaBeanNameLF});
+
+    /**
+     * 修改
+     *
+     * @param ${context.javaBeanNameLF} 修改的记录
+     * @return 返回影响行数
+     */
+    int update(${context.javaBeanName} ${context.javaBeanNameLF});
+	
+    /**
+     * 根据主键删除记录
+     *
+     * @param ${pk.javaFieldName} 主键ID
+     * @return 返回影响行数
+     */
+    int deleteById(${pk.javaTypeBox} ${pk.javaFieldName});
+}

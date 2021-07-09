@@ -6,7 +6,11 @@
 	<!-- Table:${table.tableName}-->
 	<resultMap id="BaseResultMap" type="${context.packageName}.entity.${context.javaBeanName}">
 #foreach($column in $columns)
+#if(${column.isIdentityPk})
+		<id column="${column.columnName}" property="${column.javaFieldName}"/>
+#else
         <result column="${column.columnName}" property="${column.javaFieldName}"/>
+#end
 #end
 	</resultMap>
 
