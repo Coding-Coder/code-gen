@@ -32,7 +32,8 @@ public class MySqlColumnSelector extends ColumnSelector {
             " EXTRA AS 'Extra', " +
             " COLUMN_COMMENT AS 'Comment' " +
             " FROM information_schema.`COLUMNS` " +
-            " WHERE 1=1 AND TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s' ";
+            " WHERE 1=1 AND TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s' " +
+            " ORDER BY ORDINAL_POSITION ";
 
     public MySqlColumnSelector(GeneratorConfig generatorConfig) {
         super(generatorConfig);
