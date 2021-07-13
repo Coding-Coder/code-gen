@@ -7,24 +7,10 @@
           <el-button type="primary" @click="onSave">保 存</el-button>
           <el-button @click="goRoute('/template/list')">返 回</el-button>
         </el-button-group>
-        <el-form
-          ref="dialogForm"
-          :rules="formRules"
-          :model="formData"
-          size="mini"
-          label-position="top"
-        >
+        <el-form ref="dialogForm" :rules="formRules" :model="formData" size="mini" label-position="top">
           <el-form-item prop="groupId" label="组名称">
-            <el-select
-              v-model="formData.groupId"
-              placeholder="选择模板所在组"
-            >
-              <el-option
-                v-for="item in groupData"
-                :key="item.id"
-                :label="item.groupName"
-                :value="item.id"
-              >
+            <el-select v-model="formData.groupId" placeholder="选择模板所在组">
+              <el-option v-for="item in groupData" :key="item.id" :label="item.groupName" :value="item.id">
                 {{ item.groupName }}
               </el-option>
             </el-select>
@@ -33,7 +19,7 @@
           <el-form-item prop="name" label="模板名称">
             <el-input v-model="formData.name" show-word-limit maxlength="64" />
           </el-form-item>
-          <el-form-item prop="folder" label="文件目录">
+          <el-form-item prop="folder" label="文件目录(点分割表示多级目录)">
             <el-input v-model="formData.folder" placeholder="为空则是模板名" show-word-limit maxlength="64" />
           </el-form-item>
           <el-form-item prop="fileName" label="文件名称">
@@ -41,11 +27,7 @@
           </el-form-item>
           <el-form-item prop="content" label="模板内容">
             <el-link type="primary" :underline="false" href="https://www.cnblogs.com/codingsilence/archive/2011/03/29/2146580.html" target="_blank">Velocity语法</el-link>
-            <codemirror
-              ref="editor"
-              v-model="formData.content"
-              :options="cmOptions"
-            />
+            <codemirror ref="editor" v-model="formData.content" :options="cmOptions"/>
           </el-form-item>
         </el-form>
       </el-col>
@@ -74,38 +56,6 @@
     </el-row>
   </div>
 </template>
-
-<style>
-  .el-form-item--mini .el-form-item__content,
-  .el-form-item--mini .el-form-item__label,
-  .el-form-item__content {
-   line-height: 20px;
-  }
-  .velocity-tip {
-    color: #606266;
-    font-size: 13px;
-    font-weight: normal;
-  }
-  .velocity-var {
-  }
-  .velocity-var li {
-    font-size: 14px;
-    color: #606266;
-    line-height: 26px;
-  }
-  .velocity-var a {
-    color: #409EFF;
-    font-weight: 500;
-  }
-  .velocity-var a:hover {
-    color: rgba(64, 158, 255, 0.75);
-  }
-  .hasFix {
-    position: fixed;
-    top: 0;
-  }
-</style>
-
 <script>
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/theme/neat.css'
@@ -235,3 +185,33 @@ export default {
   }
 }
 </script>
+<style>
+  .el-form-item--mini .el-form-item__content,
+  .el-form-item--mini .el-form-item__label,
+  .el-form-item__content {
+    line-height: 20px;
+  }
+  .velocity-tip {
+    color: #606266;
+    font-size: 13px;
+    font-weight: normal;
+  }
+  .velocity-var {
+  }
+  .velocity-var li {
+    font-size: 14px;
+    color: #606266;
+    line-height: 26px;
+  }
+  .velocity-var a {
+    color: #409EFF;
+    font-weight: 500;
+  }
+  .velocity-var a:hover {
+    color: rgba(64, 158, 255, 0.75);
+  }
+  .hasFix {
+    position: fixed;
+    top: 0;
+  }
+</style>

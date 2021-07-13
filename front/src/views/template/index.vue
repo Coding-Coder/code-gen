@@ -7,12 +7,7 @@
           <el-tooltip placement="top" :content="item.desc" :open-delay="1000">
             <span>{{ item.groupName }}</span>
           </el-tooltip>
-          <el-dropdown
-            v-show="item.id === currentTab.id"
-            trigger="click"
-            style="margin-left: 5px;"
-            @command="handleCommand"
-          >
+          <el-dropdown v-show="item.id === currentTab.id" trigger="click" style="margin-left: 5px;" @command="handleCommand">
             <span class="el-dropdown-link">
               <el-tooltip placement="top" content="更多操作" :open-delay="500">
                 <a class="el-icon-setting el-icon--right"></a>
@@ -29,24 +24,10 @@
       <el-button type="text" size="mini" icon="el-icon-plus" style="margin-bottom: 10px;" @click="onAdd">新增模板</el-button>
       <el-button type="text" size="mini" icon="el-icon-upload2" style="margin-bottom: 10px;" @click="onImportTemplates">批量导入</el-button>
       <el-button type="text" size="mini" icon="el-icon-download" style="margin-bottom: 10px;" @click="downloadTemplates">导出模板</el-button>
-      <el-table
-        :data="tableData"
-        border
-        highlight-current-row
-      >
-        <el-table-column
-          prop="name"
-          label="模板名称"
-          width="200"
-        />
-        <el-table-column
-          prop="fileName"
-          label="文件名称"
-        />
-        <el-table-column
-          label="操作"
-          width="150"
-        >
+      <el-table :data="tableData" border highlight-current-row>
+        <el-table-column prop="name" label="模板名称" width="200"/>
+        <el-table-column prop="fileName" label="文件名称"/>
+        <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="onTableUpdate(scope.row)">修改</el-button>
             <el-button type="text" size="mini" @click="onTableDelete(scope.row)">删除</el-button>
@@ -55,9 +36,8 @@
       </el-table>
     </el-tabs>
     <el-dialog title="批量导入模板" :visible.sync="importDialogVisible" :close-on-press-escape="false" :close-on-click-modal="false" @closed="onImportDialogClosed">
-      <el-upload  v-if="!importLoading" drag multiple accept=".txt,.vm" action="http://xx.nothing" :limit="20"
-                  :show-file-list="false"
-                  :http-request="uploadTemplates">
+      <el-upload v-if="!importLoading" drag multiple accept=".txt,.vm" action="http://xx.nothing" :limit="20"
+                  :show-file-list="false" :http-request="uploadTemplates">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
