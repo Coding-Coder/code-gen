@@ -408,7 +408,7 @@ export default {
       this.datasourceDlgShow = true
     },
     onDataSourceDelete(row) {
-      this.confirm(`确认要删除 ${row.dbName} 吗？`, function(done) {
+      this.confirm(`确认要删除 ${this.getDatasourceLabel(row)} 吗？`, function(done) {
         const data = {
           id: row.id
         }
