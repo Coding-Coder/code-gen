@@ -1,5 +1,10 @@
 # changelog
 
+## 待定(暂不发版)
+- 前端：代码生成页面新增仅下载文件功能
+- 前端：文件目录支持点分割以创建多级目录,如`service.impl`
+- 前端：修改生成的zip包的名称为`code-yyyyMMddHHmmss.zip`
+
 ## 1.5.4.2
 - 新增swagger风格模板
 - 模板新增${table.label}变量

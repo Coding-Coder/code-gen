@@ -5,7 +5,12 @@
     <div v-else>
       <el-container>
         <el-aside>
-          <el-button icon="el-icon-download" type="text" @click="downloadAll">下载全部</el-button>
+          <el-tooltip placement="top" content="包含如下的文件夹及文件" :open-delay="500">
+            <el-button icon="el-icon-download" type="text" @click="downloadAll">下载全部</el-button>
+          </el-tooltip>
+          <el-tooltip placement="top" content="仅下载所有文件，不包含文件夹" :open-delay="500">
+            <el-button icon="el-icon-download" type="text" @click="downloadWithNoFolder">下载(仅文件)</el-button>
+          </el-tooltip>
           <el-button v-if="!loading" icon="el-icon-refresh" type="text" @click="reGenerate" style="float: right;">再次生成</el-button>
           <el-input v-show="treeData.length > 0" v-model="filterText" prefix-icon="el-icon-search" placeholder="搜索" size="mini" clearable style="margin-bottom: 10px;"/>
           <el-tree ref="tree" :data="treeData" :props="defaultProps" :filter-node-method="filterNode" node-key="id" default-expand-all highlight-current @current-change="onTreeSelect"/>
@@ -22,6 +27,7 @@
 
 <script>
 import JSZip from 'jszip'
+import DateUtils from '@/utils/date.js'
 import { saveAs } from 'file-saver'
 import { codemirror } from 'vue-codemirror'
 import 'codemirror/theme/neat.css'
@@ -175,14 +181,18 @@ export default {
       return fileName.substring(index + 1, fileName.length)
     },
     downloadAll() {
-      const data = this.treeData
-      const zip = new JSZip()
+      var data = this.treeData
+      var zip = new JSZip()
       data.forEach(row => {
-        const children = row.children
-        const isFolder = children.length > 0
+        var children = row.children
+        var isFolder = children.length > 0
         if (isFolder) {
-          // 创建文件夹
-          const folderZip = zip.folder(row.fileName)
+          // 创建文件夹(如果点分割则创建多级目录)
+          var splitFolders = row.fileName.split(".");
+          var folderZip = zip;
+          for(var j = 0,len=splitFolders.length; j < len; j++) {
+            folderZip = folderZip.folder(splitFolders[j]);
+          }
           children.forEach(child => {
             // 文件放入文件夹中
             folderZip.file(child.fileName, child.content)
@@ -192,7 +202,26 @@ export default {
       // 下载
       zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
-        saveAs(content, `code-${new Date().getTime()}.zip`)
+        saveAs(content, `code-${DateUtils.formatDateTime(new Date(),DateUtils.date_format.pureDatetimePattern)}.zip`)
+      })
+    },
+    downloadWithNoFolder() {
+      var data = this.treeData
+      var zip = new JSZip()
+      data.forEach(row => {
+        var children = row.children
+        var isFolder = children.length > 0
+        if (isFolder) {
+          children.forEach(child => {
+            // 文件放入文件夹中
+            zip.file(child.fileName, child.content)
+          })
+        }
+      })
+      // 下载
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
+        // see FileSaver.js
+        saveAs(content, `code-${DateUtils.formatDateTime(new Date(),DateUtils.date_format.pureDatetimePattern)}.zip`)
       })
     }
   }
