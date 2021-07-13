@@ -30,6 +30,7 @@
         <include refid="baseColumns" />
         FROM template_config t
         WHERE t.is_deleted = 0
+        ORDER BY name
     </select>
 
     <select id="getByName" resultMap="BaseResultMap">
@@ -179,6 +180,7 @@
         <include refid="baseColumns" />
         FROM template_config t
         WHERE group_id = #{groupId} and is_deleted=0
+        ORDER BY name
     </select>
 
     <update id="updateGroupNameByGroupId">
